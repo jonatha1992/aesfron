@@ -13,20 +13,20 @@ function CardCurso({ item }) {
                 </div>
                 <div className="curso-card-body">
                     {/* <h4 className="curso-card-price">{Curso.price}</h4> */}
-                    <p className="curso-card-author">
-                        <strong>Autor:</strong> {item.author}
+                    <p className="curso-card-start">
+                        <strong>Inicio:</strong> {item.start}
                     </p>
                     <p className="curso-card-duration">
                         <strong>Duración:</strong> {item.duration}
                     </p>
                     <p className="curso-card-start">
-                        <strong>Inicio:</strong> {item.start}
+                        <strong>Carga horaria:</strong> {item.workload} hs
                     </p>
                     <p className="curso-card-start">
-                        <strong>Carga horaria:</strong> {item.workload}
+                        <strong>Clases:</strong> {item.classes} hs
                     </p>
                     <p className="curso-card-start">
-                        <strong>Clases:</strong> {item.classes}
+                        <strong>Modalidad:</strong> {item.modalidad}
                     </p>
                     <Link to={`/inscripcion/${item.id}`} className="curso-btn">
                         VER MÁS
