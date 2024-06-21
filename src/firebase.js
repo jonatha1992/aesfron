@@ -11,6 +11,9 @@ import {
   deleteDoc,
   query,
   where,
+  serverTimestamp,
+  orderBy,
+  limit,
 } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
 
 import {
@@ -40,10 +43,30 @@ const storage = getStorage(app);
 
 export const auth = getAuth(app);
 
-export async function agregarCurso(dati) {
-  const newCourseRef = await addDoc(collection(db, "cursos"), dati);
+export async function agregarDoc(dati, tabla) {
+  dati.created = serverTimestamp();
+  const newCourseRef = await addDoc(collection(db, tabla), dati);
   const cursoID = newCourseRef.id;
   return cursoID;
+}
+
+export async function obtenerEventosRecientes() {
+  const q = query(
+    collection(db, "eventos"),
+    orderBy("created", "desc"),
+    limit(10)
+  );
+  const querySnapshot = await getDocs(q);
+  const eventos = [];
+  querySnapshot.forEach((doc) => {
+    eventos.push({ id: doc.id, ...doc.data() });
+  });
+  return eventos;
+}
+
+export async function actualizarDoc(id, datos, tabla) {
+  const docRef = doc(db, tabla, id);
+  await updateDoc(docRef, datos);
 }
 
 export async function uploadFiles(file) {
