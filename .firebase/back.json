@@ -1,0 +1,381 @@
+{
+    "__collections__": {
+        "cursos": {
+            "6ThlcAF2z98yAXyJ4xT1": {
+                "coordinacion": "Lic. Pércara Hernán",
+                "mail": "profesorachirinoclaudia@gmail.com",
+                "classes": "Lunes: 09:00 - 11:00 ",
+                "start": "05/08/2024 (4 clases)",
+                "description": "Capacitar a los participantes en el conocimiento teórico y las habilidades prácticas necesarias para la inserción y manejo seguro de accesos venosos centrales y periféricos, con el fin de mejorar la calidad de atención y la seguridad del paciente en entornos clínicos.",
+                "workload": 50,
+                "disertantes": ["Lic. Chirinos Claudia"],
+                "duration": "1 meses (Agosto)",
+                "modalidad": "A Distancia",
+                "objetivos": [
+                    "Adquirir Conocimientos Teóricos: Proveer a los participantes con una comprensión detallada de la anatomía y fisiología de los sistemas venosos central y periférico. Identificar las indicaciones, contraindicaciones y posibles complicaciones asociadas con la inserción de accesos venosos centrales y periféricos",
+                    "Desarrollar Habilidades Prácticas: Entrenar a los participantes en técnicas estandarizadas para la inserción de catéteres venosos centrales y periféricos, utilizando simuladores y modelos anatómicos. Realizar prácticas supervisadas que permitan a los participantes desarrollar destrezas manuales y confianza en la ejecución de los procedimientos.",
+                    "Fomentar la Seguridad del Paciente: Enseñar medidas de prevención y manejo de complicaciones, como infecciones, trombosis y extravasaciones, asociadas con los accesos venosos. Promover la aplicación de protocolos y guías clínicas para asegurar prácticas seguras y eficaces en la inserción y mantenimiento de accesos venosos, contribuyendo así a la mejora continua de la calidad de atención en los servicios de salud"
+                ],
+                "price": 5000,
+                "imageUrl": "https://firebasestorage.googleapis.com/v0/b/aesfron-69a52.appspot.com/o/Acceso%20Venoso%20Central%2FAVC.jpg?alt=media&token=bef94b09-66a5-41fb-8768-dfded98429b5",
+                "place": "Reuniones Sincronicas por meet",
+                "title": "Acceso Venoso Central y Perisferico",
+                "test": "TP/ECOE",
+                "__collections__": {
+                    "Modulos": {
+                        "1m0ZxsHfhCjhmqHSQIww": {
+                            "titulo": "Unidad I",
+                            "__collections__": {
+                                "items": {
+                                    "CdaIBscNpjbNDnXEF1hn": {
+                                        "orden": 1,
+                                        "tipo": "pdf",
+                                        "titulo": "Presentacion del curso",
+                                        "url": "https://firebasestorage.googleapis.com/v0/b/aesfron-69a52.appspot.com/o/Acceso%20Venoso%20Central%2FAcceso%20Vacular.pdf?alt=media&token=3b7475c1-6e71-4ea9-94d1-9ff9fb450ca2",
+                                        "__collections__": {}
+                                    },
+                                    "TWVq91AOpkLwqrpwBkuE": {
+                                        "orden": 2,
+                                        "tipo": "pdf",
+                                        "titulo": "Anatomía y fisiología, sitio de punción",
+                                        "url": "https://firebasestorage.googleapis.com/v0/b/aesfron-69a52.appspot.com/o/Acceso%20Venoso%20Central%2FAcceso%20Vacular.pdf?alt=media&token=3b7475c1-6e71-4ea9-94d1-9ff9fb450ca2",
+                                        "__collections__": {}
+                                    },
+                                    "WKr4QojxPQgLqCKMg5z9": {
+                                        "orden": 3,
+                                        "tipo": "pdf",
+                                        "titulo": "Tipos de catéteres",
+                                        "url": "https://firebasestorage.googleapis.com/v0/b/aesfron-69a52.appspot.com/o/Acceso%20Venoso%20Central%2FEleccion%20de%20un%20dispositivo.pdf?alt=media&token=d84c8b63-0dc2-42a6-992c-4fe8cb72a6f9",
+                                        "__collections__": {}
+                                    }
+                                }
+                            }
+                        },
+                        "G29vFaFUI7qSCZI1QGK7": {
+                            "titulo": "Unidad II",
+                            "__collections__": {
+                                "items": {
+                                    "VbQpNtOg2G5wZqQw9y5": {
+                                        "tipo": "pdf",
+                                        "titulo": "Indicaciones de uso de los diferentes dispositivos.",
+                                        "url": "https://firebasestorage.googleapis.com/v0/b/aesfron-69a52.appspot.com/o/Acceso%20Venoso%20Central%2FEleccion%20de%20un%20dispositivo.pdf?alt=media&token=d84c8b63-0dc2-42a6-992c-4fe8cb72a6f9",
+                                        "__collections__": {}
+                                    },
+                                    "WKr4QojxPQgLqCKMg5z9": {
+                                        "tipo": "pdf",
+                                        "titulo": "Flebitis química.",
+                                        "url": "https://firebasestorage.googleapis.com/v0/b/aesfron-69a52.appspot.com/o/Acceso%20Venoso%20Central%2FEleccion%20de%20un%20dispositivo.pdf?alt=media&token=d84c8b63-0dc2-42a6-992c-4fe8cb72a6f9",
+                                        "__collections__": {}
+                                    },
+                                    "Wl6z6gRQwYVhVcKpGKp": {
+                                        "tipo": "pdf",
+                                        "titulo": "Ventajas e inconvenientes de los catéteres de inserción periférica.",
+                                        "url": "https://firebasestorage.googleapis.com/v0/b/aesfron-69a52.appspot.com/o/Acceso%20Venoso%20Central%2FEleccion%20de%20un%20dispositivo.pdf?alt=media&token=d84c8b63-0dc2-42a6-992c-4fe8cb72a6f9",
+                                        "__collections__": {}
+                                    },
+                                    "Wl6z6gRQwYVhVcKpGsa": {
+                                        "tipo": "pdf",
+                                        "titulo": "Tipos de flebitis",
+                                        "url": "https://firebasestorage.googleapis.com/v0/b/aesfron-69a52.appspot.com/o/Acceso%20Venoso%20Central%2FEleccion%20de%20un%20dispositivo.pdf?alt=media&token=d84c8b63-0dc2-42a6-992c-4fe8cb72a6f9",
+                                        "__collections__": {}
+                                    },
+                                    "Wl6z6gRQwYVhVcKsafp": {
+                                        "tipo": "pdf",
+                                        "titulo": "Cuidados de enfermería",
+                                        "url": "https://firebasestorage.googleapis.com/v0/b/aesfron-69a52.appspot.com/o/Acceso%20Venoso%20Central%2FEleccion%20de%20un%20dispositivo.pdf?alt=media&token=d84c8b63-0dc2-42a6-992c-4fe8cb72a6f9",
+                                        "__collections__": {}
+                                    }
+                                }
+                            }
+                        },
+                        "G29vFaFUI7sCZI1QsGK9": {
+                            "titulo": "Unidad 3",
+                            "__collections__": {
+                                "items": {
+                                    "VbQpNtOg2G5wZqQw9y5": {
+                                        "tipo": "Info",
+                                        "titulo": "Prácticas en áreas de simulación.",
+                                        "url": "https://firebasestorage.googleapis.com/v0/b/aesfron-69a52.appspot.com/o/Acceso%20Venoso%20Central%2FEleccion%20de%20un%20dispositivo.pdf?alt=media&token=d84c8b63-0dc2-42a6-992c-4fe8cb72a6f9",
+                                        "__collections__": {}
+                                    }
+                                }
+                            }
+                        },
+                        "G29vFdFUI7qSCZI1QsK8": {
+                            "titulo": "Unidad 4",
+                            "__collections__": {
+                                "items": {
+                                    "VbQpNtOg2G5wZqQway5": {
+                                        "tipo": "Info",
+                                        "titulo": "Evaluación. En áreas de simulación.",
+                                        "url": "https://firebasestorage.googleapis.com/v0/b/aesfron-69a52.appspot.com/o/Acceso%20Venoso%20Central%2FEleccion%20de%20un%20dispositivo.pdf?alt=media&token=d84c8b63-0dc2-42a6-992c-4fe8cb72a6f9",
+                                        "__collections__": {}
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "6ThlcAF2z98yAXyJ4xa1": {
+                "coordinacion": "Lic. Barrientos V",
+                "mail": "profesorachirinoclaudia@gmail.com",
+                "classes": "Lunes: 09:00 - 11:00 ",
+                "start": "06/08/2024 (4 clases)",
+                "description": "Capacitar a los participantes en el conocimiento teórico y las habilidades prácticas necesarias para la inserción y manejo seguro de accesos venosos centrales y periféricos, con el fin de mejorar la calidad de atención y la seguridad del paciente en entornos clínicos.",
+                "workload": 50,
+                "disertantes": ["Lic. Chirinos Claudia"],
+                "duration": "1 meses (Agosto)",
+                "modalidad": "Presencial",
+                "objetivos": [
+                    "Adquirir Conocimientos Teóricos: Proveer a los participantes con una comprensión detallada de la anatomía y fisiología de los sistemas venosos central y periférico. Identificar las indicaciones, contraindicaciones y posibles complicaciones asociadas con la inserción de accesos venosos centrales y periféricos",
+                    "Desarrollar Habilidades Prácticas: Entrenar a los participantes en técnicas estandarizadas para la inserción de catéteres venosos centrales y periféricos, utilizando simuladores y modelos anatómicos. Realizar prácticas supervisadas que permitan a los participantes desarrollar destrezas manuales y confianza en la ejecución de los procedimientos.",
+                    "Fomentar la Seguridad del Paciente: Enseñar medidas de prevención y manejo de complicaciones, como infecciones, trombosis y extravasaciones, asociadas con los accesos venosos. Promover la aplicación de protocolos y guías clínicas para asegurar prácticas seguras y eficaces en la inserción y mantenimiento de accesos venosos, contribuyendo así a la mejora continua de la calidad de atención en los servicios de salud"
+                ],
+                "price": 5000,
+                "imageUrl": "https://firebasestorage.googleapis.com/v0/b/aesfron-69a52.appspot.com/o/Acceso%20Venoso%20Central%2FAVC.jpg?alt=media&token=bef94b09-66a5-41fb-8768-dfded98429b5",
+                "title": "Acceso Venoso Central y Perisferico",
+                "place": "ISAM / UNLa / Soldati.",
+                "test": "TP/ECOE",
+                "__collections__": {
+                    "Modulos": {
+                        "1m0ZxsHfhCjhmqHasdIww": {
+                            "titulo": "Unidad 1",
+                            "__collections__": {
+                                "items": {
+                                    "CdaIBscNpjbN2nXEF1hn": {
+                                        "tipo": "pdf",
+                                        "titulo": "Presentacion del curso",
+                                        "url": "https://firebasestorage.googleapis.com/v0/b/aesfron-69a52.appspot.com/o/Acceso%20Venoso%20Central%2FAcceso%20Vacular.pdf?alt=media&token=3b7475c1-6e71-4ea9-94d1-9ff9fb450ca2",
+                                        "__collections__": {}
+                                    },
+                                    "TWVq91AOpkLw2rpwBkuE": {
+                                        "tipo": "pdf",
+                                        "titulo": "Anatomía y fisiología, sitio de punción",
+                                        "url": "https://firebasestorage.googleapis.com/v0/b/aesfron-69a52.appspot.com/o/Acceso%20Venoso%20Central%2FAcceso%20Vacular.pdf?alt=media&token=3b7475c1-6e71-4ea9-94d1-9ff9fb450ca2",
+                                        "__collections__": {}
+                                    },
+                                    "WKr4QojxPQ4LqCKMg5z9": {
+                                        "tipo": "pdf",
+                                        "titulo": "Tipos de catéteres",
+                                        "url": "https://firebasestorage.googleapis.com/v0/b/aesfron-69a52.appspot.com/o/Acceso%20Venoso%20Central%2FEleccion%20de%20un%20dispositivo.pdf?alt=media&token=d84c8b63-0dc2-42a6-992c-4fe8cb72a6f9",
+                                        "__collections__": {}
+                                    }
+                                }
+                            }
+                        },
+                        "G29vFaFUI7qSCZI1QGK7": {
+                            "titulo": "Unidad 2",
+                            "__collections__": {
+                                "items": {
+                                    "VbQpNtOg2G5wZqQw9y5": {
+                                        "tipo": "pdf",
+                                        "titulo": "Indicaciones de uso de los diferentes dispositivos.",
+                                        "url": "https://firebasestorage.googleapis.com/v0/b/aesfron-69a52.appspot.com/o/Acceso%20Venoso%20Central%2FEleccion%20de%20un%20dispositivo.pdf?alt=media&token=d84c8b63-0dc2-42a6-992c-4fe8cb72a6f9",
+                                        "__collections__": {}
+                                    },
+                                    "WKr4QojxPQgLqCKMg5z9": {
+                                        "tipo": "pdf",
+                                        "titulo": "Flebitis química.",
+                                        "url": "https://firebasestorage.googleapis.com/v0/b/aesfron-69a52.appspot.com/o/Acceso%20Venoso%20Central%2FEleccion%20de%20un%20dispositivo.pdf?alt=media&token=d84c8b63-0dc2-42a6-992c-4fe8cb72a6f9",
+                                        "__collections__": {}
+                                    },
+                                    "Wl6z6gRQwYVhVcKpGKp": {
+                                        "tipo": "pdf",
+                                        "titulo": "Ventajas e inconvenientes de los catéteres de inserción periférica.",
+                                        "url": "https://firebasestorage.googleapis.com/v0/b/aesfron-69a52.appspot.com/o/Acceso%20Venoso%20Central%2FEleccion%20de%20un%20dispositivo.pdf?alt=media&token=d84c8b63-0dc2-42a6-992c-4fe8cb72a6f9",
+                                        "__collections__": {}
+                                    },
+                                    "Wl6z6gRQwYVhVcKpGsa": {
+                                        "tipo": "pdf",
+                                        "titulo": "Tipos de flebitis",
+                                        "url": "https://firebasestorage.googleapis.com/v0/b/aesfron-69a52.appspot.com/o/Acceso%20Venoso%20Central%2FEleccion%20de%20un%20dispositivo.pdf?alt=media&token=d84c8b63-0dc2-42a6-992c-4fe8cb72a6f9",
+                                        "__collections__": {}
+                                    },
+                                    "Wl6z6gRQwYVhVcKsafp": {
+                                        "tipo": "pdf",
+                                        "titulo": "Cuidados de enfermería",
+                                        "url": "https://firebasestorage.googleapis.com/v0/b/aesfron-69a52.appspot.com/o/Acceso%20Venoso%20Central%2FEleccion%20de%20un%20dispositivo.pdf?alt=media&token=d84c8b63-0dc2-42a6-992c-4fe8cb72a6f9",
+                                        "__collections__": {}
+                                    }
+                                }
+                            }
+                        },
+                        "G29vFaFUI7sCZ31QsGK9": {
+                            "titulo": "Unidad 3",
+                            "__collections__": {
+                                "items": {
+                                    "VbQpNtOg2G5wZ2Qw9y5": {
+                                        "tipo": "Info",
+                                        "titulo": "Prácticas en áreas de simulación.",
+                                        "url": "",
+                                        "__collections__": {}
+                                    }
+                                }
+                            }
+                        },
+                        "G29vFdFUI7qSCZ11QsK8": {
+                            "titulo": "Unidad 4",
+                            "__collections__": {
+                                "items": {
+                                    "VbQpNtOg2G554ZqQway5": {
+                                        "tipo": "Info",
+                                        "titulo": "Evaluación. En áreas de simulación.",
+                                        "url": "",
+                                        "__collections__": {}
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "DAFhIw8PXBggdhWvnc0": {
+                "coordinacion": "Lic. Barrientos Verónica",
+                "mail": "",
+                "test": "Escrito",
+                "classes": "Sábados: 09:00 - 12:00",
+                "start": "10/08/2024 (11 clases)",
+                "description": "Capacitar y actualizar al equipo de salud en enfermería para desarrollar cuidados integrales de la embarazada y del recién nacido sano y /o de bajo riesgo.",
+                "workload": 50,
+                "title": "Cuidado integral de la embarazada y Neonatal",
+                "disertantes": ["Lic. Cabrejos Laura", "Lic. Crispín Verónica"],
+                "duration": "3 meses (Agosto)",
+                "objetivos": [
+                    "Incorporar saberes y habilidades en los cuidados de la embarazada y sus complicaciones.",
+                    "Adquirir conocimientos y habilidades en el manejo del recién nacido en internación conjunta con la madre para su estabilización cardiorrespiratoria y alimentación adecuada.",
+                    "Desarrollar conocimientos y destrezas en la admisión en la UCIN del recién nacido de bajo riesgo."
+                ],
+                "price": 5000,
+                "imageUrl": "https://firebasestorage.googleapis.com/v0/b/aesfron-69a52.appspot.com/o/Neonatal%2FNeo.JPG?alt=media&token=94ac0e1e-a4dc-4fcb-87d0-0f19f896bc3f",
+                "place": "Soldati",
+                "__collections__": {
+                    "Modulos": {
+                        "1m0ZxsHfhCjhmqHSQIww": {
+                            "titulo": "Unidad 1",
+                            "__collections__": {
+                                "items": {
+                                    "CdaIBscNpjbNDnXEF1hn": {
+                                        "tipo": "pdf",
+                                        "titulo": "Amenaza de parto prematuro, rotura prematura de membrana",
+                                        "url": "https://firebasestorage.googleapis.com/v0/b/aesfron-69a52.appspot.com/o/Acceso%20Venoso%20Central%2FAcceso%20Vacular.pdf?alt=media&token=3b7475c1-6e71-4ea9-94d1-9ff9fb450ca2",
+                                        "__collections__": {}
+                                    }
+                                }
+                            }
+                        },
+                        "G21vFaFUI7qSCZI1SGK9": {
+                            "titulo": "Unidad 8",
+                            "__collections__": {
+                                "items": {
+                                    "VbQpNtOg2G5wZaQw9s6": {
+                                        "tipo": "info",
+                                        "titulo": "Segundo Examen parcial",
+                                        "url": "",
+                                        "__collections__": {}
+                                    },
+                                    "VbQpNtOg2G5wZqQw9y5": {
+                                        "tipo": "pdf",
+                                        "titulo": "Anatomo-Fisiología respiratoria del Recién Nacido. Distrés respiratorio, oxigenoterapia (Halo, CBFO, CAFO, CPAP burbuja)",
+                                        "url": "https://firebasestorage.googleapis.com/v0/b/aesfron-69a52.appspot.com/o/Acceso%20Venoso%20Central%2FEleccion%20de%20un%20dispositivo.pdf?alt=media&token=d84c8b63-0dc2-42a6-992c-4fe8cb72a6f9",
+                                        "__collections__": {}
+                                    }
+                                }
+                            }
+                        },
+                        "G29vFaFUI7aCZI1QGKS9": {
+                            "titulo": "Unidad 3",
+                            "__collections__": {
+                                "items": {
+                                    "VbQpNtOg2G5wZqQw9y5": {
+                                        "tipo": "pdf",
+                                        "titulo": "Hipertensión Gestacional (preeclampsia, eclampsia).",
+                                        "url": "https://firebasestorage.googleapis.com/v0/b/aesfron-69a52.appspot.com/o/Acceso%20Venoso%20Central%2FEleccion%20de%20un%20dispositivo.pdf?alt=media&token=d84c8b63-0dc2-42a6-992c-4fe8cb72a6f9",
+                                        "__collections__": {}
+                                    }
+                                }
+                            }
+                        },
+                        "G29vFaFUI7qSCZI1QGK7": {
+                            "titulo": "Unidad 2",
+                            "__collections__": {
+                                "items": {
+                                    "VbQpNtOg2G5wZqws9y5": {
+                                        "tipo": "pdf",
+                                        "titulo": "Diabetes Gestacional.",
+                                        "url": "https://firebasestorage.googleapis.com/v0/b/aesfron-69a52.appspot.com/o/Acceso%20Venoso%20Central%2FEleccion%20de%20un%20dispositivo.pdf?alt=media&token=d84c8b63-0dc2-42a6-992c-4fe8cb72a6f9",
+                                        "__collections__": {}
+                                    }
+                                }
+                            }
+                        },
+                        "G29vFaFUI7qSCZI1QGK9": {
+                            "titulo": "Unidad 6",
+                            "__collections__": {
+                                "items": {
+                                    "VbQpNtOg2G5wZqQw9y5": {
+                                        "tipo": "pdf",
+                                        "titulo": "Binomio / Lactancia Materna.",
+                                        "url": "https://firebasestorage.googleapis.com/v0/b/aesfron-69a52.appspot.com/o/Acceso%20Venoso%20Central%2FEleccion%20de%20un%20dispositivo.pdf?alt=media&token=d84c8b63-0dc2-42a6-992c-4fe8cb72a6f9",
+                                        "__collections__": {}
+                                    }
+                                }
+                            }
+                        },
+                        "G29vFaFUI7qSaZI1QGK8": {
+                            "titulo": "Unidad 4",
+                            "__collections__": {
+                                "items": {
+                                    "VbQpNtOA2G5wZqQw9y5": {
+                                        "tipo": "info",
+                                        "titulo": "Primer Examen Parcial.",
+                                        "url": "https://firebasestorage.googleapis.com/v0/b/aesfron-69a52.appspot.com/o/Acceso%20Venoso%20Central%2FEleccion%20de%20un%20dispositivo.pdf?alt=media&token=d84c8b63-0dc2-42a6-992c-4fe8cb72a6f9",
+                                        "__collections__": {}
+                                    },
+                                    "VbQpNtOg2G5wZqQw9y5": {
+                                        "tipo": "pdf",
+                                        "titulo": "Trabajo de parto / cesárea.",
+                                        "url": "https://firebasestorage.googleapis.com/v0/b/aesfron-69a52.appspot.com/o/Acceso%20Venoso%20Central%2FEleccion%20de%20un%20dispositivo.pdf?alt=media&token=d84c8b63-0dc2-42a6-992c-4fe8cb72a6f9",
+                                        "__collections__": {}
+                                    },
+                                    "VbQpNtOg2G5wZqQw9y6": {
+                                        "tipo": "pdf",
+                                        "titulo": "Hemorragias de la segunda mitad.",
+                                        "url": "https://firebasestorage.googleapis.com/v0/b/aesfron-69a52.appspot.com/o/Acceso%20Venoso%20Central%2FEleccion%20de%20un%20dispositivo.pdf?alt=media&token=d84c8b63-0dc2-42a6-992c-4fe8cb72a6f9",
+                                        "__collections__": {}
+                                    }
+                                }
+                            }
+                        },
+                        "G29vFaFUI7sqSCZI1QGK9": {
+                            "titulo": "Unidad 7",
+                            "__collections__": {
+                                "items": {
+                                    "VbQpNtOg2G5wZqQw9y5": {
+                                        "tipo": "pdf",
+                                        "titulo": "Cuidados del RN: hipoglucemia, hiperbilirrubinemia.",
+                                        "url": "https://firebasestorage.googleapis.com/v0/b/aesfron-69a52.appspot.com/o/Acceso%20Venoso%20Central%2FEleccion%20de%20un%20dispositivo.pdf?alt=media&token=d84c8b63-0dc2-42a6-992c-4fe8cb72a6f9",
+                                        "__collections__": {}
+                                    }
+                                }
+                            }
+                        },
+                        "G2vFaFUI7qSCSZI1QGs8": {
+                            "titulo": "Unidad 5",
+                            "__collections__": {
+                                "items": {
+                                    "VbQpNtOg2G5wZqQw9y5": {
+                                        "tipo": "pdf",
+                                        "titulo": "Recepción del RN sano",
+                                        "url": "https://firebasestorage.googleapis.com/v0/b/aesfron-69a52.appspot.com/o/Acceso%20Venoso%20Central%2FEleccion%20de%20un%20dispositivo.pdf?alt=media&token=d84c8b63-0dc2-42a6-992c-4fe8cb72a6f9",
+                                        "__collections__": {}
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
