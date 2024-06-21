@@ -145,6 +145,10 @@ const CursosInscriptos = async (uid) => {
   }
 };
 
+export async function eliminarDoc(id, tabla) {
+  await deleteDoc(doc(db, tabla, id));
+}
+
 import { agregarItemsModulo } from "./security/Tools";
 const itemsToBeAdded = [
   {

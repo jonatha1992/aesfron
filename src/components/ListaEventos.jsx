@@ -29,19 +29,21 @@ const ListaEventos = () => {
 
   return (
     <Box>
-      <h2>Eventos Recientes</h2>
       {mostrarLista ? (
-        <List>
-          {eventos.map((evento) => (
-            <ListItem
-              button
-              key={evento.id}
-              onClick={() => handleSelectEvento(evento)}
-            >
-              <ListItemText primary={evento.TITULO} />
-            </ListItem>
-          ))}
-        </List>
+        <>
+          <h2>Eventos Recientes</h2>
+          <List>
+            {eventos.map((evento) => (
+              <ListItem
+                button
+                key={evento.id}
+                onClick={() => handleSelectEvento(evento)}
+              >
+                <ListItemText primary={evento.TITULO} />
+              </ListItem>
+            ))}
+          </List>
+        </>
       ) : (
         eventoSeleccionado && (
           <ModificacionEventos

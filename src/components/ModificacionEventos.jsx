@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Button, TextField, Box } from "@mui/material";
-import { actualizarDoc, doc, getDoc, db } from "../firebase"; // Asegúrate de que esta ruta sea correcta
+import { actualizarDoc, doc, getDoc, db, eliminarDoc } from "../firebase"; // Asegúrate de que esta ruta sea correcta
 
 const ModificacionEventos = ({ eventoID, onEventoActualizado }) => {
   const [formValues, setFormValues] = useState({
@@ -39,6 +39,16 @@ const ModificacionEventos = ({ eventoID, onEventoActualizado }) => {
       onEventoActualizado();
     } catch (error) {
       console.error("Error al actualizar el documento: ", error);
+    }
+  };
+
+  const handleDelete = async () => {
+    try {
+      await eliminarDoc(eventoID, "eventos");
+      console.log("Documento eliminado con ID: ", eventoID);
+      onEventoActualizado();
+    } catch (error) {
+      console.error("Error al eliminar el documento: ", error);
     }
   };
 
@@ -82,9 +92,19 @@ const ModificacionEventos = ({ eventoID, onEventoActualizado }) => {
         multiline
         rows={4}
       />
-      <Button type="submit" variant="contained" color="primary">
-        Actualizar Evento
-      </Button>
+      <Box sx={{ display: "flex", gap: "1rem" }}>
+        <Button type="submit" variant="contained" color="primary">
+          Actualizar Evento
+        </Button>
+        <Button
+          type="button"
+          variant="contained"
+          color="secondary"
+          onClick={handleDelete}
+        >
+          Eliminar Evento
+        </Button>
+      </Box>
     </Box>
   );
 };
