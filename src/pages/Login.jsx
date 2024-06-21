@@ -104,85 +104,94 @@ const Login = () => {
         <CircularProgress color="inherit" />
       </Backdrop>
       <div className="background-login ">
-        <div className="container-login">
+        <div className="container container-login">
           <ToastContainer />
-          <div className="video-container">
-            <video
-              className="video-responsive"
-              src={videoSource}
-              autoPlay
-              loop
-              muted
-            ></video>
-          </div>
-          <div className="form-container">
-            <Formik
-              initialValues={{
-                email: "",
-                password: "",
-              }}
-              validateOnBlur={false}
-              validateOnChange={false}
-              validationSchema={
-                recuperar ? recoverValidationSchema : loginValidationSchema
-              }
-              onSubmit={handleSubmit}
-            >
-              {({ errors, touched, isSubmitting, resetForm }) => (
-                <Form>
-                  <Box className="mt-3">
-                    <FormikTextField
-                      fullWidth
-                      name="email"
-                      label="Email"
-                      type="email"
-                      error={touched.email && Boolean(errors.email)}
-                      helperText={touched.email && errors.email}
-                      // Formik's <Field> component should be used here if FormikTextField is adapted to handle props correctly
-                    />
-                    {!recuperar && (
-                      <FormikTextField
-                        fullWidth
-                        name="password"
-                        label="Password"
-                        type="password"
-                        margin="normal"
-                        error={touched.password && Boolean(errors.password)}
-                        helperText={touched.password && errors.password}
-                        // Same as above, use <Field> if your custom FormikTextField can handle it
-                      />
-                    )}
-                    <Button
-                      className="d-inline-block align-baseline  fs-6 fw-bold  hover-primary mt-2"
-                      type="submit"
-                      variant="contained"
-                      color="primary"
-                      fullWidth
-                      disabled={isSubmitting}
+          <div className="row">
+            <div className="col-4 responsive-container-logo">
+              <div className="video-container">
+                <video
+                  className="video-responsive"
+                  src={videoSource}
+                  autoPlay
+                  loop
+                  muted
+                ></video>
+              </div>
+            </div>
+            <div className="col-8 responsive-container-form-login">
+              <div className="form-container">
+                <Formik
+                  initialValues={{
+                    email: "",
+                    password: "",
+                  }}
+                  validateOnBlur={false}
+                  validateOnChange={false}
+                  validationSchema={
+                    recuperar ? recoverValidationSchema : loginValidationSchema
+                  }
+                  onSubmit={handleSubmit}
+                >
+                  {({ errors, touched, isSubmitting, resetForm }) => (
+                    <Form>
+                      <Box className="mt-3">
+                        <FormikTextField
+                          fullWidth
+                          name="email"
+                          label="Email"
+                          type="email"
+                          error={touched.email && Boolean(errors.email)}
+                          helperText={touched.email && errors.email}
+                          // Formik's <Field> component should be used here if FormikTextField is adapted to handle props correctly
+                        />
+                        {!recuperar && (
+                          <FormikTextField
+                            fullWidth
+                            name="password"
+                            label="Password"
+                            type="password"
+                            margin="normal"
+                            error={touched.password && Boolean(errors.password)}
+                            helperText={touched.password && errors.password}
+                            // Same as above, use <Field> if your custom FormikTextField can handle it
+                          />
+                        )}
+                        <Button
+                          className="d-inline-block align-baseline  fs-6 fw-bold  hover-primary mt-2"
+                          type="submit"
+                          variant="contained"
+                          color="primary"
+                          fullWidth
+                          disabled={isSubmitting}
+                        >
+                          {recuperar ? "Enviar recuperación" : "Login"}
+                        </Button>
+                      </Box>
+                      <Button
+                        onClick={() => {
+                          resetForm();
+                          setRecuperar(!recuperar);
+                        }}
+                        className=" d-inline-block align-baseline fw-bold fs-6 text-primary hover-primary mt-2"
+                      >
+                        {recuperar ? "Volver al login" : "Recuperar password"}
+                      </Button>
+                    </Form>
+                  )}
+                </Formik>
+                {!recuperar && (
+                  <p className="mt-4 mb-0 fs-7 px-3 d-flex justify-content-between">
+                    ¿No tienes cuenta?
+                    <Link
+                      to="/registro"
+                      className="text-primary hover-primary "
                     >
-                      {recuperar ? "Enviar recuperación" : "Login"}
-                    </Button>
-                  </Box>
-                  <Button
-                    onClick={() => {
-                      resetForm();
-                      setRecuperar(!recuperar);
-                    }}
-                    className=" d-inline-block align-baseline fw-bold fs-6 text-primary hover-primary mt-2"
-                  >
-                    {recuperar ? "Volver al login" : "Recuperar password"}
-                  </Button>
-                </Form>
-              )}
-            </Formik>
-            {!recuperar && (
-              <p className="mt-4 mb-0 fs-7 px-3 d-flex justify-content-between">
-                ¿No tienes cuenta?
-                <Link to="/registro" className="text-primary hover-primary ">
-                  Registrate
-                </Link>
-              </p>
-            )}
+                      Registrate
+                    </Link>
+                  </p>
+                )}
+              </div>
+            </div>
           </div>
         </div>
       </div>

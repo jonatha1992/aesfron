@@ -137,7 +137,7 @@ footer {
 }
 
 .main {
-    padding-bottom: 2rem;
+    /* padding-bottom: 2rem; */
     min-height: 100vh;
     background-image: url(/src/assets/fondo_panta2.jpg);
     /* margin-top: 4rem; */
