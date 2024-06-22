@@ -7,92 +7,86 @@ import Breadcrumbs from "./Breadcrumbs";
 import { Link } from "react-router-dom";
 
 const MisCursos = () => {
-  const { cursos, activeCourse, setActiveCourse } = useContext(AlumnosContext);
+    const { cursos, activeCourse, setActiveCourse } = useContext(AlumnosContext);
+    console.log("cursos", cursos);
+    const handleCursoClick = (cursoId, cursotitle, mail) => {
+        setActiveCourse({ id: cursoId, title: cursotitle, mail: mail });
+    };
 
-  const handleCursoClick = (cursoId, cursotitle) => {
-    setActiveCourse({ id: cursoId, title: cursotitle });
-  };
+    useEffect(() => {
+        setActiveCourse(null);
+        window.scrollTo(0, 0);
+    }, []);
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
 
-  useEffect(() => {
-    setActiveCourse(null);
-    window.scrollTo(0, 0);
-  }, []);
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
-
-  return (
-    <div className="contenido-container">
-      <Breadcrumbs />
-      {cursos.length === 0 ? (
-        <div>
-          <div className="no-cursos-message">
-            <p>No estás inscrito en ningún curso. inscribite a uno!</p>
-            <Link to="/#seccion3" className="text-primary hover-primary ">
-              Ver cursos
-            </Link>
-          </div>
-        </div>
-      ) : (
-        <div className=" d-flex justify-content-start flex-column">
-          {activeCourse ? (
-            <UnidadesCursos activeCourse={activeCourse} />
-          ) : (
-            <div
-              className="container d-flex flex-column"
-              style={{ height: "100vh" }}
-            >
-              <div
-                className="container-miscursos"
-                style={{ color: "black", paddingTop: "" }}
-              >
-                {cursos.map((curso, index) => (
-                  <div
-                    key={index}
-                    className="miscursos-item"
-                    onClick={() =>
-                      handleCursoClick(curso.cursoid, curso.detalles.title)
-                    }
-                  >
-                    <div
-                      className="blur-background"
-                      style={{
-                        backgroundImage: `url(${curso.detalles.imageUrl})`,
-                      }}
-                    >
-                      <div className="content d-flex">
-                        <span
-                          style={{
-                            width: "70%",
-                            fontSize: "1rem",
-                            textAlign: "start",
-                            color: "#606468",
-                            fontWeight: "bold",
-                          }}
-                        >
-                          {curso.detalles.title}
-                        </span>
-                        <div
-                          className="info-micurso"
-                          style={{
-                            width: "30%",
-                            textAlign: "end",
-                            fontSize: "10px",
-                          }}
-                        >
-                          <span>25 contenidos sin ver</span>
-                        </div>
-                      </div>
+    return (
+        <div className="contenido-container">
+            <Breadcrumbs />
+            {cursos.length === 0 ? (
+                <div>
+                    <div className="no-cursos-message">
+                        <p>No estás inscrito en ningún curso. inscribite a uno!</p>
+                        <Link to="/#seccion3" className="text-primary hover-primary ">
+                            Ver cursos
+                        </Link>
                     </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
+                </div>
+            ) : (
+                <div className=" d-flex justify-content-start flex-column">
+                    {activeCourse ? (
+                        <UnidadesCursos activeCourse={activeCourse} />
+                    ) : (
+                        <div className="container d-flex flex-column" style={{ height: "100vh" }}>
+                            <div className="container-miscursos" style={{ color: "black", paddingTop: "" }}>
+                                {cursos.map((curso, index) => (
+                                    <div
+                                        key={index}
+                                        className="miscursos-item"
+                                        onClick={() =>
+                                            handleCursoClick(curso.cursoid, curso.detalles.title, curso.detalles.mail)
+                                        }
+                                    >
+                                        <div
+                                            className="blur-background"
+                                            style={{
+                                                backgroundImage: `url(${curso.detalles.imageUrl})`,
+                                            }}
+                                        >
+                                            <div className="content d-flex">
+                                                <span
+                                                    style={{
+                                                        width: "70%",
+                                                        fontSize: "1rem",
+                                                        textAlign: "start",
+                                                        color: "#606468",
+                                                        fontWeight: "bold",
+                                                    }}
+                                                >
+                                                    {curso.detalles.title}
+                                                </span>
+                                                <div
+                                                    className="info-micurso"
+                                                    style={{
+                                                        width: "30%",
+                                                        textAlign: "end",
+                                                        fontSize: "10px",
+                                                    }}
+                                                >
+                                                    <span>25 contenidos sin ver</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    )}
+                </div>
+            )}
         </div>
-      )}
-    </div>
-  );
+    );
 };
 
 export default MisCursos;
