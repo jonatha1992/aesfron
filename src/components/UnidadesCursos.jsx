@@ -7,11 +7,79 @@ import Typography from "@mui/material/Typography";
 import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
 import LinkIcon from "@mui/icons-material/Link";
 import DownloadForOfflineIcon from "@mui/icons-material/DownloadForOffline";
+import InfoIcon from "@mui/icons-material/Info";
 import { getModulos } from "../controllers/controllerCurso";
+
+const iconStyle = {
+    width: "1.5em",
+    height: "1.5em",
+    marginRight: "5px",
+};
+
+const containerStyle = {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "flex-start",
+};
+
+const headerStyle = {
+    color: "#606468",
+};
+
+const accordionSummaryStyle = {
+    background: "var(--color6)",
+    color: "white",
+    fontSize: "1.5rem",
+    marginBottom: "5px",
+    borderRadius: "5px",
+    padding: "5px",
+    cursor: "pointer",
+};
+
+const accordionDetailsStyle = {
+    backgroundColor: "rgb(182 199 213)",
+    paddingBottom: "0.5rem",
+    borderRadius: "5px",
+};
+
+const getIcon = (tipo) => {
+    switch (tipo) {
+        case "pdf":
+            return <PictureAsPdfIcon style={iconStyle} />;
+        case "link":
+            return <LinkIcon style={iconStyle} />;
+        case "Info":
+            return <InfoIcon style={iconStyle} />;
+        default:
+            return null;
+    }
+};
+
+const MaterialItem = ({ item, onClick }) => (
+    <div className="titulo-contenido" onClick={() => onClick(item.url)} style={{ cursor: "pointer" }}>
+        <div className="d-flex flex-row align-items-center" style={{ width: "100%" }}>
+            {getIcon(item.tipo)}
+            <Typography>{item.titulo}</Typography>
+            {item.tipo !== "link" && item.tipo !== "Info" && <DownloadForOfflineIcon style={{ marginLeft: "auto" }} />}
+        </div>
+    </div>
+);
+
+const UnidadAccordion = ({ unidad, handleMaterialClick }) => (
+    <Accordion key={unidad.id} defaultExpanded>
+        <AccordionSummary expandIcon={<ExpandMoreIcon />} style={accordionSummaryStyle}>
+            {unidad.titulo}
+        </AccordionSummary>
+        <AccordionDetails style={accordionDetailsStyle}>
+            {unidad.items.map((item) => (
+                <MaterialItem key={item.id} item={item} onClick={handleMaterialClick} />
+            ))}
+        </AccordionDetails>
+    </Accordion>
+);
 
 const UnidadesCursos = ({ activeCourse }) => {
     const { id, title, mail } = activeCourse || {};
-    console.log("activeCourse", activeCourse);
     const [contenido, setContenido] = useState([]);
 
     useEffect(() => {
@@ -21,6 +89,7 @@ const UnidadesCursos = ({ activeCourse }) => {
                 setContenido(contenidoData);
             } catch (error) {
                 console.error("Error al obtener datos de Firebase:", error);
+                // Aquí podrías agregar lógica para mostrar un mensaje de error al usuario
             }
         };
 
@@ -34,98 +103,20 @@ const UnidadesCursos = ({ activeCourse }) => {
     };
 
     return (
-        <div className="container ">
-            <div
-                className=""
-                style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "flex-start",
-                }}
-            >
-                <div className="d-flex bg-white justify-content-center flex-wrap ">
-                    <Typography
-                        variant="h6"
-                        className=" text-capitalize p-2 mb-3 rounded col-lg-6 col-12   "
-                        style={{ color: "#606468" }}
-                    >
+        <div className="container">
+            <div style={containerStyle}>
+                <div className="d-flex bg-white justify-content-center flex-wrap">
+                    <Typography variant="h6" className="text-capitalize p-1  mb-1 rounded col-lg-6 col-12" style={headerStyle}>
                         <span className="fw-bold text-uppercase">Curso: </span> {title}
                     </Typography>
-                    <Typography
-                        variant="h6"
-                        className=" text-lowercase p-2 mb-3 rounded col-lg-5 col-12"
-                        style={{ color: "#606468" }}
-                    >
+                    <Typography variant="h6" className="text-lowercase p-1 mb-2 rounded col-lg-6 col-12" style={headerStyle}>
                         <span className="fw-bold text-uppercase">Mail: </span> {mail}
                     </Typography>
                 </div>
 
                 <div style={{ color: "black", background: "#5d809d" }}>
                     {contenido.map((unidad) => (
-                        <Accordion key={unidad.id} defaultExpanded>
-                            <AccordionSummary
-                                expandIcon={<ExpandMoreIcon />}
-                                style={{
-                                    background: "var(--color6)",
-                                    color: "white",
-                                    fontSize: "1.5rem",
-                                    marginBottom: "5px",
-                                    borderRadius: "5px",
-                                    padding: "5px",
-                                    cursor: "pointer",
-                                }}
-                            >
-                                {unidad.titulo}
-                            </AccordionSummary>
-                            <AccordionDetails
-                                style={{
-                                    backgroundColor: "rgb(182 199 213)",
-                                    paddingBottom: "0.5rem",
-                                    borderRadius: "5px",
-                                }}
-                            >
-                                {unidad.items.map((item) => (
-                                    <div
-                                        key={item.id}
-                                        className="titulo-contenido "
-                                        onClick={() => handleMaterialClick(item.url)}
-                                        style={{ cursor: "pointer" }}
-                                    >
-                                        <div className="d-flex flex-row align-items-center" style={{ width: "100%" }}>
-                                            {item.tipo === "pdf" && (
-                                                <PictureAsPdfIcon
-                                                    style={{
-                                                        width: "1.5em",
-                                                        height: "1.5em",
-                                                        marginRight: "5px",
-                                                    }}
-                                                />
-                                            )}
-                                            <Typography>{item.titulo}</Typography>
-                                            {item.tipo === "link" && (
-                                                <LinkIcon
-                                                    style={{
-                                                        width: "1.5em",
-                                                        height: "1.5em",
-                                                        marginRight: "5px",
-                                                    }}
-                                                />
-                                            )}
-                                            {item.tipo === "Info" && (
-                                                <LinkIcon
-                                                    style={{
-                                                        width: "1.5em",
-                                                        height: "1.5em",
-                                                        marginRight: "5px",
-                                                    }}
-                                                />
-                                            )}
-                                            <DownloadForOfflineIcon />
-                                        </div>
-                                    </div>
-                                ))}
-                            </AccordionDetails>
-                        </Accordion>
+                        <UnidadAccordion key={unidad.id} unidad={unidad} handleMaterialClick={handleMaterialClick} />
                     ))}
                 </div>
             </div>
