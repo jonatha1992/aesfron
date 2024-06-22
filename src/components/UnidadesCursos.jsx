@@ -103,18 +103,19 @@ const UnidadesCursos = ({ activeCourse }) => {
     };
 
     return (
-        <div className="container">
+        <div className="container flex-wrap">
             <div style={containerStyle}>
-                <div className="d-flex bg-white justify-content-center flex-wrap">
-                    <Typography variant="h6" className="text-capitalize p-1  mb-1 rounded col-lg-6 col-12" style={headerStyle}>
+                <div className="col-5">
+                    <label className="text-capitalize fw-bold text-uppercase fs-5">Profesores</label>
+                    <Typography variant="h6" className="text-capitalize p-1  mb-1 rounded   " style={headerStyle}>
                         <span className="fw-bold text-uppercase">Curso: </span> {title}
                     </Typography>
-                    <Typography variant="h6" className="text-lowercase p-1 mb-2 rounded col-lg-6 col-12" style={headerStyle}>
+                    <Typography variant="h6" className="text-lowercase p-1 mb-2 rounded  " style={headerStyle}>
                         <span className="fw-bold text-uppercase">Mail: </span> {mail}
                     </Typography>
                 </div>
 
-                <div style={{ color: "black", background: "#5d809d" }}>
+                <div className="col-6 " style={{ color: "black", background: "#5d809d" }}>
                     {contenido.map((unidad) => (
                         <UnidadAccordion key={unidad.id} unidad={unidad} handleMaterialClick={handleMaterialClick} />
                     ))}
