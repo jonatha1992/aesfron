@@ -39,8 +39,8 @@ export default function Nosotros() {
                     <img className="imagen-organizacion rounded-circle" src={vice} alt="" />
                 </div> */}
 
-        <div className=" col-lg-6 d-flex flex-column align-items-center">
-          <div className="d-flex flex-column align-items-center mb-4">
+        <div className="nosotros-mobile  ">
+          <div className=" ">
             <img
               className="imagen-organizacion mb-2 rounded-circle"
               src={presidenta}
@@ -51,7 +51,7 @@ export default function Nosotros() {
               <span className="nombre">Mag. Llanos Beatriz</span>
             </label>
           </div>
-          <div className="d-flex flex-column align-items-center">
+          <div className=" ">
             <img
               className="imagen-organizacion mb-2 rounded-circle"
               src={vice}

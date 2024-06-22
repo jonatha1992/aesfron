@@ -91,3 +91,15 @@
     --color3: #333; /* Color del título */
     --color4: #bb7815; /* Color del nombre */
 }
+.nosotros-mobile {
+    flex-direction: column;
+}
+
+
+@media (max-width: 400px) {
+
+}
+
+@media (max-width: 1000px) {
+    
+}
