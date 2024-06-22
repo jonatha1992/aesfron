@@ -1,10 +1,8 @@
 .evento {
     display: flex;
-        min-height: 100vh;
-        /* display: inline-block; */
-        /* margin-bottom: 2rem; */
-        flex-direction: column;
-        justify-content: center;
+    min-height: 100vh;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .slick-prev {
@@ -12,11 +10,23 @@
     left: -1.5rem;
 }
 
-.evento-encabezodo {
+.evento-encabezado {
     display: flex;
     justify-content: space-around;
 }
-
+.titulo-evento-anuncio {
+    color: beige;
+    background-color: var(--color3);
+    /* padding: 1rem; */
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 1rem;
+    display: inline-block;
+    width: 100%;
+    margin-top: 4rem;
+    font-size: 2rem;
+    font-weight: bold;
+}
 .card-evento-anuncio {
     display: flex;
     padding: 1.5rem;
@@ -28,22 +38,14 @@
     text-align: center;
 }
 
-.body-card-seccionanuncios{
-    /* min-height: 80%; */
-    /* max-height: 50%; */
-    overflow: overlay;
+.body-card-seccionanuncios {
+    overflow: auto;
     scrollbar-gutter: stable;
 }
 
 .body-card-seccionanuncios::-webkit-scrollbar {
     display: none;
-    /*Para que scrollbar-gutter funcione la barra de scroll debe existir*/
-    background-color: transparent;
 }
-
-/* .unidades:hover::-webkit-scrollbar {
-    display: initial;
-} */
 
 .body-card-seccionanuncios::-webkit-scrollbar-thumb {
     background-color: transparent;
@@ -55,36 +57,67 @@
         width: 100%;
     }
 }
+
 .card-evento-titulo {
     border-radius: 0.5rem;
     background: var(--color6);
     font-weight: bolder;
     color: var(--color6);
-    font-size: 28px;
-    font-family: georia;
-    /* margin-top: 2rem; */
+    font-family: georgia;
     padding-left: 1rem;
     padding-right: 1rem;
     margin-bottom: 0rem;
 }
+
 .card-evento-descripcion {
-    height: 100%;
-    /* display: flex; */
-    padding: 1rem;
-    color: white;
-    font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande", "Lucida Sans Unicode", Geneva, Verdana,
-        sans-serif;
-    font-size: 16px;
-    text-align: start;
-    /* align-items: center; */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal;
+    display: block;
+    word-wrap: break-word;
+    max-height: 6rem;
+    line-height: 1.5;
+    padding: 0.5rem;
 }
+
 .card-event-image {
+    height: 200px;
+    position: relative;
+    background-size: cover;
+    background-position: center;
 }
+
 .card-evento-fecha {
     font-size: 20px;
     font-weight: bold;
     color: white;
 }
+
 .slick-dots li button:before {
     color: #fff;
+}
+
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.row {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.col-12 {
+    width: 100%;
+}
+
+.col-md-6 {
+    width: 50%;
+}
+
+@media (max-width: 767px) {
+    .col-md-6 {
+        width: 100%;
+    }
 }

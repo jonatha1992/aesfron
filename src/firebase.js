@@ -50,11 +50,11 @@ export async function agregarDoc(dati, tabla) {
   return cursoID;
 }
 
-export async function obtenerEventosRecientes() {
+export async function obtenerRecientes(limite, tabla) {
   const q = query(
-    collection(db, "eventos"),
+    collection(db, tabla),
     orderBy("created", "desc"),
-    limit(10)
+    limit(limite)
   );
   const querySnapshot = await getDocs(q);
   const eventos = [];

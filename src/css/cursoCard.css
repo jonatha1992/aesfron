@@ -25,8 +25,9 @@
     /* Texto blanco para la parte inferior */
 }
 .curso-card-img {
-    width: 225px;
-    height: 150px;
+    margin-right: 1rem;
+    width: 35%;
+    /* height: 150px; */
     border-radius: 2rem;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     border: 1px solid #ddd;
@@ -34,15 +35,15 @@
 }
 .curso-card-title {
     font-family: "Open Sans", sans-serif;
-    font-size: 1.5em;
-    color: #333; /* Color oscuro para el título */
-    margin: 18px 2rem ; /* Espaciado alrededor del título */
+    font-size: 1rem;
+    color: #333;
+    margin: 1rem;
     text-align: center;
-    min-width:  60px;
-    min-height: 54px;
-    font-weight: 600;
-    justify-content: center;
-
+    font-weight: bolder;
+    /* min-width: 60px; */
+    /* min-height: 54px; */
+    /* font-weight: 600; */
+    /* justify-content: center; */
 }
 
 .curso-card-price {

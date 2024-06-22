@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { obtenerEventosRecientes } from "../firebase"; // Asegúrate de que esta ruta sea correcta
+import { obtenerRecientes } from "../firebase"; // Asegúrate de que esta ruta sea correcta
 import ModificacionEventos from "./ModificacionEventos";
 import { List, ListItem, ListItemText, Box } from "@mui/material";
 
@@ -9,7 +9,7 @@ const ListaEventos = () => {
   const [mostrarLista, setMostrarLista] = useState(true);
 
   const fetchEventos = async () => {
-    const eventosRecientes = await obtenerEventosRecientes();
+    const eventosRecientes = await obtenerRecientes(10, "eventos");
     setEventos(eventosRecientes);
   };
 
