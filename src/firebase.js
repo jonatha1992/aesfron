@@ -197,4 +197,33 @@ const itemsToBeAdded = [
 // const path = "cursos/6ThlcAF2z98yAXyJ4xT1/Modulos/yI2XjQ4swxT5NxTcDc3B/items";
 // agregarItemsModulo(path, itemsToBeAdded);
 
-export { CursosInscriptos, collection, db, getDoc, doc, addDoc, setDoc, updateDoc, getDocs, query, where };
+export {
+    CursosInscriptos,
+    collection,
+    db,
+    getDoc,
+    doc,
+    addDoc,
+    setDoc,
+    updateDoc,
+    getDocs,
+    query,
+    where,
+    ContenidoXCurso,
+};
+
+const ContenidoXCurso = async (cursoid) => {
+    const contenidoRef = collection(db, "contenido");
+    const q1 = query(contenidoRef, where("cursoid", "==", cursoid));
+
+    const querySnapshot = await getDocs(q1);
+
+    // Construye un array con los resultados
+    const resultados = [];
+
+    querySnapshot.forEach((doc) => {
+        resultados.push({ id: doc.id, ...doc.data() });
+    });
+
+    return resultados;
+};
