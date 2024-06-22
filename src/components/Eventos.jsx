@@ -25,7 +25,7 @@ const EventosYAnuncios = () => {
   }, []);
 
   return (
-    <div className="container">
+    <div className="container" style={{ marginTop: "2rem" }}>
       <div className="row">
         <div className="col-12 col-md-6 mb-4">
           <div className="evento-encabezado">

@@ -92,14 +92,44 @@
     --color4: #bb7815; /* Color del nombre */
 }
 .nosotros-mobile {
-    flex-direction: column;
+    display: flex;
+        flex-direction: column;
 }
 
 
-@media (max-width: 400px) {
+@media (min-width: 1024px) {
 
-}
-
-@media (max-width: 1000px) {
+    /* Tus estilos para escritorio aquí */
     
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+
+    /* Tus estilos para tablet aquí */
+    .nosotros-mobile {
+            width: 100%;
+                display: flex;
+                flex-direction: row;
+                justify-content: space-around;
+        }
+                .nosotros-container-org {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                }
+}
+
+@media (max-width: 767px) {
+
+    /* Tus estilos para móvil aquí */
+    .nosotros-mobile {
+    width: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+    .nosotros-container-org{
+        display: flex;
+            flex-direction: column;
+            align-items: center;
+    }
 }

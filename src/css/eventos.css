@@ -97,7 +97,7 @@
     color: #fff;
 }
 
-.container {
+/* .container {
     width: 100%;
     max-width: 1200px;
     margin: 0 auto;
@@ -114,7 +114,7 @@
 
 .col-md-6 {
     width: 50%;
-}
+} */
 
 @media (max-width: 767px) {
     .col-md-6 {

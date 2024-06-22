@@ -40,7 +40,7 @@ export default function Nosotros() {
                 </div> */}
 
         <div className="nosotros-mobile  ">
-          <div className=" ">
+          <div className=" nosotros-container-org">
             <img
               className="imagen-organizacion mb-2 rounded-circle"
               src={presidenta}
@@ -51,7 +51,7 @@ export default function Nosotros() {
               <span className="nombre">Mag. Llanos Beatriz</span>
             </label>
           </div>
-          <div className=" ">
+          <div className=" nosotros-container-org">
             <img
               className="imagen-organizacion mb-2 rounded-circle"
               src={vice}
