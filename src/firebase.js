@@ -11,6 +11,9 @@ import {
     deleteDoc,
     query,
     where,
+    serverTimestamp,
+    orderBy,
+    limit,
 } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
 
 import {
@@ -40,10 +43,26 @@ const storage = getStorage(app);
 
 export const auth = getAuth(app);
 
-export async function agregarCurso(dati) {
-    const newCourseRef = await addDoc(collection(db, "cursos"), dati);
+export async function agregarDoc(dati, tabla) {
+    dati.created = serverTimestamp();
+    const newCourseRef = await addDoc(collection(db, tabla), dati);
     const cursoID = newCourseRef.id;
     return cursoID;
+}
+
+export async function obtenerRecientes(limite, tabla) {
+    const q = query(collection(db, tabla), orderBy("created", "desc"), limit(limite));
+    const querySnapshot = await getDocs(q);
+    const eventos = [];
+    querySnapshot.forEach((doc) => {
+        eventos.push({ id: doc.id, ...doc.data() });
+    });
+    return eventos;
+}
+
+export async function actualizarDoc(id, datos, tabla) {
+    const docRef = doc(db, tabla, id);
+    await updateDoc(docRef, datos);
 }
 
 export async function uploadFiles(file) {
@@ -121,6 +140,10 @@ const CursosInscriptos = async (uid) => {
         console.error("Error en la operación asincrónica:", error);
     }
 };
+
+export async function eliminarDoc(id, tabla) {
+    await deleteDoc(doc(db, tabla, id));
+}
 
 import { agregarItemsModulo } from "./security/Tools";
 const itemsToBeAdded = [

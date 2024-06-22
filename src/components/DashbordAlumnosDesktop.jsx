@@ -16,6 +16,14 @@ import StarBorder from "@mui/icons-material/StarBorder";
 import MiPerfil from "./MiPerfil";
 import Divider from "@mui/material/Divider";
 import AltaCurso from "./AltaCursos";
+import AltaAnuncios from "./AltaAnuncios";
+import AltaEventos from "./AltaEventos";
+import ModificacionAnuncios from "./ModificacionAnuncios";
+import ModificacionEventos from "./ModificacionEventos";
+import BajaAnuncios from "./BajaAnuncios";
+import BajaEventos from "./BajaEventos";
+import ListaEventos from "./ListaEventos";
+import ListaAnuncios from "./ListaAnuncios";
 
 const AltaCursos = () => {
   return (
@@ -58,26 +66,62 @@ const FeatureGrid = () => {
     {
       name: "Perfil",
       icon: <Settings fontSize="large" />,
-      route: "/cursos",
+      route: "/perfil",
       content: <MiPerfil />,
     },
     {
-      name: "Alta de Cursos",
+      name: "Cursos",
       icon: <InboxIcon />,
-      route: "/alta",
+      route: "/alta/cursos",
       content: <AltaCursos />,
     },
     {
-      name: "Modificación de Cursos",
+      name: "Anuncios",
       icon: <InboxIcon />,
-      route: "/modificacion",
+      route: "/alta/anuncios",
+      content: <AltaAnuncios />,
+    },
+    {
+      name: "Eventos",
+      icon: <InboxIcon />,
+      route: "/alta/eventos",
+      content: <AltaEventos />,
+    },
+    {
+      name: "Cursos",
+      icon: <InboxIcon />,
+      route: "/modificacion/cursos",
       content: <ModificacionCursos />,
     },
     {
-      name: "Baja de Cursos",
+      name: "Anuncios",
       icon: <InboxIcon />,
-      route: "/baja",
+      route: "/modificacion/anuncios",
+      content: <ListaAnuncios />,
+    },
+    {
+      name: "Eventos",
+      icon: <InboxIcon />,
+      route: "/modificacion/eventos",
+      content: <ListaEventos />,
+    },
+    {
+      name: "Cursos",
+      icon: <InboxIcon />,
+      route: "/baja/cursos",
       content: <BajaCursos />,
+    },
+    {
+      name: "Anuncios",
+      icon: <InboxIcon />,
+      route: "/baja/anuncios",
+      content: <BajaAnuncios />,
+    },
+    {
+      name: "Eventos",
+      icon: <InboxIcon />,
+      route: "/baja/eventos",
+      content: <BajaEventos />,
     },
   ];
 
@@ -86,8 +130,8 @@ const FeatureGrid = () => {
   const [activeFeature, setActiveFeature] = useState(features[0]);
   const [openCollapse, setOpenCollapse] = useState({});
 
-  const handleFeatureClick = (index) => {
-    setActiveFeature(features[index]);
+  const handleFeatureClick = (feature) => {
+    setActiveFeature(feature);
     setActiveCourse(null);
   };
 
@@ -124,7 +168,7 @@ const FeatureGrid = () => {
               <ListItem
                 disablePadding
                 key={index}
-                onClick={() => handleFeatureClick(index)}
+                onClick={() => handleFeatureClick(feature)}
                 sx={{
                   background:
                     activeFeature.name === feature.name
@@ -166,24 +210,15 @@ const FeatureGrid = () => {
                     >
                       <List component="div" disablePadding>
                         {features
-                          .filter(
-                            (feature) =>
-                              (section === "ALTA" &&
-                                feature.route === "/alta") ||
-                              (section === "MODIFICACION" &&
-                                feature.route === "/modificacion") ||
-                              (section === "BAJA" && feature.route === "/baja")
+                          .filter((feature) =>
+                            feature.route.startsWith(
+                              `/${section.toLowerCase()}`
+                            )
                           )
                           .map((feature, index) => (
                             <ListItemButton
                               key={index}
-                              onClick={() =>
-                                handleFeatureClick(
-                                  features.findIndex(
-                                    (feat) => feat.name === feature.name
-                                  )
-                                )
-                              }
+                              onClick={() => handleFeatureClick(feature)}
                               sx={{
                                 pl: 4,
                                 background:
