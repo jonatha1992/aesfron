@@ -6,7 +6,9 @@ import StepLabel from "@mui/material/StepLabel";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
-import Grid from "@mui/material/Grid";
+import IconButton from "@mui/material/IconButton";
+import AddIcon from "@mui/icons-material/Add";
+import RemoveIcon from "@mui/icons-material/Remove";
 
 const steps = [
   "Detalles del Curso",
@@ -22,26 +24,17 @@ export default function CourseStepper() {
   const [courseData, setCourseData] = React.useState({
     title: "",
     coordinacion: "",
-    disertantes: "",
+    disertantes: [""],
     start: "",
     duration: "",
-    classes: "",
-    price: 0,
-    workload: 0,
-    mail: "",
     description: "",
     place: "",
-    imageUrl: "",
-    objetivos: "",
+    objetivos: [""],
   });
 
-  const isStepOptional = (step) => {
-    return step === 1;
-  };
+  const isStepOptional = (step) => step === 1;
 
-  const isStepSkipped = (step) => {
-    return skipped.has(step);
-  };
+  const isStepSkipped = (step) => skipped.has(step);
 
   const handleNext = () => {
     let newSkipped = skipped;
@@ -49,7 +42,6 @@ export default function CourseStepper() {
       newSkipped = new Set(newSkipped.values());
       newSkipped.delete(activeStep);
     }
-
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
     setSkipped(newSkipped);
   };
@@ -60,9 +52,8 @@ export default function CourseStepper() {
 
   const handleSkip = () => {
     if (!isStepOptional(activeStep)) {
-      throw new Error("You can't skip a step that isn't optional.");
+      throw new Error("No puedes saltar un paso que no es opcional.");
     }
-
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
     setSkipped((prevSkipped) => {
       const newSkipped = new Set(prevSkipped.values());
@@ -73,11 +64,32 @@ export default function CourseStepper() {
 
   const handleReset = () => {
     setActiveStep(0);
+    setCourseData({
+      title: "",
+      coordinacion: "",
+      disertantes: [""],
+      start: "",
+      duration: "",
+      description: "",
+      place: "",
+      objetivos: [""],
+    });
   };
 
-  const handleChange = (event) => {
-    const { name, value } = event.target;
-    setCourseData({ ...courseData, [name]: value });
+  const handleChange = (event, index, field) => {
+    const { value } = event.target;
+    const newData = [...courseData[field]];
+    newData[index] = value;
+    setCourseData({ ...courseData, [field]: newData });
+  };
+
+  const handleAddField = (field) => {
+    setCourseData({ ...courseData, [field]: [...courseData[field], ""] });
+  };
+
+  const handleRemoveField = (index, field) => {
+    const newData = courseData[field].filter((_, i) => i !== index);
+    setCourseData({ ...courseData, [field]: newData });
   };
 
   return (
@@ -104,19 +116,25 @@ export default function CourseStepper() {
       {activeStep === steps.length ? (
         <React.Fragment>
           <Typography sx={{ mt: 2, mb: 1 }}>
-            All steps completed - you're finished
+            Todos los pasos completados - has terminado
           </Typography>
           <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
             <Box sx={{ flex: "1 1 auto" }} />
-            <Button onClick={handleReset}>Reset</Button>
+            <Button onClick={handleReset}>Resetear</Button>
           </Box>
           <pre>{JSON.stringify(courseData, null, 2)}</pre>
         </React.Fragment>
       ) : (
         <React.Fragment>
-          <Typography sx={{ mt: 2, mb: 1 }}>Step {activeStep + 1}</Typography>
+          <Typography sx={{ mt: 2, mb: 1 }}>Paso {activeStep + 1}</Typography>
           <Box sx={{ display: "flex", flexDirection: "column", pt: 2 }}>
-            {getStepContent(activeStep, courseData, handleChange)}
+            {getStepContent(
+              activeStep,
+              courseData,
+              handleChange,
+              handleAddField,
+              handleRemoveField
+            )}
             <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
               <Button
                 color="inherit"
@@ -124,16 +142,16 @@ export default function CourseStepper() {
                 onClick={handleBack}
                 sx={{ mr: 1 }}
               >
-                Back
+                Atrás
               </Button>
               <Box sx={{ flex: "1 1 auto" }} />
               {isStepOptional(activeStep) && (
                 <Button color="inherit" onClick={handleSkip} sx={{ mr: 1 }}>
-                  Skip
+                  Saltar
                 </Button>
               )}
               <Button onClick={handleNext}>
-                {activeStep === steps.length - 1 ? "Finish" : "Next"}
+                {activeStep === steps.length - 1 ? "Finalizar" : "Siguiente"}
               </Button>
             </Box>
           </Box>
@@ -143,7 +161,13 @@ export default function CourseStepper() {
   );
 }
 
-function getStepContent(step, courseData, handleChange) {
+function getStepContent(
+  step,
+  courseData,
+  handleChange,
+  handleAddField,
+  handleRemoveField
+) {
   switch (step) {
     case 0:
       return (
@@ -152,7 +176,7 @@ function getStepContent(step, courseData, handleChange) {
             label="Título"
             name="title"
             value={courseData.title}
-            onChange={handleChange}
+            onChange={(e) => handleChange(e, 0, "title")}
             fullWidth
             margin="normal"
           />
@@ -160,7 +184,7 @@ function getStepContent(step, courseData, handleChange) {
             label="Coordinación"
             name="coordinacion"
             value={courseData.coordinacion}
-            onChange={handleChange}
+            onChange={(e) => handleChange(e, 0, "coordinacion")}
             fullWidth
             margin="normal"
           />
@@ -169,15 +193,34 @@ function getStepContent(step, courseData, handleChange) {
     case 1:
       return (
         <Box>
-          <TextField
-            label="Disertantes"
-            name="disertantes"
-            value={courseData.disertantes}
-            onChange={handleChange}
-            fullWidth
-            margin="normal"
-            helperText="Separar nombres con comas"
-          />
+          {courseData.disertantes.map((disertante, index) => (
+            <Box
+              key={index}
+              sx={{ display: "flex", alignItems: "center", marginBottom: 2 }}
+            >
+              <TextField
+                label={`Disertante ${index + 1}`}
+                name={`disertante-${index}`}
+                value={disertante}
+                onChange={(e) => handleChange(e, index, "disertantes")}
+                fullWidth
+                margin="normal"
+              />
+              <IconButton
+                onClick={() => handleRemoveField(index, "disertantes")}
+                disabled={courseData.disertantes.length === 1}
+              >
+                <RemoveIcon />
+              </IconButton>
+            </Box>
+          ))}
+          <Button
+            variant="outlined"
+            onClick={() => handleAddField("disertantes")}
+            startIcon={<AddIcon />}
+          >
+            Añadir Disertante
+          </Button>
         </Box>
       );
     case 2:
@@ -187,7 +230,7 @@ function getStepContent(step, courseData, handleChange) {
             label="Inicio"
             name="start"
             value={courseData.start}
-            onChange={handleChange}
+            onChange={(e) => handleChange(e, 0, "start")}
             fullWidth
             margin="normal"
           />
@@ -195,7 +238,7 @@ function getStepContent(step, courseData, handleChange) {
             label="Duración"
             name="duration"
             value={courseData.duration}
-            onChange={handleChange}
+            onChange={(e) => handleChange(e, 0, "duration")}
             fullWidth
             margin="normal"
           />
@@ -208,7 +251,7 @@ function getStepContent(step, courseData, handleChange) {
             label="Descripción"
             name="description"
             value={courseData.description}
-            onChange={handleChange}
+            onChange={(e) => handleChange(e, 0, "description")}
             fullWidth
             margin="normal"
           />
@@ -216,7 +259,7 @@ function getStepContent(step, courseData, handleChange) {
             label="Lugar"
             name="place"
             value={courseData.place}
-            onChange={handleChange}
+            onChange={(e) => handleChange(e, 0, "place")}
             fullWidth
             margin="normal"
           />
@@ -225,18 +268,37 @@ function getStepContent(step, courseData, handleChange) {
     case 4:
       return (
         <Box>
-          <TextField
-            label="Objetivos"
-            name="objetivos"
-            value={courseData.objetivos}
-            onChange={handleChange}
-            fullWidth
-            margin="normal"
-            helperText="Separar objetivos con comas"
-          />
+          {courseData.objetivos.map((objetivo, index) => (
+            <Box
+              key={index}
+              sx={{ display: "flex", alignItems: "center", marginBottom: 2 }}
+            >
+              <TextField
+                label={`Objetivo ${index + 1}`}
+                name={`objetivo-${index}`}
+                value={objetivo}
+                onChange={(e) => handleChange(e, index, "objetivos")}
+                fullWidth
+                margin="normal"
+              />
+              <IconButton
+                onClick={() => handleRemoveField(index, "objetivos")}
+                disabled={courseData.objetivos.length === 1}
+              >
+                <RemoveIcon />
+              </IconButton>
+            </Box>
+          ))}
+          <Button
+            variant="outlined"
+            onClick={() => handleAddField("objetivos")}
+            startIcon={<AddIcon />}
+          >
+            Añadir Objetivo
+          </Button>
         </Box>
       );
     default:
-      return "Unknown step";
+      return "Paso desconocido";
   }
 }
