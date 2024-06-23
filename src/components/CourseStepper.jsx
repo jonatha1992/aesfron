@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState } from "react";
 import Box from "@mui/material/Box";
 import Stepper from "@mui/material/Stepper";
 import Step from "@mui/material/Step";
@@ -9,6 +9,8 @@ import TextField from "@mui/material/TextField";
 import IconButton from "@mui/material/IconButton";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
+import { agregarDoc } from "../firebase"; // Actualiza la ruta según sea necesario
+import { uploadFiles } from "../firebase"; // Actualiza la ruta según sea necesario
 
 const steps = [
   "Detalles del Curso",
@@ -16,12 +18,13 @@ const steps = [
   "Fecha y Duración",
   "Descripción y Lugar",
   "Objetivos",
+  "Imagen del Curso", // Nuevo paso para subir imagen
 ];
 
 export default function CourseStepper() {
-  const [activeStep, setActiveStep] = React.useState(0);
-  const [skipped, setSkipped] = React.useState(new Set());
-  const [courseData, setCourseData] = React.useState({
+  const [activeStep, setActiveStep] = useState(0);
+  const [skipped, setSkipped] = useState(new Set());
+  const [courseData, setCourseData] = useState({
     title: "",
     coordinacion: "",
     disertantes: [""],
@@ -30,19 +33,57 @@ export default function CourseStepper() {
     description: "",
     place: "",
     objetivos: [""],
+    imageUrl: "", // Nueva propiedad para la URL de la imagen
   });
+  const [imageFile, setImageFile] = useState(null);
+  const [imagePreviewUrl, setImagePreviewUrl] = useState(""); // Estado para la vista previa de la imagen
+  const [isSubmitting, setIsSubmitting] = useState(false); // Estado para controlar la subida del formulario
 
   const isStepOptional = (step) => step === 1;
 
   const isStepSkipped = (step) => skipped.has(step);
 
-  const handleNext = () => {
+  const handleNext = async () => {
     let newSkipped = skipped;
     if (isStepSkipped(activeStep)) {
       newSkipped = new Set(newSkipped.values());
       newSkipped.delete(activeStep);
     }
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+
+    if (activeStep === steps.length - 1) {
+      setIsSubmitting(true);
+      try {
+        let imageUrl = "";
+        if (imageFile) {
+          imageUrl = await uploadFiles(imageFile);
+        }
+        const finalCourseData = { ...courseData, imageUrl: imageUrl };
+        const cursoID = await agregarDoc(finalCourseData, "cursos"); // Cambia 'cursos' por el nombre de tu colección
+        console.log("Curso guardado con ID:", cursoID);
+
+        // Reiniciar el estado después de guardar el curso
+        setActiveStep(0);
+        setCourseData({
+          title: "",
+          coordinacion: "",
+          disertantes: [""],
+          start: "",
+          duration: "",
+          description: "",
+          place: "",
+          objetivos: [""],
+          imageUrl: "",
+        });
+        setImageFile(null);
+        setImagePreviewUrl("");
+      } catch (error) {
+        console.error("Error al guardar el curso:", error);
+      } finally {
+        setIsSubmitting(false);
+      }
+    } else {
+      setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    }
     setSkipped(newSkipped);
   };
 
@@ -62,23 +103,11 @@ export default function CourseStepper() {
     });
   };
 
-  const handleReset = () => {
-    setActiveStep(0);
-    setCourseData({
-      title: "",
-      coordinacion: "",
-      disertantes: [""],
-      start: "",
-      duration: "",
-      description: "",
-      place: "",
-      objetivos: [""],
-    });
-  };
-
   const handleChange = (event, index, field) => {
     const { value } = event.target;
-    const newData = [...courseData[field]];
+    const newData = Array.isArray(courseData[field])
+      ? [...courseData[field]]
+      : [courseData[field]];
     newData[index] = value;
     setCourseData({ ...courseData, [field]: newData });
   };
@@ -90,6 +119,20 @@ export default function CourseStepper() {
   const handleRemoveField = (index, field) => {
     const newData = courseData[field].filter((_, i) => i !== index);
     setCourseData({ ...courseData, [field]: newData });
+  };
+
+  const handleImageChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      setImageFile(file);
+
+      // Mostrar vista previa de la imagen seleccionada
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImagePreviewUrl(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
   };
 
   return (
@@ -115,26 +158,33 @@ export default function CourseStepper() {
       </Stepper>
       {activeStep === steps.length ? (
         <React.Fragment>
+          {/* Contenido después de completar todos los pasos */}
           <Typography sx={{ mt: 2, mb: 1 }}>
             Todos los pasos completados - has terminado
           </Typography>
           <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
             <Box sx={{ flex: "1 1 auto" }} />
-            <Button onClick={handleReset}>Resetear</Button>
+            {/* Botón de reinicio */}
+            <Button onClick={handleNext}>Finalizar</Button>
           </Box>
-          <pre>{JSON.stringify(courseData, null, 2)}</pre>
         </React.Fragment>
       ) : (
         <React.Fragment>
+          {/* Contenido del paso actual */}
           <Typography sx={{ mt: 2, mb: 1 }}>Paso {activeStep + 1}</Typography>
           <Box sx={{ display: "flex", flexDirection: "column", pt: 2 }}>
+            {/* Contenido dinámico según el paso */}
             {getStepContent(
               activeStep,
               courseData,
               handleChange,
               handleAddField,
-              handleRemoveField
+              handleRemoveField,
+              handleImageChange,
+              imageFile,
+              imagePreviewUrl // Pasar imagePreviewUrl a getStepContent
             )}
+            {/* Botones de navegación y acciones */}
             <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
               <Button
                 color="inherit"
@@ -150,7 +200,7 @@ export default function CourseStepper() {
                   Saltar
                 </Button>
               )}
-              <Button onClick={handleNext}>
+              <Button onClick={handleNext} disabled={isSubmitting}>
                 {activeStep === steps.length - 1 ? "Finalizar" : "Siguiente"}
               </Button>
             </Box>
@@ -166,7 +216,10 @@ function getStepContent(
   courseData,
   handleChange,
   handleAddField,
-  handleRemoveField
+  handleRemoveField,
+  handleImageChange,
+  imageFile,
+  imagePreviewUrl // Asegúrate de recibir imagePreviewUrl como argumento
 ) {
   switch (step) {
     case 0:
@@ -219,7 +272,7 @@ function getStepContent(
             onClick={() => handleAddField("disertantes")}
             startIcon={<AddIcon />}
           >
-            Añadir Disertante
+            Añadir Añadir Disertante
           </Button>
         </Box>
       );
@@ -298,6 +351,38 @@ function getStepContent(
           </Button>
         </Box>
       );
+    case 5:
+      return (
+        <Box>
+          <input
+            accept="image/*"
+            style={{ display: "none" }}
+            id="raised-button-file"
+            type="file"
+            onChange={handleImageChange}
+          />
+          <label htmlFor="raised-button-file">
+            <Button variant="contained" component="span">
+              Subir Imagen
+            </Button>
+          </label>
+          {imageFile && (
+            <Typography variant="body2" sx={{ mt: 2 }}>
+              Nombre del archivo: {imageFile.name}
+            </Typography>
+          )}
+          {imagePreviewUrl && (
+            <Box sx={{ mt: 2 }}>
+              <img
+                src={imagePreviewUrl}
+                alt="Preview"
+                style={{ maxWidth: "100%", maxHeight: 400 }}
+              />
+            </Box>
+          )}
+        </Box>
+      );
+
     default:
       return "Paso desconocido";
   }

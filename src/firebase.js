@@ -16,13 +16,7 @@ import {
     limit,
 } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
 
-import {
-    getStorage,
-    uploadBytes,
-    ref,
-    getDownloadURL,
-    deleteObject,
-} from "https://www.gstatic.com/firebasejs/9.15.0/firebase-storage.js";
+import { getStorage, uploadBytes, ref, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-storage.js";
 
 import { getAuth } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js";
 
@@ -197,20 +191,7 @@ const itemsToBeAdded = [
 // const path = "cursos/6ThlcAF2z98yAXyJ4xT1/Modulos/yI2XjQ4swxT5NxTcDc3B/items";
 // agregarItemsModulo(path, itemsToBeAdded);
 
-export {
-    CursosInscriptos,
-    collection,
-    db,
-    getDoc,
-    doc,
-    addDoc,
-    setDoc,
-    updateDoc,
-    getDocs,
-    query,
-    where,
-    ContenidoXCurso,
-};
+export { CursosInscriptos, collection, db, getDoc, doc, addDoc, setDoc, updateDoc, getDocs, query, where, ContenidoXCurso };
 
 const ContenidoXCurso = async (cursoid) => {
     const contenidoRef = collection(db, "contenido");
