@@ -2,39 +2,81 @@ import * as React from "react";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-import { agregarDoc } from "../firebase"; // Ajusta la importación según tu configuración
-import { uploadFiles } from "../firebase"; // Ajusta la importación según tu configuración
+import {
+  agregarDocSub,
+  agregarSubcoleccionDoc,
+  uploadFilesConte,
+} from "../firebase";
 
 export default function AltaModulos({ cursoId }) {
   const [titulo, setTitulo] = React.useState("");
   const [items, setItems] = React.useState([]);
+  const [errors, setErrors] = React.useState({ titulo: false, items: [] });
+
+  const validateForm = () => {
+    let isValid = true;
+    const newErrors = { titulo: false, items: [] };
+
+    if (!titulo.trim()) {
+      newErrors.titulo = true;
+      isValid = false;
+    }
+
+    items.forEach((item, index) => {
+      const itemErrors = { titulo: false, tipo: false, file: false };
+      if (!item.titulo.trim()) {
+        itemErrors.titulo = true;
+        isValid = false;
+      }
+      if (!item.tipo.trim()) {
+        itemErrors.tipo = true;
+        isValid = false;
+      }
+      if (!item.url && !item.file) {
+        itemErrors.file = true;
+        isValid = false;
+      }
+      newErrors.items[index] = itemErrors;
+    });
+
+    setErrors(newErrors);
+    return isValid;
+  };
 
   const handleAgregarModulo = async () => {
+    if (!validateForm()) {
+      alert("Por favor completa todos los campos requeridos.");
+      return;
+    }
+
     try {
-      // Subir archivos antes de agregar el módulo
-      const itemsWithUrls = await Promise.all(
-        items.map(async (item) => {
-          if (item.file) {
-            const url = await uploadFiles(item.file);
-            return { ...item, url };
-          }
-          return item;
-        })
+      const moduloData = { titulo: titulo };
+      const moduloRef = await agregarDocSub(
+        moduloData,
+        `cursos/${cursoId}/Modulos`
       );
 
-      const moduloData = {
-        titulo: titulo,
-        items: itemsWithUrls.map((item) => ({
+      for (const item of items) {
+        let url = item.url;
+        if (item.file) {
+          url = await uploadFilesConte(item.file);
+        }
+
+        const itemData = {
           titulo: item.titulo,
           tipo: item.tipo || "pdf",
-          url: item.url,
-        })),
-      };
+          url: url,
+        };
 
-      await agregarDoc(moduloData, `cursos/${cursoId}/Modulos`);
+        await agregarSubcoleccionDoc(
+          itemData,
+          `cursos/${cursoId}/Modulos/${moduloRef.id}/items`
+        );
+      }
 
       setTitulo("");
       setItems([]);
+      setErrors({ titulo: false, items: [] });
       alert("Módulo agregado exitosamente!");
     } catch (error) {
       console.error("Error al agregar el módulo:", error);
@@ -46,12 +88,20 @@ export default function AltaModulos({ cursoId }) {
 
   const handleAgregarItem = () => {
     setItems([...items, { titulo: "", tipo: "", url: "", file: null }]);
+    setErrors({
+      ...errors,
+      items: [...errors.items, { titulo: false, tipo: false, file: false }],
+    });
   };
 
   const handleEliminarItem = (index) => {
     const newItems = [...items];
     newItems.splice(index, 1);
     setItems(newItems);
+
+    const newErrors = { ...errors };
+    newErrors.items.splice(index, 1);
+    setErrors(newErrors);
   };
 
   const handleChangeItem = (event, index, field) => {
@@ -62,6 +112,14 @@ export default function AltaModulos({ cursoId }) {
       newItems[index][field] = event.target.value;
     }
     setItems(newItems);
+
+    const newErrors = { ...errors };
+    if (field === "file") {
+      newErrors.items[index][field] = !event.target.files[0];
+    } else {
+      newErrors.items[index][field] = !event.target.value.trim();
+    }
+    setErrors(newErrors);
   };
 
   return (
@@ -69,9 +127,14 @@ export default function AltaModulos({ cursoId }) {
       <TextField
         label="Título del Módulo"
         value={titulo}
-        onChange={(e) => setTitulo(e.target.value)}
+        onChange={(e) => {
+          setTitulo(e.target.value);
+          setErrors({ ...errors, titulo: !e.target.value.trim() });
+        }}
         fullWidth
         margin="normal"
+        error={errors.titulo}
+        helperText={errors.titulo && "Este campo es obligatorio"}
       />
       {items.map((item, index) => (
         <Box
@@ -89,6 +152,10 @@ export default function AltaModulos({ cursoId }) {
             onChange={(e) => handleChangeItem(e, index, "titulo")}
             fullWidth
             margin="normal"
+            error={errors.items[index]?.titulo}
+            helperText={
+              errors.items[index]?.titulo && "Este campo es obligatorio"
+            }
           />
           <TextField
             label="Tipo"
@@ -96,6 +163,10 @@ export default function AltaModulos({ cursoId }) {
             onChange={(e) => handleChangeItem(e, index, "tipo")}
             fullWidth
             margin="normal"
+            error={errors.items[index]?.tipo}
+            helperText={
+              errors.items[index]?.tipo && "Este campo es obligatorio"
+            }
           />
           <Button
             variant="contained"
@@ -111,6 +182,9 @@ export default function AltaModulos({ cursoId }) {
             />
           </Button>
           {item.file && <p>Archivo seleccionado: {item.file.name}</p>}
+          {errors.items[index]?.file && (
+            <p style={{ color: "red" }}>Este campo es obligatorio</p>
+          )}
           <Button onClick={() => handleEliminarItem(index)}>Eliminar</Button>
         </Box>
       ))}
