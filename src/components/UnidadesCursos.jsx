@@ -11,6 +11,7 @@ import InfoIcon from "@mui/icons-material/Info";
 import { getModulos } from "../controllers/controllerCurso";
 import FolderIcon from "@mui/icons-material/Folder";
 import { Link } from "react-router-dom";
+import { Box, Backdrop, CircularProgress } from "@mui/material";
 
 const iconStyle = {
     width: "1.5rem",
@@ -150,7 +151,7 @@ const InfoCursosAccordion = ({ detalles }) => {
                     <Typography className="fw-bold text-uppercase">Clases</Typography>
                     <Typography className="text-capitalize mb-2">{detalles.classes}</Typography>
 
-                    <Typography className="fw-bold text-uppercase">Link Reunión</Typography>
+                    <Typography className="fw-bold text-uppercase">Link / Lugar de Reunión</Typography>
                     <Typography className="text-capitalize mb-2">{"meet"}</Typography>
 
                     <Typography className="fw-bold text-uppercase">Mail</Typography>
@@ -179,34 +180,43 @@ const InfoCursosAccordion = ({ detalles }) => {
 
 const UnidadesCursos = ({ activeCourse }) => {
     const { cursoid, detalles } = activeCourse || {};
+    const [loading, setLoading] = useState(true); // Estado para controlar la carga inicial
     const [contenido, setContenido] = useState([]);
 
     useEffect(() => {
         const fetchDataFromFirebase = async () => {
+            setLoading(true); // Mover esto aquí para empezar la carga
             try {
                 const contenidoData = await getModulos(cursoid);
                 setContenido(contenidoData);
             } catch (error) {
                 console.error("Error al obtener datos de Firebase:", error);
+            } finally {
+                setLoading(false); // Mover esto aquí para finalizar la carga
             }
         };
-
         if (cursoid) {
             fetchDataFromFirebase();
+        } else {
+            setLoading(false); // Asegurarse de que el loading se detenga si no hay cursoid
         }
     }, [cursoid]);
-
     return (
-        <div className="container d-flex flex-column flex-md-row flex-wrap">
-            <div className="col-12 col-lg-4 p-1 rounded mb-2">
-                <InfoCursosAccordion detalles={detalles} />
+        <>
+            <Backdrop open={loading} style={{ zIndex: 9999 }}>
+                <CircularProgress color="inherit" />
+            </Backdrop>
+            <div className="container d-flex flex-column flex-md-row flex-wrap">
+                <div className="col-12 col-lg-4 p-1 rounded mb-2">
+                    <InfoCursosAccordion detalles={detalles} />
+                </div>
+                <div className="mx-auto col-12 col-lg-7">
+                    {contenido.map((unidad) => (
+                        <UnidadAccordion key={unidad.id} unidad={unidad} />
+                    ))}
+                </div>
             </div>
-            <div className="mx-auto col-12 col-lg-7">
-                {contenido.map((unidad) => (
-                    <UnidadAccordion key={unidad.id} unidad={unidad} />
-                ))}
-            </div>
-        </div>
+        </>
     );
 };
 
