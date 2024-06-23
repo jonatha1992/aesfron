@@ -24,6 +24,7 @@ import BajaAnuncios from "./BajaAnuncios";
 import BajaEventos from "./BajaEventos";
 import ListaEventos from "./ListaEventos";
 import ListaAnuncios from "./ListaAnuncios";
+import ListaCursos from "./ListaCursos";
 
 const AltaCursos = () => {
   return (
@@ -86,6 +87,12 @@ const FeatureGrid = () => {
       icon: <InboxIcon />,
       route: "/alta/eventos",
       content: <AltaEventos />,
+    },
+    {
+      name: "Contenido",
+      icon: <InboxIcon />,
+      route: "/alta/contenido",
+      content: <ListaCursos />,
     },
     {
       name: "Cursos",
