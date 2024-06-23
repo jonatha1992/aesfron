@@ -13,8 +13,8 @@ import FolderIcon from "@mui/icons-material/Folder";
 import { Link } from "react-router-dom";
 
 const iconStyle = {
-    width: "1.5em",
-    height: "1.5em",
+    width: "1.5rem",
+    height: "1.5rem",
     marginRight: "5px",
 };
 
