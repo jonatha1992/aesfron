@@ -8,9 +8,8 @@ import { Link } from "react-router-dom";
 
 const MisCursos = () => {
     const { cursos, activeCourse, setActiveCourse } = useContext(AlumnosContext);
-    console.log("cursos", cursos);
-    const handleCursoClick = (cursoId, cursotitle, mail) => {
-        setActiveCourse({ id: cursoId, title: cursotitle, mail: mail });
+    const handleCursoClick = (curso) => {
+        setActiveCourse(curso);
     };
 
     useEffect(() => {
@@ -41,13 +40,7 @@ const MisCursos = () => {
                         <div className="container d-flex flex-column" style={{ height: "100vh" }}>
                             <div className="container-miscursos" style={{ color: "black", paddingTop: "" }}>
                                 {cursos.map((curso, index) => (
-                                    <div
-                                        key={index}
-                                        className="miscursos-item"
-                                        onClick={() =>
-                                            handleCursoClick(curso.cursoid, curso.detalles.title, curso.detalles.mail)
-                                        }
-                                    >
+                                    <div key={index} className="miscursos-item" onClick={() => handleCursoClick(curso)}>
                                         <div
                                             className="blur-background"
                                             style={{

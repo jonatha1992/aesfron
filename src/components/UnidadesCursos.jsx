@@ -9,6 +9,8 @@ import LinkIcon from "@mui/icons-material/Link";
 import DownloadForOfflineIcon from "@mui/icons-material/DownloadForOffline";
 import InfoIcon from "@mui/icons-material/Info";
 import { getModulos } from "../controllers/controllerCurso";
+import FolderIcon from "@mui/icons-material/Folder";
+import { Link } from "react-router-dom";
 
 const iconStyle = {
     width: "1.5em",
@@ -16,30 +18,54 @@ const iconStyle = {
     marginRight: "5px",
 };
 
-const containerStyle = {
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "flex-start",
-};
-
 const headerStyle = {
     color: "#606468",
 };
 
-const accordionSummaryStyle = {
-    background: "var(--color6)",
+const accordionTitleStyle = {
+    backgroundColor: "rgb(225 239 239)",
+};
+
+const accordionItemSummaryStyle = {
+    background: "var(--color6)", // Gradiente de azul oscuro a azul claro
     color: "white",
-    fontSize: "1.5rem",
-    marginBottom: "5px",
+    textTransform: "uppercase",
+    fontSize: "1.2rem",
+    marginBottom: "2px",
     borderRadius: "5px",
-    padding: "5px",
+    padding: "0.2rem 0.5rem",
     cursor: "pointer",
 };
 
 const accordionDetailsStyle = {
-    backgroundColor: "rgb(182 199 213)",
-    paddingBottom: "0.5rem",
+    backgroundColor: "#f4f4f4", // Gris claro
+    paddingBottom: "0.2rem",
     borderRadius: "5px",
+};
+
+const itemStyle = {
+    border: "2px solid rgb(255, 255, 255)",
+    padding: "0.5rem",
+    display: "flex",
+    fontSize: "1rem",
+    justifyContent: "space-between",
+    background: "#deefef",
+    transition: "background-color 0.3s",
+};
+
+const itemHoverStyle = {
+    backgroundColor: "#cececf", // Gris un poco más oscuro al pasar el ratón
+};
+
+const textStyle = {
+    textAlign: "start",
+    overflow: "hidden",
+    textOverflow: "ellipsis",
+    display: "-webkit-box",
+    WebkitLineClamp: 2,
+    WebkitBoxOrient: "vertical",
+    color: "#606468",
+    fontSize: "1rem",
 };
 
 const getIcon = (tipo) => {
@@ -55,71 +81,130 @@ const getIcon = (tipo) => {
     }
 };
 
-const MaterialItem = ({ item, onClick }) => (
-    <div className="titulo-contenido" onClick={() => onClick(item.url)} style={{ cursor: "pointer" }}>
-        <div className="d-flex flex-row align-items-center" style={{ width: "100%" }}>
-            {getIcon(item.tipo)}
-            <Typography>{item.titulo}</Typography>
-            {item.tipo !== "link" && item.tipo !== "Info" && <DownloadForOfflineIcon style={{ marginLeft: "auto" }} />}
-        </div>
-    </div>
-);
+const MaterialItem = ({ item }) => {
+    const isClickable = item.tipo !== "Info";
 
-const UnidadAccordion = ({ unidad, handleMaterialClick }) => (
+    const handleClick = (e, url) => {
+        if (item.tipo === "link") {
+            window.open(item.url, "_blank");
+        }
+    };
+    const handleDownloadClick = (e, url) => {
+        const fileUrl = url; // Cambia esto por la URL de tu archivo
+        const link = document.createElement("a");
+        link.target = "_blank";
+        link.href = fileUrl;
+        link.download = "file.pdf";
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    };
+
+    return (
+        <div
+            className={` ${isClickable ? "" : "non-clickable"}`}
+            onClick={isClickable ? handleClick : null}
+            style={itemStyle}
+            onMouseEnter={isClickable ? (e) => (e.currentTarget.style.backgroundColor = itemHoverStyle.backgroundColor) : null}
+            onMouseLeave={isClickable ? (e) => (e.currentTarget.style.backgroundColor = itemStyle.background) : null}
+        >
+            <div className="d-flex flex-row align-items-center w-100">
+                {getIcon(item.tipo)}
+                <Typography style={textStyle}>{item.titulo}</Typography>
+                {item.tipo !== "link" && item.tipo !== "Info" && (
+                    <DownloadForOfflineIcon
+                        style={{ marginLeft: "auto", cursor: "pointer" }}
+                        onClick={(e) => handleDownloadClick(e, item.url)}
+                    />
+                )}
+            </div>
+        </div>
+    );
+};
+
+const UnidadAccordion = ({ unidad }) => (
     <Accordion key={unidad.id} defaultExpanded>
-        <AccordionSummary expandIcon={<ExpandMoreIcon />} style={accordionSummaryStyle}>
-            {unidad.titulo}
+        <AccordionSummary expandIcon={<ExpandMoreIcon />} style={accordionItemSummaryStyle}>
+            <FolderIcon style={{ width: "1.5rem", height: "1.5rem", marginRight: "5px" }} /> {unidad.titulo}
         </AccordionSummary>
         <AccordionDetails style={accordionDetailsStyle}>
             {unidad.items.map((item) => (
-                <MaterialItem key={item.id} item={item} onClick={handleMaterialClick} />
+                <MaterialItem key={item.id} item={item} />
             ))}
         </AccordionDetails>
     </Accordion>
 );
 
+const InfoCursosAccordion = ({ detalles }) => {
+    return (
+        <>
+            <Accordion className="mb-3" defaultExpanded style={headerStyle}>
+                <AccordionSummary className=" border-bottom border-2 " style={accordionTitleStyle} expandIcon={<ExpandMoreIcon />}>
+                    <InfoIcon style={iconStyle} />
+                    <label className="text-capitalize fw-bold fs-5 w-100 text-start mb-0   ">Información</label>
+                </AccordionSummary>
+                <AccordionDetails className="text-start mb-1">
+                    <Typography className="fw-bold text-uppercase">Curso</Typography>
+                    <Typography className="text-capitalize mb-2">{detalles.title}</Typography>
+
+                    <Typography className="fw-bold text-uppercase">Clases</Typography>
+                    <Typography className="text-capitalize mb-2">{detalles.classes}</Typography>
+
+                    <Typography className="fw-bold text-uppercase">Link Reunión</Typography>
+                    <Typography className="text-capitalize mb-2">{"meet"}</Typography>
+
+                    <Typography className="fw-bold text-uppercase">Mail</Typography>
+                    <Typography className="text-lowercase">{detalles.mail}</Typography>
+                </AccordionDetails>
+            </Accordion>
+            <Accordion defaultExpanded style={headerStyle}>
+                <AccordionSummary className=" border-bottom border-2 " style={accordionTitleStyle} expandIcon={<ExpandMoreIcon />}>
+                    <InfoIcon style={iconStyle} />
+                    <label className="text-capitalize fw-bold fs-5 w-100 text-start mb-0  ">Profesores</label>
+                </AccordionSummary>
+                <AccordionDetails className="text-start mb-1 ">
+                    <Typography className="fw-bold text-uppercase">Coordinación</Typography>
+                    <Typography className="text-capitalize mb-2">{detalles.coordinacion}</Typography>
+                    <Typography className="fw-bold text-uppercase">Docentes</Typography>
+                    {detalles.disertantes.map((disertante, index) => (
+                        <Typography key={index} className="text-capitalize mb-2">
+                            <li>{disertante}</li>
+                        </Typography>
+                    ))}
+                </AccordionDetails>
+            </Accordion>
+        </>
+    );
+};
+
 const UnidadesCursos = ({ activeCourse }) => {
-    const { id, title, mail } = activeCourse || {};
+    const { cursoid, detalles } = activeCourse || {};
     const [contenido, setContenido] = useState([]);
 
     useEffect(() => {
         const fetchDataFromFirebase = async () => {
             try {
-                const contenidoData = await getModulos(id);
+                const contenidoData = await getModulos(cursoid);
                 setContenido(contenidoData);
             } catch (error) {
                 console.error("Error al obtener datos de Firebase:", error);
-                // Aquí podrías agregar lógica para mostrar un mensaje de error al usuario
             }
         };
 
-        if (id) {
+        if (cursoid) {
             fetchDataFromFirebase();
         }
-    }, [id]);
-
-    const handleMaterialClick = (datourl) => {
-        window.open(datourl, "_blank");
-    };
+    }, [cursoid]);
 
     return (
-        <div className="container flex-wrap">
-            <div style={containerStyle}>
-                <div className="col-5">
-                    <label className="text-capitalize fw-bold text-uppercase fs-5">Profesores</label>
-                    <Typography variant="h6" className="text-capitalize p-1  mb-1 rounded   " style={headerStyle}>
-                        <span className="fw-bold text-uppercase">Curso: </span> {title}
-                    </Typography>
-                    <Typography variant="h6" className="text-lowercase p-1 mb-2 rounded  " style={headerStyle}>
-                        <span className="fw-bold text-uppercase">Mail: </span> {mail}
-                    </Typography>
-                </div>
-
-                <div className="col-6 " style={{ color: "black", background: "#5d809d" }}>
-                    {contenido.map((unidad) => (
-                        <UnidadAccordion key={unidad.id} unidad={unidad} handleMaterialClick={handleMaterialClick} />
-                    ))}
-                </div>
+        <div className="container d-flex flex-column flex-md-row flex-wrap">
+            <div className="col-12 col-lg-4 p-1 rounded mb-2">
+                <InfoCursosAccordion detalles={detalles} />
+            </div>
+            <div className="mx-auto col-12 col-lg-7">
+                {contenido.map((unidad) => (
+                    <UnidadAccordion key={unidad.id} unidad={unidad} />
+                ))}
             </div>
         </div>
     );

@@ -6,7 +6,7 @@
     grid-template-columns: repeat(4, 1fr);
     gap: 20px;
     justify-content: center;
-    margin-top: 4rem
+    margin-top: 4rem;
 }
 
 .container-miscursos {
@@ -50,24 +50,23 @@
     /* Agrega sombra al pasar el mouse */
 }
 
-.encabezado-tipo{
+.encabezado-tipo {
     font-size: 1.5rem;
-        padding: 1rem;
-        text-align: start;
-        text-transform: uppercase;
-        font-weight: bold;
-        /* padding-bottom:0; */
+    padding: 1rem;
+    text-align: start;
+    text-transform: uppercase;
+    font-weight: bold;
+    /* padding-bottom:0; */
 }
 
-.titulo-contenido{
-    border: 1px solid #5d809d;
-        padding: 0.5rem;
-        display: flex;
-        text-transform: capitalize;
-        font-size: 1.5rem;
-        justify-content: space-between;
-        background: #c9cacc;
-
+.titulo-contenido {
+    border: 2px solid rgb(255, 255, 255);
+    padding: 0.5rem;
+    display: flex;
+    text-transform: capitalize;
+    font-size: 1.5rem;
+    justify-content: space-between;
+    background: #3f4043;
 }
 
 .titulo-contenido p {
@@ -80,12 +79,12 @@
     -webkit-box-orient: vertical;
 }
 
-.breadC{
+.breadC {
     width: 100%;
-    text-Transform: capitalize;
-    font-Size: 2rem !important;
-    padding-Bottom: 2rem;
-    padding-Top: 2rem;
+    text-transform: capitalize;
+    font-size: 2rem !important;
+    padding-bottom: 2rem;
+    padding-top: 2rem;
 }
 
 .tituloPath {
@@ -100,25 +99,24 @@
         grid-template-columns: repeat(1, 1fr);
     }
 
-    .contenido-container{
+    .contenido-container {
         margin-top: 10rem;
     }
 
-    .breadC{
+    .breadC {
         font-size: 1.5rem !important;
     }
-    .tituloPath{
-        font-size: 1.5rem !important; 
+    .tituloPath {
+        font-size: 1.5rem !important;
     }
 }
-
 
 .miscursos-item {
     text-align: center;
     min-height: 100px;
 }
 
-.feature-item{
+.feature-item {
     display: flex;
 }
 
@@ -131,17 +129,17 @@
     color: #606468;
 }
 
-.feature-item{
+.feature-item {
     display: flex;
-        min-height: 8rem;
-        text-transform: capitalize;
-        color: #606468;
-        align-items: center;
-        flex-direction: column;
-        justify-content: center;
+    min-height: 8rem;
+    text-transform: capitalize;
+    color: #606468;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
 }
 
-.feature-item svg{
+.feature-item svg {
     height: 2em;
     width: 2em;
 }
