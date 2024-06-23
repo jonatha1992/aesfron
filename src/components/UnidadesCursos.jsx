@@ -10,8 +10,7 @@ import DownloadForOfflineIcon from "@mui/icons-material/DownloadForOffline";
 import InfoIcon from "@mui/icons-material/Info";
 import { getModulos } from "../controllers/controllerCurso";
 import FolderIcon from "@mui/icons-material/Folder";
-import { Link } from "react-router-dom";
-import { Box, Backdrop, CircularProgress } from "@mui/material";
+import { Backdrop, CircularProgress } from "@mui/material";
 
 const iconStyle = {
     width: "1.5rem",

@@ -44,7 +44,7 @@
     justify-content: space-between;
     align-items: center;
     z-index: 500;
-    padding: 1.5rem;
+    padding: 1rem;
 }
 
 .acordeon-mui {
@@ -61,7 +61,7 @@
     border-radius: 2rem;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     filter: drop-shadow(0 0 0.75rem #444141);
-    height: 180px;
+    height: 150px;
     width: auto;
 }
 

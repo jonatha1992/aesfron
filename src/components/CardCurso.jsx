@@ -13,9 +13,8 @@ function CardCurso({ item }) {
                     <img className="curso-card-img row  " src={item.imageUrl} alt={item.title} />
                 </div>
                 <div className="curso-card-body">
-                    {/* <h4 className="curso-card-price">{Curso.price}</h4> */}
-                    <p className="curso-card-author">
-                        <strong>Modalidad:</strong> {item.modalidad}
+                    <p className="curso-card-start">
+                        <strong>Carga horaria:</strong> {item.workload}hs
                     </p>
                     <p className="curso-card-duration">
                         <strong>Duración:</strong> {item.duration}
@@ -24,10 +23,10 @@ function CardCurso({ item }) {
                         <strong>Inicio:</strong> {item.start}
                     </p>
                     <p className="curso-card-start">
-                        <strong>Carga horaria:</strong> {item.workload}
-                    </p>
-                    <p className="curso-card-start">
                         <strong>Clases:</strong> {item.classes}
+                    </p>
+                    <p className="curso-card-author">
+                        <strong>Modalidad:</strong> {item.modalidad}
                     </p>
                     <Link to={`/inscripcion/${item.id}`} className="curso-btn">
                         VER MÁS
