@@ -25,6 +25,7 @@
     /* Texto blanco para la parte inferior */
 }
 .curso-card-img {
+    margin-top: 1rem;
     margin-right: 1rem;
     width: 35%;
     /* height: 150px; */

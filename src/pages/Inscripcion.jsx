@@ -113,19 +113,21 @@ export default function Inscripcion() {
             <div className="header-inscripcion">
                 <div className="d-flex flex-column">
                     <div className="info-inscripcion" style={{}}>
-                        <h2 className="fs-2 fw-bold">{curso.title}</h2>
-                        {/* <h3>${curso.price.toLocaleString("es-AR")} ARS</h3> */}
+                        <h2 className=" fw-bold">{curso.title}</h2>
+                        <div>
+                            <Button
+                                className="d-inline-block align-baseline   fw-bold  hover-primary mt-2 bg-gradient "
+                                type="submit"
+                                variant="contained"
+                                disabled={loading}
+                                /* onClick={handleBuy} */
+                                style={{ width: "50%" }}
+                            >
+                                <h3>${curso.price.toLocaleString("es-AR")} ARS</h3>
+                                PROXIMAMENTE🔽
+                            </Button>
+                        </div>
                     </div>
-                    <Button
-                        className="d-inline-block align-baseline  fs-4 fw-bold  hover-primary mt-4 bg-gradient "
-                        type="submit"
-                        variant="contained"
-                        fullWidth
-                        disabled={loading}
-                        /* onClick={handleBuy} */
-                    >
-                        PROXIMAMENTE.🔽
-                    </Button>
                 </div>
                 <div className="contenedor-imagen-curso" style={{ padding: "1rem" }}>
                     <img src={curso.imageUrl} alt="" />
@@ -210,11 +212,11 @@ export default function Inscripcion() {
 
             <div className="body-inscripcion d-flex  flex-wrap  justify-content-between ">
                 <div className=" col-12">
-                    <h2 className="fs-3">Objetivo General</h2>
+                    <h2>Misión</h2>
                     <p className="fs-6 ">{curso.description}</p>
                 </div>
                 <div className=" col-12  ">
-                    <h2 className="fs-3">Objetivos Particulares</h2>
+                    <h2>Objetivos</h2>
 
                     <ul className=" fs-6">
                         {curso.objetivos.map((objetivo, index) => (
@@ -223,40 +225,20 @@ export default function Inscripcion() {
                     </ul>
                 </div>
                 <div className=" col-12 col-md-6">
-                    <h2 className="fs-3">Contenido</h2>
+                    <h2>Contenido</h2>
                     <AcordeonUnidades cursoid={cursoid} />
                 </div>
                 <div className="col-12 col-md-5  ">
-                    <h2 className="fs-3">Detalles</h2>
+                    <h2>Detalles</h2>
                     <div className="row">
-                        <div className="col-6">
-                            <h3>
-                                Coordinación<p> {curso.coordinacion}</p>
-                            </h3>
-                        </div>
                         <div className="col-6 ">
                             <h3>
-                                Disertantes
-                                <ul className=" fs-6">
-                                    {curso.disertantes.map((disertante, index) => (
-                                        <li key={index}> {disertante}</li>
-                                    ))}
-                                </ul>
-                            </h3>
-                        </div>
-                        <div className="col-6">
-                            <h3>
-                                Carga Horaria<p>{curso.workload + " Horas"}</p>
+                                Clases<p>{curso.classes}</p>
                             </h3>
                         </div>
                         <div className="col-6">
                             <h3>
                                 Duración<p>{curso.duration}</p>
-                            </h3>
-                        </div>
-                        <div className="col-6 ">
-                            <h3>
-                                Clases<p>{curso.classes} hs</p>
                             </h3>
                         </div>
                         <div className="col-6">
@@ -266,7 +248,28 @@ export default function Inscripcion() {
                         </div>
                         <div className="col-6">
                             <h3>
-                                Modalidad<p>{curso.modalidad}</p>
+                                Carga Horaria<p>{curso.workload + " Horas"}</p>
+                            </h3>
+                        </div>
+
+                        <div className="col-6">
+                            <h3>
+                                Autor<p>{curso.author}</p>
+                            </h3>
+                        </div>
+                        <div className="col-6">
+                            <h3>
+                                Coordinación<p> {curso.coordinacion}</p>
+                            </h3>
+                        </div>
+                        <div className="col-12 ">
+                            <h3>
+                                Disertantes
+                                <ul className=" fs-6">
+                                    {curso.disertantes.map((disertante, index) => (
+                                        <li key={index}> {disertante}</li>
+                                    ))}
+                                </ul>
                             </h3>
                         </div>
                     </div>
