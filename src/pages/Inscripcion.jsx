@@ -118,19 +118,21 @@ export default function Inscripcion() {
       <div className="header-inscripcion">
         <div className="d-flex flex-column">
           <div className="info-inscripcion" style={{}}>
-            <h2 className="fs-1 fw-bold">{curso.title}</h2>
-            <h3>${curso.price.toLocaleString("es-AR")} ARS</h3>
+            <h2 className=" fw-bold">{curso.title}</h2>
+            <div>
+              <Button
+                className="d-inline-block align-baseline   fw-bold  hover-primary mt-2 bg-gradient "
+                type="submit"
+                variant="contained"
+                disabled={loading}
+                /* onClick={handleBuy} */
+                style={{ width: "50%" }}
+              >
+                <h3>${curso.price.toLocaleString("es-AR")} ARS</h3>
+                PROXIMAMENTE🔽
+              </Button>
+            </div>
           </div>
-          <Button
-            className="d-inline-block align-baseline  fs-4 fw-bold  hover-primary mt-4 bg-gradient "
-            type="submit"
-            variant="contained"
-            fullWidth
-            disabled={loading}
-            /* onClick={handleBuy} */
-          >
-            PROXIMAMENTE.🔽
-          </Button>
         </div>
         <div className="contenedor-imagen-curso" style={{ padding: "1rem" }}>
           <img src={curso.imageUrl} alt="" />
@@ -218,11 +220,11 @@ export default function Inscripcion() {
 
       <div className="body-inscripcion d-flex  flex-wrap  justify-content-between ">
         <div className=" col-12">
-          <h2>Misión</h2>
+          <h2 style={{ fontSize: " 18px" }}>Misión</h2>
           <p className="fs-6 ">{curso.description}</p>
         </div>
         <div className=" col-12  ">
-          <h2>Objetivos</h2>
+          <h2 style={{ fontSize: " 18px" }}>Objetivos</h2>
 
           <ul className=" fs-6">
             {curso.objetivos.map((objetivo, index) => (
@@ -231,11 +233,11 @@ export default function Inscripcion() {
           </ul>
         </div>
         <div className=" col-12 col-md-6">
-          <h2>Contenido</h2>
+          <h2 style={{ fontSize: " 18px" }}>Contenido</h2>
           <AcordeonUnidades cursoid={cursoid} />
         </div>
         <div className="col-12 col-md-5  ">
-          <h2>Detalles</h2>
+          <h2 style={{ fontSize: " 18px" }}>Detalles</h2>
           <div className="row">
             <div className="col-6 ">
               <h3>

@@ -257,3 +257,9 @@ export async function uploadFilesConte(file) {
   const url = await getDownloadURL(storageRef);
   return url;
 }
+
+export const getDocumentCount = async (collectionPath) => {
+  const colRef = collection(db, collectionPath);
+  const snapshot = await getDocs(colRef);
+  return snapshot.size;
+};

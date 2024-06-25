@@ -12,13 +12,27 @@ import {
   agregarDocSub,
   agregarSubcoleccionDoc,
   uploadFilesConte,
-} from "../firebase";
+  getDocumentCount,
+} from "../firebase"; // Importa la nueva función
 
 export default function AltaModulos({ cursoId }) {
   const [titulo, setTitulo] = React.useState("");
   const [items, setItems] = React.useState([]);
   const [errors, setErrors] = React.useState({ titulo: false, items: [] });
   const [loading, setLoading] = React.useState(false);
+
+  React.useEffect(() => {
+    if (cursoId) {
+      // Obtener el número de módulos existentes y ajusta el título
+      getDocumentCount(`cursos/${cursoId}/Modulos`)
+        .then((count) => {
+          setTitulo(`${count + 1}`);
+        })
+        .catch((error) => {
+          console.error("Error obteniendo el número de módulos:", error);
+        });
+    }
+  }, [cursoId]);
 
   const validateForm = () => {
     let isValid = true;
@@ -95,6 +109,10 @@ export default function AltaModulos({ cursoId }) {
       setItems([]);
       setErrors({ titulo: false, items: [] });
       alert("Módulo agregado exitosamente!");
+      // Actualizar el título con el siguiente número consecutivo
+      getDocumentCount(`cursos/${cursoId}/Modulos`).then((count) => {
+        setTitulo(`${count + 1}`);
+      });
     } catch (error) {
       console.error("Error al agregar el módulo:", error);
       alert(
@@ -160,6 +178,7 @@ export default function AltaModulos({ cursoId }) {
             margin="normal"
             error={errors.titulo}
             helperText={errors.titulo && "Este campo es obligatorio"}
+            disabled // Deshabilita el campo para que no se pueda editar manualmente
           />
           {items.map((item, index) => (
             <Box
@@ -214,21 +233,23 @@ export default function AltaModulos({ cursoId }) {
                   }
                 />
               ) : (
-                <Button
-                  variant="contained"
-                  component="label"
-                  fullWidth
-                  sx={{ marginTop: 1 }}
-                >
-                  Seleccionar Archivo
-                  <input
-                    type="file"
-                    hidden
-                    onChange={(e) => handleChangeItem(e, index, "file")}
-                  />
-                </Button>
+                <>
+                  <Button
+                    variant="contained"
+                    component="label"
+                    fullWidth
+                    sx={{ marginTop: 1 }}
+                  >
+                    Seleccionar Archivo
+                    <input
+                      type="file"
+                      hidden
+                      onChange={(e) => handleChangeItem(e, index, "file")}
+                    />
+                  </Button>
+                  {item.file && <p>Archivo seleccionado: {item.file.name}</p>}
+                </>
               )}
-              {item.file && <p>Archivo seleccionado: {item.file.name}</p>}
               {errors.items[index]?.file && (
                 <p style={{ color: "red" }}>Este campo es obligatorio</p>
               )}
