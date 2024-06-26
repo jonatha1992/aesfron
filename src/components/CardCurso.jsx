@@ -15,6 +15,9 @@ function CardCurso({ item }) {
                 </div>
                 <div className="curso-card-body">
                     {/* <h4 className="curso-card-price">{Curso.price}</h4> */}
+                    <p className="curso-card-author">
+                        <strong>Modalidad:</strong> {item.modalidad}
+                    </p>
                     <p className="curso-card-start">
                         <strong>Inicio:</strong> {item.start}
                     </p>
