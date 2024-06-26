@@ -141,7 +141,7 @@ const EventosSlider = ({ eventos }) => {
     const defaultImageURL = "https://www.uba.ar/imgs/w-HOSPITALES-1920x980.jpg";
 
     return (
-        <Slider {...settings} className="px-5">
+        <Slider {...settings} className="px-lg-5">
             {eventos.map((evento) => (
                 <Card
                     key={evento.id}
@@ -197,7 +197,7 @@ const AnunciosSlider = ({ anuncios }) => {
     const defaultImageURL = "https://www.uba.ar/imgs/w-HOSPITALES-1920x980.jpg";
 
     return (
-        <Slider {...settings} className="px-5">
+        <Slider {...settings} className="px-lg-5">
             {anuncios.map((anuncio) => (
                 <Card
                     key={anuncio.id}
