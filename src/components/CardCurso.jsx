@@ -14,7 +14,6 @@ function CardCurso({ item }) {
                     <img className="curso-card-img row  " src={item.imageUrl} alt={item.title} />
                 </div>
                 <div className="curso-card-body">
-                    {/* <h4 className="curso-card-price">{Curso.price}</h4> */}
                     <p className="curso-card-author">
                         <strong>Modalidad:</strong> {item.modalidad}
                     </p>
