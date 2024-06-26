@@ -18,19 +18,19 @@ function CardCurso({ item }) {
                     <p className="curso-card-author">
                         <strong>Modalidad:</strong> {item.modalidad}
                     </p>
+                    <p className="curso-card-start">
+                        <strong>Inicio:</strong> {item.start}
+                    </p>
                     <p className="curso-card-duration">
                         <strong>Duración:</strong> {item.duration}
                     </p>
                     <p className="curso-card-start">
-                        <strong>Inicio:</strong> {item.start}
+                        <strong>Carga horaria:</strong> {item.workload} hs.
                     </p>
                     <p className="curso-card-start">
-                        <strong>Carga horaria:</strong> {item.workload}
+                        <strong>Clases:</strong> {item.classes} hs.
                     </p>
-                    <p className="curso-card-start">
-                        <strong>Clases:</strong> {item.classes}
-                    </p>
-                    <Button className="curso-btn">VER MÁS</Button>
+                    <button className="curso-btn">VER MÁS</button>
                 </div>
             </div>
         </Link>

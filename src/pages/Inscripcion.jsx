@@ -231,6 +231,21 @@ export default function Inscripcion() {
                 <div className="col-12 col-md-5  ">
                     <h2>Detalles</h2>
                     <div className="row">
+                        <div className="col-6">
+                            <h3>
+                                Coordinación<p> {curso.coordinacion}</p>
+                            </h3>
+                        </div>
+                        <div className="col-12 ">
+                            <h3>
+                                Disertantes
+                                <ul className=" fs-6">
+                                    {curso.disertantes.map((disertante, index) => (
+                                        <li key={index}> {disertante}</li>
+                                    ))}
+                                </ul>
+                            </h3>
+                        </div>
                         <div className="col-6 ">
                             <h3>
                                 Clases<p>{curso.classes}</p>
@@ -255,21 +270,6 @@ export default function Inscripcion() {
                         <div className="col-6">
                             <h3>
                                 Autor<p>{curso.author}</p>
-                            </h3>
-                        </div>
-                        <div className="col-6">
-                            <h3>
-                                Coordinación<p> {curso.coordinacion}</p>
-                            </h3>
-                        </div>
-                        <div className="col-12 ">
-                            <h3>
-                                Disertantes
-                                <ul className=" fs-6">
-                                    {curso.disertantes.map((disertante, index) => (
-                                        <li key={index}> {disertante}</li>
-                                    ))}
-                                </ul>
                             </h3>
                         </div>
                     </div>

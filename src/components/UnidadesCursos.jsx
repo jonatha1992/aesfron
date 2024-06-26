@@ -123,7 +123,7 @@ const MaterialItem = ({ item }) => {
 };
 
 const UnidadAccordion = ({ unidad }) => (
-    <Accordion key={unidad.id} defaultExpanded>
+    <Accordion key={unidad.id}>
         <AccordionSummary expandIcon={<ExpandMoreIcon />} style={accordionItemSummaryStyle}>
             <FolderIcon style={{ width: "1.5rem", height: "1.5rem", marginRight: "5px" }} /> {unidad.titulo}
         </AccordionSummary>

@@ -61,7 +61,7 @@ const textStyle = {
 };
 
 const UnidadAccordion = ({ unidad }) => (
-    <Accordion key={unidad.id} defaultExpanded>
+    <Accordion key={unidad.id}>
         <AccordionSummary expandIcon={<ExpandMoreIcon />} style={accordionItemSummaryStyle}>
             <FolderIcon style={iconStyle} />
             <Typography>{unidad.titulo}</Typography>
