@@ -22,7 +22,18 @@ export default function Inscripcion() {
     const [cursoRepetido, setCursoRepetido] = useState(false);
     const { cursos } = useContext(AlumnosContext);
     const navigate = useNavigate(); // Cambiado a useNavigate
+    const { User } = useAuth();
+    const { cursoid } = useParams();
+    const [curso, setCurso] = useState(null);
+    const [preferenceId, setPreferenceId] = useState(null);
+    const [loading, setLoading] = useState(false);
+    const [cursoRepetido, setCursoRepetido] = useState(false);
+    const { cursos } = useContext(AlumnosContext);
+    const navigate = useNavigate(); // Cambiado a useNavigate
 
+    initMercadoPago("APP_USR-d1e6b7d2-9956-4c52-ba39-46df48157a58", {
+        locale: "es-AR",
+    });
     initMercadoPago("APP_USR-d1e6b7d2-9956-4c52-ba39-46df48157a58", {
         locale: "es-AR",
     });
@@ -52,10 +63,29 @@ export default function Inscripcion() {
             setLoading(false);
         }
     };
+            const { id } = response.data;
+            return id;
+        } catch (error) {
+            console.log("bandera", error);
+        } finally {
+            setLoading(false);
+        }
+    };
 
     const handleBuy = async () => {
         const existe = cursos.some((item) => item.cursoid === cursoid);
+    const handleBuy = async () => {
+        const existe = cursos.some((item) => item.cursoid === cursoid);
 
+        if (existe) {
+            setCursoRepetido(true);
+        } else {
+            const id = await createPreference();
+            if (id) {
+                setPreferenceId(id);
+            }
+        }
+    };
         if (existe) {
             setCursoRepetido(true);
         } else {
@@ -75,7 +105,17 @@ export default function Inscripcion() {
                 console.error("Error al obtener detalles del curso", error);
             }
         };
+    useEffect(() => {
+        const fetchCurso = async () => {
+            try {
+                const cursoData = await getCurso(cursoid);
+                setCurso(cursoData);
+            } catch (error) {
+                console.error("Error al obtener detalles del curso", error);
+            }
+        };
 
+        /* const checkAndSetEstado = () => {
         /* const checkAndSetEstado = () => {
       const existe = cursos.some((item) => item.cursoid == cursoid);
       setCursoRepetido(existe);
@@ -86,7 +126,15 @@ export default function Inscripcion() {
             /* checkAndSetEstado(); */
         }
     }, [cursoid]);
+        if (cursoid) {
+            fetchCurso();
+            /* checkAndSetEstado(); */
+        }
+    }, [cursoid]);
 
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, [cursoid]);
     useEffect(() => {
         window.scrollTo(0, 0);
     }, [cursoid]);
@@ -100,7 +148,22 @@ export default function Inscripcion() {
             </Box>
         );
     }
+    if (!curso) {
+        return (
+            <Box sx={{ width: 300 }}>
+                <Skeleton />
+                <Skeleton animation="wave" />
+                <Skeleton animation={false} />
+            </Box>
+        );
+    }
 
+    const customization = {
+        visual: {
+            buttonBackground: "black",
+            buttonHeight: "68px",
+        },
+    };
     const customization = {
         visual: {
             buttonBackground: "black",
@@ -146,7 +209,41 @@ export default function Inscripcion() {
             >
                 <CircularProgress color="primary" />
             </Modal>
+            <Modal
+                open={loading}
+                BackdropComponent={Backdrop}
+                onClose={() => setLoading(false)}
+                style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                }}
+            >
+                <CircularProgress color="primary" />
+            </Modal>
 
+            {preferenceId && !cursoRepetido && (
+                <Modal
+                    open={!loading}
+                    onClose={() => setPreferenceId(null)}
+                    style={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                    }}
+                >
+                    <div
+                        style={{
+                            maxWidth: "400px",
+                            padding: "20px",
+                            background: "#fff",
+                            borderRadius: "8px",
+                        }}
+                    >
+                        {/* Resumen de la operación */}
+                        <h3>Confirmacion</h3>
+                        <p>Curso: {curso.title}</p>
+                        <p>Precio: {curso.price}</p>
             {preferenceId && !cursoRepetido && (
                 <Modal
                     open={!loading}
@@ -177,7 +274,45 @@ export default function Inscripcion() {
                     </div>
                 </Modal>
             )}
+                        {/* Componente Wallet */}
+                        <div style={{ marginTop: "20px" }}>
+                            <Wallet initialization={{ preferenceId }} customization={customization} />
+                        </div>
+                    </div>
+                </Modal>
+            )}
 
+            {cursoRepetido && (
+                <Modal
+                    open={!loading}
+                    onClose={() => setCursoRepetido(false)}
+                    style={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                    }}
+                >
+                    <div
+                        style={{
+                            maxWidth: "400px",
+                            padding: "20px",
+                            background: "#fff",
+                            borderRadius: "8px",
+                        }}
+                    >
+                        <h3>¡Ya estás inscrito!</h3>
+                        <p>Ya te encuentras inscrito en este curso.</p>
+                        <button
+                            onClick={() => {
+                                navigate("/alumnos");
+                                setCursoRepetido(false);
+                            }}
+                        >
+                            Ir a Alumnos
+                        </button>
+                    </div>
+                </Modal>
+            )}
             {cursoRepetido && (
                 <Modal
                     open={!loading}
