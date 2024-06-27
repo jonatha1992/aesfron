@@ -14,7 +14,6 @@ function CardCurso({ item }) {
                     <img className="curso-card-img row  " src={item.imageUrl} alt={item.title} />
                 </div>
                 <div className="curso-card-body">
-                    {/* <h4 className="curso-card-price">{Curso.price}</h4> */}
                     <p className="curso-card-author">
                         <strong>Modalidad:</strong> {item.modalidad}
                     </p>
@@ -29,9 +28,6 @@ function CardCurso({ item }) {
                     </p>
                     <p className="curso-card-start">
                         <strong>Clases:</strong> {item.classes} hs
-                    </p>
-                    <p className="curso-card-start">
-                        <strong>Modalidad:</strong> {item.modalidad}
                     </p>
                     <Link to={`/inscripcion/${item.id}`} className="curso-btn">
                         VER MÁS
