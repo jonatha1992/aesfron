@@ -200,11 +200,11 @@ export default function Inscripcion() {
 
             <div className="body-inscripcion d-flex flex-wrap justify-content-between">
                 <div className="col-12">
-                    <h2>Misión</h2>
+                    <h2 className="fs-3">Objetivo General</h2>
                     <p className="fs-6">{curso.description}</p>
                 </div>
-                <div className="col-12">
-                    <h2>Objetivos</h2>
+                <div className="col-12 ">
+                    <h2 className="fs-3">Objetivos Particulares</h2>
 
                     <ul className="fs-6">
                         {curso.objetivos.map((objetivo, index) => (
@@ -213,18 +213,18 @@ export default function Inscripcion() {
                     </ul>
                 </div>
                 <div className="col-12 col-md-6">
-                    <h2>Contenido</h2>
+                    <h2 className="fs-3">Contenido</h2>
                     <AcordeonUnidades cursoid={cursoid} />
                 </div>
                 <div className="col-12 col-md-5">
-                    <h2>Detalles</h2>
+                    <h2 className="fs-3">Detalles</h2>
                     <div className="row">
                         <div className="col-6">
                             <h3>
                                 Coordinación<p>{curso.coordinacion}</p>
                             </h3>
                         </div>
-                        <div className="col-12">
+                        <div className="col-6">
                             <h3>
                                 Disertantes
                                 <ul className="fs-6">
