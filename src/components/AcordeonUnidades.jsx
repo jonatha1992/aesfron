@@ -61,7 +61,7 @@ const textStyle = {
 };
 
 const UnidadAccordion = ({ unidad }) => (
-    <Accordion key={unidad.id}>
+    <Accordion key={unidad.id} className="w-100">
         <AccordionSummary expandIcon={<ExpandMoreIcon />} style={accordionItemSummaryStyle}>
             <FolderIcon style={iconStyle} />
             <Typography>{unidad.titulo}</Typography>
@@ -116,7 +116,7 @@ export default function AcordeonUnidades({ cursoid }) {
     }
 
     return (
-        <div className="container-modulos">
+        <div className="container-modulos  ">
             {unidades.map((unidad) => (
                 <UnidadAccordion key={unidad.id} unidad={unidad} />
             ))}
