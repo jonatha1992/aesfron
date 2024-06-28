@@ -88,4 +88,15 @@
         width: 100%; /* Las tarjetas ocupan todo el ancho en móviles */
         margin: 10px 0px; /* Menos margen en dispositivos móviles */
     }
+    .header-curso{
+        flex-direction: column;
+    }
+
+    .curso-card-img {
+        width: 50%;
+        margin-right: unset;
+    }
+        .curso-card-title {
+            font-size: 1.5rem;
+        }
 }
