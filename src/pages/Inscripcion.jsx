@@ -4,14 +4,10 @@ import { useParams, useNavigate } from "react-router-dom";
 import { getCurso } from "../controllers/controllerCurso";
 import { initMercadoPago, Wallet } from "@mercadopago/sdk-react";
 import axios from "axios";
-import { Modal, Backdrop, CircularProgress } from "@mui/material";
+import { Modal, Backdrop, CircularProgress, Button, Box, Skeleton } from "@mui/material";
 import { useAuth } from "../context/AuthContext";
 import { AlumnosContext } from "../context/AlumnoContext";
 import AcordeonUnidades from "../components/AcordeonUnidades";
-import Box from "@mui/material/Box";
-import Skeleton from "@mui/material/Skeleton";
-import { Button } from "@mui/material";
-import { createTheme } from "@mui/material/styles";
 
 export default function Inscripcion() {
     const { User } = useAuth();
@@ -21,22 +17,9 @@ export default function Inscripcion() {
     const [loading, setLoading] = useState(false);
     const [cursoRepetido, setCursoRepetido] = useState(false);
     const { cursos } = useContext(AlumnosContext);
-    const navigate = useNavigate(); // Cambiado a useNavigate
-    const { User } = useAuth();
-    const { cursoid } = useParams();
-    const [curso, setCurso] = useState(null);
-    const [preferenceId, setPreferenceId] = useState(null);
-    const [loading, setLoading] = useState(false);
-    const [cursoRepetido, setCursoRepetido] = useState(false);
-    const { cursos } = useContext(AlumnosContext);
-    const navigate = useNavigate(); // Cambiado a useNavigate
+    const navigate = useNavigate();
 
-    initMercadoPago("APP_USR-d1e6b7d2-9956-4c52-ba39-46df48157a58", {
-        locale: "es-AR",
-    });
-    initMercadoPago("APP_USR-d1e6b7d2-9956-4c52-ba39-46df48157a58", {
-        locale: "es-AR",
-    });
+    initMercadoPago("APP_USR-d1e6b7d2-9956-4c52-ba39-46df48157a58", { locale: "es-AR" });
 
     const createPreference = async () => {
         try {
@@ -63,29 +46,10 @@ export default function Inscripcion() {
             setLoading(false);
         }
     };
-            const { id } = response.data;
-            return id;
-        } catch (error) {
-            console.log("bandera", error);
-        } finally {
-            setLoading(false);
-        }
-    };
 
     const handleBuy = async () => {
         const existe = cursos.some((item) => item.cursoid === cursoid);
-    const handleBuy = async () => {
-        const existe = cursos.some((item) => item.cursoid === cursoid);
 
-        if (existe) {
-            setCursoRepetido(true);
-        } else {
-            const id = await createPreference();
-            if (id) {
-                setPreferenceId(id);
-            }
-        }
-    };
         if (existe) {
             setCursoRepetido(true);
         } else {
@@ -105,36 +69,12 @@ export default function Inscripcion() {
                 console.error("Error al obtener detalles del curso", error);
             }
         };
-    useEffect(() => {
-        const fetchCurso = async () => {
-            try {
-                const cursoData = await getCurso(cursoid);
-                setCurso(cursoData);
-            } catch (error) {
-                console.error("Error al obtener detalles del curso", error);
-            }
-        };
-
-        /* const checkAndSetEstado = () => {
-        /* const checkAndSetEstado = () => {
-      const existe = cursos.some((item) => item.cursoid == cursoid);
-      setCursoRepetido(existe);
-    }; */
 
         if (cursoid) {
             fetchCurso();
-            /* checkAndSetEstado(); */
-        }
-    }, [cursoid]);
-        if (cursoid) {
-            fetchCurso();
-            /* checkAndSetEstado(); */
         }
     }, [cursoid]);
 
-    useEffect(() => {
-        window.scrollTo(0, 0);
-    }, [cursoid]);
     useEffect(() => {
         window.scrollTo(0, 0);
     }, [cursoid]);
@@ -148,22 +88,7 @@ export default function Inscripcion() {
             </Box>
         );
     }
-    if (!curso) {
-        return (
-            <Box sx={{ width: 300 }}>
-                <Skeleton />
-                <Skeleton animation="wave" />
-                <Skeleton animation={false} />
-            </Box>
-        );
-    }
 
-    const customization = {
-        visual: {
-            buttonBackground: "black",
-            buttonHeight: "68px",
-        },
-    };
     const customization = {
         visual: {
             buttonBackground: "black",
@@ -172,23 +97,25 @@ export default function Inscripcion() {
     };
 
     return (
-        <div className="fondo-panta" style={{}}>
+        <div className="fondo-panta">
             <div className="header-inscripcion">
                 <div className="d-flex flex-column">
-                    <div className="info-inscripcion" style={{}}>
-                        <h2 className="fs-1 fw-bold">{curso.title}</h2>
-                        {/* <h3>${curso.price.toLocaleString("es-AR")} ARS</h3> */}
+                    <div className="info-inscripcion">
+                        <h2 className="fw-bold">{curso.title}</h2>
+                        <div>
+                            <Button
+                                className="d-inline-block align-baseline fw-bold hover-primary mt-2 bg-gradient"
+                                type="submit"
+                                variant="contained"
+                                disabled={loading}
+                                onClick={handleBuy}
+                                style={{ width: "50%" }}
+                            >
+                                <h3>${curso.price.toLocaleString("es-AR")} ARS</h3>
+                                PROXIMAMENTE🔽
+                            </Button>
+                        </div>
                     </div>
-                    <Button
-                        className="d-inline-block align-baseline  fs-4 fw-bold  hover-primary mt-4 bg-gradient "
-                        type="submit"
-                        variant="contained"
-                        fullWidth
-                        disabled={loading}
-                        /* onClick={handleBuy} */
-                    >
-                        PROXIMAMENTE.🔽
-                    </Button>
                 </div>
                 <div className="contenedor-imagen-curso" style={{ padding: "1rem" }}>
                     <img src={curso.imageUrl} alt="" />
@@ -207,18 +134,6 @@ export default function Inscripcion() {
             >
                 <CircularProgress color="primary" />
             </Modal>
-            <Modal
-                open={loading}
-                BackdropComponent={Backdrop}
-                onClose={() => setLoading(false)}
-                style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                }}
-            >
-                <CircularProgress color="primary" />
-            </Modal>
 
             {preferenceId && !cursoRepetido && (
                 <Modal
@@ -242,36 +157,7 @@ export default function Inscripcion() {
                         <h3>Confirmacion</h3>
                         <p>Curso: {curso.title}</p>
                         <p>Precio: {curso.price}</p>
-            {preferenceId && !cursoRepetido && (
-                <Modal
-                    open={!loading}
-                    onClose={() => setPreferenceId(null)}
-                    style={{
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                    }}
-                >
-                    <div
-                        style={{
-                            maxWidth: "400px",
-                            padding: "20px",
-                            background: "#fff",
-                            borderRadius: "8px",
-                        }}
-                    >
-                        {/* Resumen de la operación */}
-                        <h3>Confirmacion</h3>
-                        <p>Curso: {curso.title}</p>
-                        <p>Precio: {curso.price}</p>
 
-                        {/* Componente Wallet */}
-                        <div style={{ marginTop: "20px" }}>
-                            <Wallet initialization={{ preferenceId }} customization={customization} />
-                        </div>
-                    </div>
-                </Modal>
-            )}
                         {/* Componente Wallet */}
                         <div style={{ marginTop: "20px" }}>
                             <Wallet initialization={{ preferenceId }} customization={customization} />
@@ -311,70 +197,39 @@ export default function Inscripcion() {
                     </div>
                 </Modal>
             )}
-            {cursoRepetido && (
-                <Modal
-                    open={!loading}
-                    onClose={() => setCursoRepetido(false)}
-                    style={{
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                    }}
-                >
-                    <div
-                        style={{
-                            maxWidth: "400px",
-                            padding: "20px",
-                            background: "#fff",
-                            borderRadius: "8px",
-                        }}
-                    >
-                        <h3>¡Ya estás inscrito!</h3>
-                        <p>Ya te encuentras inscrito en este curso.</p>
-                        <button
-                            onClick={() => {
-                                navigate("/alumnos");
-                                setCursoRepetido(false);
-                            }}
-                        >
-                            Ir a Alumnos
-                        </button>
-                    </div>
-                </Modal>
-            )}
 
-            <div className="body-inscripcion d-flex  flex-wrap  justify-content-between ">
-                <div className=" col-12">
-                    <h2>Objetivo General</h2>
-                    <p className="fs-6 ">{curso.description}</p>
+            <div className="body-inscripcion d-flex flex-wrap justify-content-between">
+                <div className="col-12">
+                    <h2>Misión</h2>
+                    <p className="fs-6">{curso.description}</p>
                 </div>
-                <div className=" col-12  ">
-                    <h2>Objetivos Particular</h2>
+                <div className="col-12">
+                    <h2>Objetivos</h2>
 
-                    <ul className=" fs-6">
+                    <ul className="fs-6">
                         {curso.objetivos.map((objetivo, index) => (
                             <li key={index}>{objetivo}</li>
                         ))}
                     </ul>
                 </div>
-                <div className=" col-12 col-md-6">
+                <div className="col-12 col-md-6">
                     <h2>Contenido</h2>
                     <AcordeonUnidades cursoid={cursoid} />
                 </div>
-                <div className="col-12 col-md-5  ">
+                <div className="col-12 col-md-5">
                     <h2>Detalles</h2>
                     <div className="row">
                         <div className="col-6">
                             <h3>
-                                Coordinación<p> {curso.coordinacion}</p>
+                                Coordinación<p>{curso.coordinacion}</p>
                             </h3>
                         </div>
-                        <div className="col-6 ">
+                        <div className="col-12">
                             <h3>
-                                Docentes
-                                <ul className=" fs-6">
+                                Disertantes
+                                <ul className="fs-6">
                                     {curso.disertantes.map((disertante, index) => (
-                                        <li key={index}> {disertante}</li>
+                                        <li key={index}>{disertante}</li>
                                     ))}
                                 </ul>
                             </h3>
