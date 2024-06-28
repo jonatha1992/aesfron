@@ -11,12 +11,7 @@ const AltaEventos = () => {
         TITULO: "",
         SUBTITULO: "",
         DESCRIPCION: "",
-    });
-
-    const [errors, setErrors] = useState({
-        TITULO: false,
-        SUBTITULO: false,
-        DESCRIPCION: false,
+        IMAGEN: "",
     });
 
     const handleInputChange = (e) => {
@@ -61,27 +56,11 @@ const AltaEventos = () => {
                     marginTop: "2rem",
                     boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
                 }}
-                className="col-5"
+                className="col-5 justify-content-between"
             >
                 <h2>Alta de Eventos</h2>
-                <TextField
-                    label="Título"
-                    name="TITULO"
-                    value={formValues.TITULO}
-                    onChange={handleInputChange}
-                    required
-                    error={errors.TITULO}
-                    helperText={errors.TITULO ? "El título es requerido" : ""}
-                />
-                <TextField
-                    label="Subtítulo"
-                    name="SUBTITULO"
-                    value={formValues.SUBTITULO}
-                    onChange={handleInputChange}
-                    required
-                    error={errors.SUBTITULO}
-                    helperText={errors.SUBTITULO ? "El subtítulo es requerido" : ""}
-                />
+                <TextField label="Título" name="TITULO" value={formValues.TITULO} onChange={handleInputChange} required />
+                <TextField label="Subtítulo" name="SUBTITULO" value={formValues.SUBTITULO} onChange={handleInputChange} required />
                 <TextField
                     label="Descripción"
                     name="DESCRIPCION"
@@ -90,14 +69,12 @@ const AltaEventos = () => {
                     required
                     multiline
                     rows={4}
-                    error={errors.DESCRIPCION}
-                    helperText={errors.DESCRIPCION ? "La descripción es requerida" : ""}
                 />
                 <Button type="submit" variant="contained" color="primary">
                     Crear Anuncio
                 </Button>
             </Box>
-            <CardEventoVistaPrevia titulo={formValues.TITULO} subtitulo={formValues.SUBTITULO} descripcion={formValues.DESCRIPCION} />
+            <CardEventoVistaPrevia titulo={formValues.TITULO} subTitulo={formValues.SUBTITULO} descripcion={formValues.DESCRIPCION} />
             <ToastContainer />
         </div>
     );
