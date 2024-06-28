@@ -46,7 +46,7 @@ function Home2() {
                 <div className="container-fluid background-1">
                     <div className="container mobile ">
                         <motion.div
-                            className="col-md-5 text-start d-flex flex-column flex-column justify-content-center  align-items-center"
+                            className="col-md-6 text-start d-flex flex-column flex-column justify-content-center  align-items-center pb-lg-5"
                             variants={{
                                 hidden: { opacity: 0, y: 75 },
                                 visible: { opacity: 1, u: 0 },

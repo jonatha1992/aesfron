@@ -20,12 +20,6 @@
 
 */
 
-
-.video-responsive {
-    width: 100%;
-    height: auto;
-}
-
 .video-responsive-home {
     width: 90%;
     height: auto;
@@ -64,27 +58,27 @@
         flex-direction: column;
     } */
 
-    .video-container,
     .form-container {
-        width:100%;
+        width: 100%;
+        width: 100%;
         max-width: none;
     }
 
-        .responsive-container-logo {
-    
-            width: 100%;
-            display: flex;
-            justify-content: center;
-        }
+    .video-container {
+        width: 70%;
+    }
+    .responsive-container-logo {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
 
-                .responsive-container-form-login {
-                    display: flex;
-                    width: 100%;
-                    justify-content: center;
-                }
+    .responsive-container-form-login {
+        display: flex;
+        width: 100%;
+        justify-content: center;
+    }
 }
-
-
 
 .background-login {
     background-image: url("../assets/fondo_panta.jpg");
@@ -93,6 +87,4 @@
     background-position: center;
     align-items: center;
     display: flex;
-
-    
 }
