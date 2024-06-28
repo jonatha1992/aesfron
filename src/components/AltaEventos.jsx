@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { Button, TextField, Box } from "@mui/material";
 import { agregarDoc } from "../firebase";
 import CardEventoVistaPrevia from "./CardEventoVistaPrevia";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import "../css/eventos.css";
 
 const AltaEventos = () => {
@@ -9,6 +11,12 @@ const AltaEventos = () => {
         TITULO: "",
         SUBTITULO: "",
         DESCRIPCION: "",
+    });
+
+    const [errors, setErrors] = useState({
+        TITULO: false,
+        SUBTITULO: false,
+        DESCRIPCION: false,
     });
 
     const handleInputChange = (e) => {
@@ -19,21 +27,21 @@ const AltaEventos = () => {
         });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        agregarDoc(formValues, "eventos")
-            .then((ID) => {
-                console.log("Documento escrito con ID: ", ID);
-            })
-            .catch((error) => {
-                console.error("Error al agregar el documento: ", error);
+        try {
+            const ID = await agregarDoc(formValues, "eventos");
+            toast.success("Evento creado con éxito");
+            console.log("Documento escrito con ID: ", ID);
+            setFormValues({
+                TITULO: "",
+                SUBTITULO: "",
+                DESCRIPCION: "",
             });
-        console.log("Anuncio creado:", formValues);
-        setFormValues({
-            TITULO: "",
-            SUBTITULO: "",
-            DESCRIPCION: "",
-        });
+        } catch (error) {
+            toast.error("Error al agregar el documento");
+            console.error("Error al agregar el documento: ", error);
+        }
     };
 
     return (
@@ -56,8 +64,24 @@ const AltaEventos = () => {
                 className="col-5"
             >
                 <h2>Alta de Eventos</h2>
-                <TextField label="Título" name="TITULO" value={formValues.TITULO} onChange={handleInputChange} required />
-                <TextField label="Subtítulo" name="SUBTITULO" value={formValues.SUBTITULO} onChange={handleInputChange} required />
+                <TextField
+                    label="Título"
+                    name="TITULO"
+                    value={formValues.TITULO}
+                    onChange={handleInputChange}
+                    required
+                    error={errors.TITULO}
+                    helperText={errors.TITULO ? "El título es requerido" : ""}
+                />
+                <TextField
+                    label="Subtítulo"
+                    name="SUBTITULO"
+                    value={formValues.SUBTITULO}
+                    onChange={handleInputChange}
+                    required
+                    error={errors.SUBTITULO}
+                    helperText={errors.SUBTITULO ? "El subtítulo es requerido" : ""}
+                />
                 <TextField
                     label="Descripción"
                     name="DESCRIPCION"
@@ -66,12 +90,15 @@ const AltaEventos = () => {
                     required
                     multiline
                     rows={4}
+                    error={errors.DESCRIPCION}
+                    helperText={errors.DESCRIPCION ? "La descripción es requerida" : ""}
                 />
                 <Button type="submit" variant="contained" color="primary">
                     Crear Anuncio
                 </Button>
             </Box>
-            <CardEventoVistaPrevia titulo={formValues.TITULO} subTitulo={formValues.SUBTITULO} descripcion={formValues.DESCRIPCION} />
+            <CardEventoVistaPrevia titulo={formValues.TITULO} subtitulo={formValues.SUBTITULO} descripcion={formValues.DESCRIPCION} />
+            <ToastContainer />
         </div>
     );
 };
