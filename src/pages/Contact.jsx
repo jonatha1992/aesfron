@@ -40,10 +40,10 @@ const Contact = () => {
                 telefono: phoneNumber,
             });
             console.log(result.text);
-            toast.success("¡El formulario se envió con éxito!");
+            toast.success("¡La consulta se ha enviado con éxito!");
         } catch (error) {
             console.log(error.text);
-            toast.error("¡Hubo un error al enviar el formulario!");
+            toast.error("¡Hubo un error al enviar la consulta!");
         }
 
         setSubmitting(true);
