@@ -36,20 +36,14 @@ const Contact = () => {
         setErrors({});
         const phoneNumber = `${values.country}${values.telefono}`;
         try {
-            let result = await emailjs.sendForm(
-                "service_alv459n",
-                "template_3a2716m",
-                formRef.current,
-                "qHtG6A2I87n7CARUF",
-                {
-                    telefono: phoneNumber,
-                }
-            );
+            let result = await emailjs.sendForm("service_cg53wui", "template_3a2716m", formRef.current, "qHtG6A2I87n7CARUF", {
+                telefono: phoneNumber,
+            });
             console.log(result.text);
-            toast.success("¡El formulario se envió con éxito!");
+            toast.success("¡La consulta se ha enviado con éxito!");
         } catch (error) {
             console.log(error.text);
-            toast.error("¡Hubo un error al enviar el formulario!");
+            toast.error("¡Hubo un error al enviar la consulta!");
         }
 
         setSubmitting(true);
@@ -88,17 +82,9 @@ const Contact = () => {
                                 <Form className=" col-lg-9 col-sm-12  fs-6 " ref={formRef}>
                                     <h1 className="text-center h1 mb-2 text-white ">Contacto</h1>
                                     <div className="form-floating mb-3  ">
-                                        <Field
-                                            type="text"
-                                            className="form-control "
-                                            placeholder="Enter your name"
-                                            name="nombre"
-                                        />
+                                        <Field type="text" className="form-control " placeholder="Enter your name" name="nombre" />
                                         <label>Nombre Completo</label>
-                                        <ErrorMessage
-                                            name="nombre"
-                                            component={(props) => <Error message={props.children} />}
-                                        />
+                                        <ErrorMessage name="nombre" component={(props) => <Error message={props.children} />} />
                                     </div>
                                     <div className="  d-flex justify-content-between mb-3 ">
                                         <div className="form-floating col-4 ">
@@ -112,31 +98,15 @@ const Contact = () => {
                                             <label htmlFor="country">Codigo</label>
                                         </div>
                                         <div className="form-floating col-7">
-                                            <Field
-                                                type="tel"
-                                                className="form-control"
-                                                placeholder="Ingresa tu teléfono"
-                                                name="telefono"
-                                            />
+                                            <Field type="tel" className="form-control" placeholder="Ingresa tu teléfono" name="telefono" />
                                             <label htmlFor="telefono">Número sin prefijo</label>
-                                            <ErrorMessage
-                                                name="telefono"
-                                                component={(props) => <Error message={props.children} />}
-                                            />
+                                            <ErrorMessage name="telefono" component={(props) => <Error message={props.children} />} />
                                         </div>
                                     </div>
                                     <div className="form-floating mb-3">
-                                        <Field
-                                            type="text"
-                                            className="form-control"
-                                            name="email"
-                                            placeholder="Ingrese your email"
-                                        />
+                                        <Field type="text" className="form-control" name="email" placeholder="Ingrese your email" />
                                         <label>Email</label>
-                                        <ErrorMessage
-                                            name="email"
-                                            component={(props) => <Error message={props.children} />}
-                                        />
+                                        <ErrorMessage name="email" component={(props) => <Error message={props.children} />} />
                                     </div>
                                     <div className="form-floating mb-3">
                                         <Field
@@ -148,25 +118,16 @@ const Contact = () => {
                                             placeholder="Ingrese el mensaje"
                                         />
                                         <label>Mensaje</label>
-                                        <ErrorMessage
-                                            name="mensaje"
-                                            component={(props) => <Error message={props.children} />}
-                                        />
+                                        <ErrorMessage name="mensaje" component={(props) => <Error message={props.children} />} />
                                     </div>
 
-                                    <button
-                                        className="btn btn-primary fw-bold text-uppercase btn-block w-100 mb-1"
-                                        type="submit"
-                                    >
+                                    <button className="btn btn-primary fw-bold text-uppercase btn-block w-100 mb-1" type="submit">
                                         Enviar
                                     </button>
                                 </Form>
                             </Formik>
                         </div>
-                        <div
-                            className="col-md-6 d-flex justify-content-center mt-5"
-                            style={{ flexDirection: "column" }}
-                        >
+                        <div className="col-md-6 d-flex justify-content-center mt-5" style={{ flexDirection: "column" }}>
                             <Redes />
                         </div>
                     </div>
