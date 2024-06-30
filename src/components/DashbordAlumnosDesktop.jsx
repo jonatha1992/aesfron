@@ -5,8 +5,6 @@ import { Settings, AutoStories, Inbox as InboxIcon, ExpandLess, ExpandMore, Star
 import MisCursos from "../components/MisCursos";
 import MiPerfil from "./MiPerfil";
 import AltaCurso from "./AltaCursos";
-import AltaAnuncios from "./AltaAnuncios";
-import AltaEventos from "./AltaEventos";
 import ListaCursos from "./ListaCursos";
 import ListaAnuncios from "./ListaAnuncios";
 import ListaEventos from "./ListaEventos";
@@ -18,6 +16,8 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import Collapse from "@mui/material/Collapse";
 import Divider from "@mui/material/Divider";
+import AltaAnunciosEventos from "./AltaAnunciosEventos.jsx";
+import ListaAnunciosEventos from "./ListaAnunciosEventos.jsx";
 
 const AltaCursos = () => (
     <div>
@@ -67,13 +67,13 @@ const FeatureGrid = () => {
             name: "Anuncios",
             icon: <InboxIcon />,
             route: "/alta/anuncios",
-            content: <AltaAnuncios />,
+            content: <AltaAnunciosEventos isEvento={false} />,
         },
         {
             name: "Eventos",
             icon: <InboxIcon />,
             route: "/alta/eventos",
-            content: <AltaEventos />,
+            content: <AltaAnunciosEventos isEvento={true} />,
         },
         {
             name: "Contenido",
@@ -97,13 +97,13 @@ const FeatureGrid = () => {
             name: "Anuncios",
             icon: <InboxIcon />,
             route: "/modificacion/anuncios",
-            content: <ListaAnuncios />,
+            content: <ListaAnunciosEventos isEvento={false} />,
         },
         {
             name: "Eventos",
             icon: <InboxIcon />,
             route: "/modificacion/eventos",
-            content: <ListaEventos />,
+            content: <ListaAnunciosEventos isEvento={true} />,
         },
         {
             name: "Cursos",
@@ -122,6 +122,18 @@ const FeatureGrid = () => {
             icon: <InboxIcon />,
             route: "/baja/eventos",
             content: <ListaEventos />,
+        },
+        {
+            name: "Eventos",
+            icon: <InboxIcon />,
+            route: "/gestion",
+            content: <ListaAnunciosEventos isEvento={false} />,
+        },
+        {
+            name: "Anuncios",
+            icon: <InboxIcon />,
+            route: "/gestion",
+            content: <ListaAnunciosEventos isEvento={true} />,
         },
     ];
 
@@ -200,7 +212,7 @@ const FeatureGrid = () => {
                         {isAdmin && (
                             <>
                                 <Divider />
-                                {["ALTA", "MODIFICACION", "BAJA"].map((section) => (
+                                {["ALTA", "MODIFICACION", "BAJA", "GESTION"].map((section) => (
                                     <div key={section}>
                                         <ListItemButton onClick={() => handleClick(section)}>
                                             <ListItemIcon>
