@@ -34,14 +34,14 @@ const EventosYAnuncios = () => {
     const hayEventos = eventos && eventos.length > 0;
     const hayAnuncios = anuncios && anuncios.length > 0;
 
-    // if (!hayEventos && !hayAnuncios) {
-    //     return (
-    //         <div className="container p-5 text-center">
-    //             {" "}
-    //             <h1 className="titulo-evento-anuncio">No hay eventos ni anuncios disponibles al momento.</h1>
-    //         </div>
-    //     );
-    // }
+    if (!hayEventos && !hayAnuncios) {
+        return (
+            <div className="container p-5 text-center">
+                {" "}
+                <h1 className="titulo-evento-anuncio">No hay eventos ni anuncios disponibles al momento.</h1>
+            </div>
+        );
+    }
 
     const soloUno = (hayEventos && !hayAnuncios) || (!hayEventos && hayAnuncios);
 
