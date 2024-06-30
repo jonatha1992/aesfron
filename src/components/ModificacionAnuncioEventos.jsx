@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { Button, TextField, Box, Input, Backdrop, CircularProgress } from "@mui/material";
+import { Button, TextField, Box, Input, Backdrop, CircularProgress, Card } from "@mui/material";
 import { agregarDoc, actualizarDoc, eliminarDoc, uploadFiles, deleteFile } from "../firebase";
-import CardVistaPrevia from "./CardVistaPrevia";
+import CardEventoVistaPrevia from "./CardEventoVistaPrevia";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -158,7 +158,7 @@ const ModificacionAnuncioEventos = ({ documento = null, onDocumentoActualizado, 
                     )}
                 </Box>
             </Box>
-            <CardVistaPrevia
+            <CardEventoVistaPrevia
                 titulo={formValues.TITULO}
                 subTitulo={formValues.SUBTITULO}
                 imagen={formValues.IMAGEN}
