@@ -127,13 +127,13 @@ const FeatureGrid = () => {
             name: "Eventos",
             icon: <InboxIcon />,
             route: "/gestion",
-            content: <ListaAnunciosEventos isEvento={false} />,
+            content: <ListaAnunciosEventos isEvento={true} />,
         },
         {
             name: "Anuncios",
             icon: <InboxIcon />,
             route: "/gestion",
-            content: <ListaAnunciosEventos isEvento={true} />,
+            content: <ListaAnunciosEventos isEvento={false} />,
         },
     ];
 
