@@ -8,7 +8,7 @@ import { obtenerRecientes } from "../firebase"; // Asegúrate de que esta ruta s
 const EventosYAnuncios = () => {
     const [eventos, setEventos] = useState([]);
     const [anuncios, setAnuncios] = useState([]);
-
+    console.log(eventos);
     const fetchEventos = async () => {
         const eventosObtenidos = await obtenerRecientes(5, "eventos");
         setEventos(eventosObtenidos);
@@ -147,7 +147,7 @@ const EventosSlider = ({ eventos }) => {
                     key={evento.id}
                     titulo={evento.TITULO}
                     fecha={new Date(evento.created.seconds * 1000).toLocaleDateString()}
-                    imagen={evento.imagen || defaultImageURL}
+                    imagen={evento.IMAGEN || defaultImageURL}
                     descripcion={evento.DESCRIPCION}
                     fondoStyle={divStyle}
                 />
@@ -203,7 +203,7 @@ const AnunciosSlider = ({ anuncios }) => {
                     key={anuncio.id}
                     titulo={anuncio.TITULO}
                     fecha={new Date(anuncio.created.seconds * 1000).toLocaleDateString()}
-                    imagen={anuncio.imagen || defaultImageURL}
+                    imagen={anuncio.IMAGEN || defaultImageURL}
                     descripcion={anuncio.DESCRIPCION}
                     fondoStyle={divStyle}
                 />

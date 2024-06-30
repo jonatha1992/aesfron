@@ -1,9 +1,8 @@
 import React from "react";
 import { FaWhatsapp, FaFacebook, FaInstagram } from "react-icons/fa";
 import { FiMail } from "react-icons/fi";
-const defaultImageURL = "https://www.uba.ar/imgs/w-HOSPITALES-1920x980.jpg";
 
-const CardEventoVistaPrevia = ({ titulo, subTitulo, descripcion }) => {
+const CardEventoVistaPrevia = ({ titulo, subTitulo, descripcion, imagen }) => {
     const divStyle = {
         backgroundPosition: "center",
         backgroundSize: "cover",
@@ -19,7 +18,7 @@ const CardEventoVistaPrevia = ({ titulo, subTitulo, descripcion }) => {
 
     return (
         <div className="col-4 card-evento-anuncio  mt-5 mx-5" style={{ height: "70vh" }}>
-            <div className="card-event-image" style={{ ...divStyle, backgroundImage: `url(${defaultImageURL})` }}>
+            <div className="card-event-image" style={{ ...divStyle, backgroundImage: `url(${imagen})` }}>
                 <h3 className="card-evento-titulo">{titulo}</h3>
                 <div className="d-flex justify-content-end" style={{ width: "100%" }}>
                     <p className="card-evento-fecha">{subTitulo}</p>
