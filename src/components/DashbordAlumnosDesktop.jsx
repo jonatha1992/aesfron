@@ -1,57 +1,44 @@
+import React, { useState, useContext } from "react";
 import { useAuth } from "../context/AuthContext";
 import { AlumnosContext } from "../context/AlumnoContext";
-import { Settings, AutoStories } from "@mui/icons-material";
+import { Settings, AutoStories, Inbox as InboxIcon, ExpandLess, ExpandMore, StarBorder } from "@mui/icons-material";
 import MisCursos from "../components/MisCursos";
-import { useState, useContext } from "react";
+import MiPerfil from "./MiPerfil";
+import AltaCurso from "./AltaCursos";
+import AltaAnuncios from "./AltaAnuncios";
+import AltaEventos from "./AltaEventos";
+import ListaCursos from "./ListaCursos";
+import ListaAnuncios from "./ListaAnuncios";
+import ListaEventos from "./ListaEventos";
+import ListaModulos from "./ListaModulos";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import Collapse from "@mui/material/Collapse";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
-import ExpandLess from "@mui/icons-material/ExpandLess";
-import ExpandMore from "@mui/icons-material/ExpandMore";
-import StarBorder from "@mui/icons-material/StarBorder";
-import MiPerfil from "./MiPerfil";
 import Divider from "@mui/material/Divider";
-import AltaCurso from "./AltaCursos";
-import AltaAnuncios from "./AltaAnuncios";
-import AltaEventos from "./AltaEventos";
-import ModificacionAnuncios from "./ModificacionAnuncios";
-import ModificacionEventos from "./ModificacionEventos";
-import BajaAnuncios from "./BajaAnuncios";
-import BajaEventos from "./BajaEventos";
-import ListaEventos from "./ListaEventos";
-import ListaAnuncios from "./ListaAnuncios";
-import ListaCursos from "./ListaCursos";
 
-const AltaCursos = () => {
-    return (
-        <div>
-            <h2>Alta de Cursos</h2>
-            <AltaCurso />
-        </div>
-    );
-};
+const AltaCursos = () => (
+    <div>
+        <h2>Alta de Cursos</h2>
+        <AltaCurso />
+    </div>
+);
 
-const BajaCursos = () => {
-    return (
-        <div>
-            <h2>Baja de Cursos</h2>
-            {/* Agrega tu formulario o funcionalidad aquí */}
-        </div>
-    );
-};
+const BajaCursos = () => (
+    <div>
+        <h2>Baja de Cursos</h2>
+        {/* Agrega tu formulario o funcionalidad aquí */}
+    </div>
+);
 
-const ModificacionCursos = () => {
-    return (
-        <div>
-            <h2>Modificación de Cursos</h2>
-            {/* Agrega tu formulario o funcionalidad aquí */}
-        </div>
-    );
-};
+const ModificacionCursos = () => (
+    <div>
+        <h2>Modificación de Cursos</h2>
+        {/* Agrega tu formulario o funcionalidad aquí */}
+    </div>
+);
 
 const FeatureGrid = () => {
     const { User } = useAuth();
@@ -92,13 +79,19 @@ const FeatureGrid = () => {
             name: "Contenido",
             icon: <InboxIcon />,
             route: "/alta/contenido",
-            content: <ListaCursos />,
+            content: <ListaCursos operacion="alta" />,
         },
         {
             name: "Cursos",
             icon: <InboxIcon />,
             route: "/modificacion/cursos",
-            content: <ModificacionCursos />,
+            content: <ListaCursos operacion="modCurso" />,
+        },
+        {
+            name: "Contenido",
+            icon: <InboxIcon />,
+            route: "/modificacion/contenido",
+            content: <ListaCursos operacion="modificacion" />,
         },
         {
             name: "Anuncios",
@@ -122,25 +115,31 @@ const FeatureGrid = () => {
             name: "Anuncios",
             icon: <InboxIcon />,
             route: "/baja/anuncios",
-            content: <BajaAnuncios />,
+            content: <ListaAnuncios />,
         },
         {
             name: "Eventos",
             icon: <InboxIcon />,
             route: "/baja/eventos",
-            content: <BajaEventos />,
+            content: <ListaEventos />,
         },
     ];
 
     const isAdmin = User.rol === "admin";
-
     const [activeFeature, setActiveFeature] = useState(features[0]);
     const [openCollapse, setOpenCollapse] = useState({});
+    const [cursoId, setCursoId] = useState(null);
 
     const handleFeatureClick = (feature) => {
         setActiveFeature(feature);
         setActiveCourse(null);
-        window.scrollTo({ top: 0, behavior: "smooth" });
+        if (feature.route === "/modificacion/contenido") {
+            setCursoId(null); // Reset cursoId cuando se selecciona "Contenido" en modificación
+        }
+    };
+
+    const handleCursoSelect = (cursoId) => {
+        setCursoId(cursoId);
     };
 
     const handleClick = (section) => {
@@ -216,7 +215,7 @@ const FeatureGrid = () => {
                                                             sx={{
                                                                 pl: 4,
                                                                 background:
-                                                                    activeFeature.name === feature.name ? "var(--color1)" : "transparent",
+                                                                    activeFeature.name === feature.name ? "var(--color2)" : "transparent",
                                                                 transition: "background 0.3s ease",
                                                                 "&:hover": {
                                                                     background: "var(--color2)",
@@ -244,7 +243,11 @@ const FeatureGrid = () => {
                         display: "flex",
                     }}
                 >
-                    {activeFeature ? activeFeature.content : null}
+                    {activeFeature.route === "/modificacion/contenido" && cursoId ? (
+                        <ListaModulos cursoId={cursoId} />
+                    ) : (
+                        activeFeature.content
+                    )}
                 </div>
             </div>
         </div>

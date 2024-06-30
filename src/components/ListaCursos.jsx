@@ -1,13 +1,14 @@
-import * as React from "react";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { getAllCursos } from "../controllers/controllerCurso"; // Ajusta la importación según tu configuración
 import Box from "@mui/material/Box";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
+import ListaModulos from "./ListaModulos";
 import AltaModulos from "./AltaModulos";
+import CourseModificationStepper from "./CourseModificationStepper";
 
-export default function ListaCursos() {
+export default function ListaCursos({ operacion }) {
   const [cursos, setCursos] = useState([]);
   const [cursoSeleccionado, setCursoSeleccionado] = useState("");
 
@@ -48,7 +49,14 @@ export default function ListaCursos() {
           ))}
         </Select>
       </FormControl>
-      {cursoSeleccionado && <AltaModulos cursoId={cursoSeleccionado} />}
+      {cursoSeleccionado &&
+        (operacion === "modificacion" ? (
+          <ListaModulos cursoId={cursoSeleccionado} />
+        ) : operacion === "modCurso" ? (
+          <CourseModificationStepper cursoId={cursoSeleccionado} />
+        ) : (
+          <AltaModulos cursoId={cursoSeleccionado} />
+        ))}
     </Box>
   );
 }
