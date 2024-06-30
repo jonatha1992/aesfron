@@ -31,7 +31,7 @@ const ListaAnuncios = () => {
         <Box>
             {mostrarLista ? (
                 <>
-                    <h2>Anuncios Recientes</h2>
+                    <h2 className="  mt-4">Anuncios Recientes</h2>
                     <List>
                         {anuncios.map((anuncio) => (
                             <ListItem
@@ -40,7 +40,7 @@ const ListaAnuncios = () => {
                                 onClick={() => handleSelectAnuncios(anuncio)}
                                 sx={{
                                     borderRadius: "8px",
-                                    border: "1px solid var(--color5)",
+                                    border: "1px solid var(--color1)",
                                     margin: "8px 0",
                                     transition: "background 0.3s ease",
                                     "&:hover": {
@@ -49,7 +49,7 @@ const ListaAnuncios = () => {
                                     },
                                 }}
                             >
-                                <ListItemText primary={anuncio.TITULO} />
+                                <ListItemText primary={anuncio.TITULO} secondary={anuncio.SUBTITULO} />
                             </ListItem>
                         ))}
                     </List>

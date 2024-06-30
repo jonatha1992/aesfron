@@ -133,6 +133,11 @@ const FeatureGrid = () => {
     const handleFeatureClick = (feature) => {
         setActiveFeature(feature);
         setActiveCourse(null);
+
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth",
+        });
         if (feature.route === "/modificacion/contenido") {
             setCursoId(null); // Reset cursoId cuando se selecciona "Contenido" en modificación
         }

@@ -95,7 +95,7 @@ export async function deletear(id, tabla) {
     }
 }
 
-async function deleteFile(url) {
+export async function deleteFile(url) {
     console.log("la url desde bd: ", url);
     // var fileRef = storage.refFromURL(url);
     var fileRef = ref(storage, url);
@@ -242,33 +242,18 @@ export const getDocumentCount = async (collectionPath) => {
 };
 
 export const updateItem = async (cursoId, moduloId, itemId, itemData) => {
-  const itemRef = doc(
-    db,
-    `cursos/${cursoId}/Modulos/${moduloId}/items`,
-    itemId
-  );
-  await updateDoc(itemRef, itemData);
+    const itemRef = doc(db, `cursos/${cursoId}/Modulos/${moduloId}/items`, itemId);
+    await updateDoc(itemRef, itemData);
 };
 
 export const deleteItem = async (itemId, cursoId, moduloId) => {
-  const itemRef = doc(
-    db,
-    "cursos",
-    cursoId,
-    "Modulos",
-    moduloId,
-    "items",
-    itemId
-  );
-  await deleteDoc(itemRef);
+    const itemRef = doc(db, "cursos", cursoId, "Modulos", moduloId, "items", itemId);
+    await deleteDoc(itemRef);
 };
 
 export const uploadFile = async (file, cursoId, moduloId, itemId) => {
-  const fileRef = ref(
-    storage,
-    `cursos/${cursoId}/Modulos/${moduloId}/items/${itemId}/${file.name}`
-  );
-  await uploadBytes(fileRef, file);
-  const url = await getDownloadURL(fileRef);
-  return url;
+    const fileRef = ref(storage, `cursos/${cursoId}/Modulos/${moduloId}/items/${itemId}/${file.name}`);
+    await uploadBytes(fileRef, file);
+    const url = await getDownloadURL(fileRef);
+    return url;
 };
