@@ -111,7 +111,7 @@ export default function Inscripcion() {
                                 onClick={handleBuy}
                                 style={{ width: "50%" }}
                             >
-                                <h3>${curso.price.toLocaleString("es-AR")} ARS</h3>
+                                {/* <h3>${curso.price.toLocaleString("es-AR")} ARS</h3> */}
                                 PROXIMAMENTE🔽
                             </Button>
                         </div>
@@ -156,7 +156,7 @@ export default function Inscripcion() {
                         {/* Resumen de la operación */}
                         <h3>Confirmacion</h3>
                         <p>Curso: {curso.title}</p>
-                        <p>Precio: {curso.price}</p>
+                        {/* <p>Precio: {curso.price}</p> */}
 
                         {/* Componente Wallet */}
                         <div style={{ marginTop: "20px" }}>
@@ -224,34 +224,17 @@ export default function Inscripcion() {
                                 Coordinación<p>{curso.coordinacion}</p>
                             </h3>
                         </div>
-                        <div className="col-6">
-                            <h3>
-                                Disertantes
-                                <ul className="fs-6">
-                                    {curso.disertantes.map((disertante, index) => (
-                                        <li key={index}>{disertante}</li>
-                                    ))}
-                                </ul>
-                            </h3>
-                        </div>
-                        <div className="col-6">
-                            <h3>
-                                Carga Horaria<p>{curso.workload + " Horas"}</p>
-                            </h3>
-                        </div>
-                        <div className="col-6">
-                            <h3>
-                                Duración<p>{curso.duration}</p>
-                            </h3>
-                        </div>
-                        <div className="col-6">
-                            <h3>
-                                Inicio<p>{curso.start}</p>
-                            </h3>
-                        </div>
                         <div className="col-6 ">
                             <h3>
                                 Clases<p>{curso.classes}</p>
+                            </h3>
+                        </div>
+                        <div className="col-6">
+                            <h3>
+                                Docentes
+                                {curso.disertantes.map((disertante, index) => (
+                                    <p key={index}>{disertante}</p>
+                                ))}
                             </h3>
                         </div>
                         <div className="col-6 ">
@@ -259,14 +242,29 @@ export default function Inscripcion() {
                                 Modalidad<p>{curso.modalidad}</p>
                             </h3>
                         </div>
+                        <div className="col-6">
+                            <h3>
+                                Carga Horaria<p>{curso.workload + "Hs."}</p>
+                            </h3>
+                        </div>
                         <div className="col-6 ">
                             <h3>
                                 Mail de contacto<p>{curso.mail}</p>
                             </h3>
                         </div>
+                        <div className="col-6">
+                            <h3>
+                                Duración<p>{curso.duration}</p>
+                            </h3>
+                        </div>
                         <div className="col-6 ">
                             <h3>
                                 Evaluacion<p>{curso.test}</p>
+                            </h3>
+                        </div>
+                        <div className="col-6">
+                            <h3>
+                                Inicio<p>{curso.start}</p>
                             </h3>
                         </div>
                     </div>
