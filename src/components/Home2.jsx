@@ -1,13 +1,11 @@
 // src/Home2.jsx
 import React, { useState, useRef, useEffect } from "react";
 import "../css/home2.css";
-import { Link } from "react-router-dom";
 import Nosotros from "../components/Nosotros";
 import { motion, useInView, useAnimation } from "framer-motion";
 import videoSource from "../assets/video-aepa.mp4";
-import imagen_logo from "../assets/logo-removebg.png";
 import CursosSeccion from "./CursosSeccion";
-import Eventos from "../components/Eventos";
+import EventosYAnuncios from "../components/EventosYAnuncios";
 
 function Home2() {
     const refSection1 = useRef(null);
@@ -105,7 +103,7 @@ function Home2() {
                 animate={mainControls3}
                 transition={{ duration: 1, delay: 0.5 }}
             >
-                <Eventos />
+                <EventosYAnuncios />
             </motion.section>
         </>
     );
