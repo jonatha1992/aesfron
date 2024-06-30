@@ -117,7 +117,7 @@ const ModificacionAnuncioEventos = ({ documento = null, onDocumentoActualizado, 
                     padding: "2rem",
                     backgroundColor: "white",
                     borderRadius: "8px",
-                    marginTop: "2rem",
+                    marginTop: "1rem",
                     boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
                 }}
                 className="col-5 justify-content-between"
