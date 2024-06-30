@@ -1,0 +1,4 @@
+npm install -g node-firestore-import-export
+
+firestore-export -b backup.json -p key.json 
+firestore-import -b backup.json -p key.json 
