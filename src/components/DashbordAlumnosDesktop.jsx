@@ -6,8 +6,6 @@ import MisCursos from "../components/MisCursos";
 import MiPerfil from "./MiPerfil";
 import AltaCurso from "./AltaCursos";
 import ListaCursos from "./ListaCursos";
-import ListaAnuncios from "./ListaAnuncios";
-import ListaEventos from "./ListaEventos";
 import ListaModulos from "./ListaModulos";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
@@ -111,18 +109,7 @@ const FeatureGrid = () => {
             route: "/baja/cursos",
             content: <BajaCursos />,
         },
-        {
-            name: "Anuncios",
-            icon: <InboxIcon />,
-            route: "/baja/anuncios",
-            content: <ListaAnuncios />,
-        },
-        {
-            name: "Eventos",
-            icon: <InboxIcon />,
-            route: "/baja/eventos",
-            content: <ListaEventos />,
-        },
+
         {
             name: "Eventos",
             icon: <InboxIcon />,

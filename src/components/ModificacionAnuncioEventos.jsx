@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button, TextField, Box, Input, Backdrop, CircularProgress, Card } from "@mui/material";
 import { agregarDoc, actualizarDoc, eliminarDoc, uploadFiles, deleteFile } from "../firebase";
 import CardEventoVistaPrevia from "./CardEventoVistaPrevia";
@@ -9,24 +9,27 @@ const defaultImageURL =
     "https://firebasestorage.googleapis.com/v0/b/aesfron-69a52.appspot.com/o/falta_imagen.jpg?alt=media&token=b3729570-6216-42c5-9bfa-98ba98e6c2a5";
 
 const ModificacionAnuncioEventos = ({ documento = null, onDocumentoActualizado, isEvento = false }) => {
-    const [formValues, setFormValues] = useState(
-        documento
-            ? {
-                  TITULO: documento.TITULO,
-                  SUBTITULO: documento.SUBTITULO,
-                  DESCRIPCION: documento.DESCRIPCION,
-                  IMAGEN: documento.IMAGEN,
-              }
-            : {
-                  TITULO: "",
-                  SUBTITULO: "",
-                  DESCRIPCION: "",
-                  IMAGEN: defaultImageURL,
-              }
-    );
+    const [formValues, setFormValues] = useState({
+        TITULO: "",
+        SUBTITULO: "",
+        DESCRIPCION: "",
+        IMAGEN: defaultImageURL,
+    });
 
     const [file, setFile] = useState(null);
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        if (documento) {
+            setFormValues({
+                TITULO: documento.TITULO,
+                SUBTITULO: documento.SUBTITULO,
+                DESCRIPCION: documento.DESCRIPCION,
+                IMAGEN: documento.IMAGEN,
+            });
+        }
+        setLoading(false);
+    }, [documento]);
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -61,10 +64,10 @@ const ModificacionAnuncioEventos = ({ documento = null, onDocumentoActualizado, 
             if (documento) {
                 if (file) await deleteFile(documento.IMAGEN);
                 await actualizarDoc(documento.id, { ...formValues, IMAGEN: URL }, collectionName);
-                toast.success(`${isEvento ? "Evento" : "Anuncio"} actualizado con éxito`);
+                if (onDocumentoActualizado) onDocumentoActualizado(`${isEvento ? "Evento" : "Anuncio"} actualizado con éxito`);
             } else {
-                await agregarDoc({ ...formValues, IMAGEN: URL }, collectionName);
-                toast.success(`${isEvento ? "Evento" : "Anuncio"} creado con éxito`);
+                const newDoc = await agregarDoc({ ...formValues, IMAGEN: URL }, collectionName);
+                if (onDocumentoActualizado) onDocumentoActualizado(`${isEvento ? "Evento" : "Anuncio"} creado con éxito`);
                 setFormValues({
                     TITULO: "",
                     SUBTITULO: "",
@@ -73,10 +76,9 @@ const ModificacionAnuncioEventos = ({ documento = null, onDocumentoActualizado, 
                 });
                 setFile(null);
             }
-
-            if (onDocumentoActualizado) onDocumentoActualizado();
         } catch (error) {
-            toast.error(`Error al ${documento ? "actualizar" : "agregar"} el ${isEvento ? "evento" : "anuncio"}`);
+            if (onDocumentoActualizado) onDocumentoActualizado(null);
+            toast.error(`Error al ${documento ? "actualizar" : "agregar"} el ${isEvento ? "evento" : "anuncio"}`, { autoClose: 2000 });
             console.error(`Error al ${documento ? "actualizar" : "agregar"} el ${isEvento ? "evento" : "anuncio"}: `, error);
         } finally {
             setLoading(false);
@@ -90,10 +92,10 @@ const ModificacionAnuncioEventos = ({ documento = null, onDocumentoActualizado, 
             const collectionName = isEvento ? "eventos" : "anuncios";
             await eliminarDoc(documento.id, collectionName);
             await deleteFile(documento.IMAGEN);
-            toast.success(`${isEvento ? "Evento" : "Anuncio"} eliminado con éxito`);
+            toast.success(`${isEvento ? "Evento" : "Anuncio"} eliminado con éxito`, { autoClose: 2000 });
             if (onDocumentoActualizado) onDocumentoActualizado();
         } catch (error) {
-            toast.error(`Error al eliminar el ${isEvento ? "evento" : "anuncio"}`);
+            toast.error(`Error al eliminar el ${isEvento ? "evento" : "anuncio"}`, { autoClose: 2000 });
             console.error(`Error al eliminar el ${isEvento ? "evento" : "anuncio"}: `, error);
         } finally {
             setLoading(false);
@@ -164,7 +166,6 @@ const ModificacionAnuncioEventos = ({ documento = null, onDocumentoActualizado, 
                 imagen={formValues.IMAGEN}
                 descripcion={formValues.DESCRIPCION}
             />
-            <ToastContainer />
         </div>
     );
 };
