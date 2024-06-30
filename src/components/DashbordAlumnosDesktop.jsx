@@ -18,6 +18,7 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import Collapse from "@mui/material/Collapse";
 import Divider from "@mui/material/Divider";
+import AltaAnunciosEventos from "./AltaAnunciosEventos.jsx";
 
 const AltaCursos = () => (
     <div>
@@ -67,13 +68,13 @@ const FeatureGrid = () => {
             name: "Anuncios",
             icon: <InboxIcon />,
             route: "/alta/anuncios",
-            content: <AltaAnuncios />,
+            content: <AltaAnunciosEventos isEvento={false} />,
         },
         {
             name: "Eventos",
             icon: <InboxIcon />,
             route: "/alta/eventos",
-            content: <AltaEventos />,
+            content: <AltaAnunciosEventos isEvento={true} />,
         },
         {
             name: "Contenido",

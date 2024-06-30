@@ -8,7 +8,6 @@ import { obtenerRecientes } from "../firebase"; // Asegúrate de que esta ruta s
 const EventosYAnuncios = () => {
     const [eventos, setEventos] = useState([]);
     const [anuncios, setAnuncios] = useState([]);
-    console.log(eventos);
     const fetchEventos = async () => {
         const eventosObtenidos = await obtenerRecientes(5, "eventos");
         setEventos(eventosObtenidos);

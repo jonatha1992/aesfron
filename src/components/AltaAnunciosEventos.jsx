@@ -1,13 +1,15 @@
 import React, { useState } from "react";
 import { Button, TextField, Box, Input } from "@mui/material";
-import { agregarDoc } from "../firebase";
+import { agregarDoc, uploadFiles } from "../firebase";
 import CardEventoVistaPrevia from "./CardEventoVistaPrevia";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import "../css/eventos.css";
+
 const defaultImageURL =
     "https://firebasestorage.googleapis.com/v0/b/aesfron-69a52.appspot.com/o/falta_imagen.jpg?alt=media&token=b3729570-6216-42c5-9bfa-98ba98e6c2a5";
 
-const AltaAnuncios = () => {
+const AltaAnunciosEventos = ({ isEvento = false }) => {
     const [formValues, setFormValues] = useState({
         TITULO: "",
         SUBTITULO: "",
@@ -15,6 +17,14 @@ const AltaAnuncios = () => {
         IMAGEN: defaultImageURL,
     });
     const [file, setFile] = useState(null);
+
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setFormValues({
+            ...formValues,
+            [name]: value,
+        });
+    };
 
     const handleImageChange = (e) => {
         const file = e.target.files[0];
@@ -31,26 +41,18 @@ const AltaAnuncios = () => {
             setFile(file);
         }
     };
-    const handleInputChange = (e) => {
-        const { name, value } = e.target;
-        setFormValues({
-            ...formValues,
-            [name]: value,
-        });
-    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
             const URL = await uploadFiles(file);
-            console.log("URL: ", URL);
             setFormValues({
                 ...formValues,
                 IMAGEN: URL,
             });
-            const ID = await agregarDoc({ ...formValues, IMAGEN: URL }, "eventos");
-            toast.success("Evento creado con éxito");
-            console.log("Documento escrito con ID: ", ID);
+            const collectionName = isEvento ? "eventos" : "anuncios";
+            const ID = await agregarDoc({ ...formValues, IMAGEN: URL }, collectionName);
+            toast.success(`${isEvento ? "Evento" : "Anuncio"} creado con éxito`);
             setFormValues({
                 TITULO: "",
                 SUBTITULO: "",
@@ -59,12 +61,13 @@ const AltaAnuncios = () => {
             });
             setFile(null);
         } catch (error) {
-            toast.error("Error al agregar el documento");
-            console.error("Error al agregar el documento: ", error);
+            toast.error(`Error al agregar el ${isEvento ? "evento" : "anuncio"}`);
+            console.error(`Error al agregar el ${isEvento ? "evento" : "anuncio"}: `, error);
         }
     };
+
     return (
-        <div className="d-flex  ">
+        <div className="d-flex">
             <Box
                 component="form"
                 onSubmit={handleSubmit}
@@ -82,7 +85,7 @@ const AltaAnuncios = () => {
                 }}
                 className="col-5 justify-content-between"
             >
-                <h2>Alta de Anuncios</h2>
+                <h2>Alta de {isEvento ? "Eventos" : "Anuncios"}</h2>
                 <TextField label="Título" name="TITULO" value={formValues.TITULO} onChange={handleInputChange} required />
                 <TextField label="Subtítulo" name="SUBTITULO" value={formValues.SUBTITULO} onChange={handleInputChange} required />
                 <TextField
@@ -109,7 +112,7 @@ const AltaAnuncios = () => {
                     }}
                 />
                 <Button type="submit" variant="contained" color="primary">
-                    Crear Anuncio
+                    Crear {isEvento ? "Evento" : "Anuncio"}
                 </Button>
             </Box>
             <CardEventoVistaPrevia
@@ -123,4 +126,4 @@ const AltaAnuncios = () => {
     );
 };
 
-export default AltaAnuncios;
+export default AltaAnunciosEventos;
