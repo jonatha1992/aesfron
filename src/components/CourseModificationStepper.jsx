@@ -7,11 +7,16 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 import IconButton from "@mui/material/IconButton";
+import MenuItem from "@mui/material/MenuItem";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
-import { actualizarDoc } from "../firebase"; // Asegúrate de tener estas funciones
-import { getCurso } from "../controllers/controllerCurso"; // Asegúrate de tener estas funciones
+import Backdrop from "@mui/material/Backdrop";
+import CircularProgress from "@mui/material/CircularProgress";
+import { actualizarDoc } from "../firebase";
+import { getCurso } from "../controllers/controllerCurso";
 import { uploadFiles } from "../firebase";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const steps = [
   "Detalles del Curso",
@@ -28,13 +33,20 @@ export default function CourseModificationStepper({ cursoId }) {
   const [courseData, setCourseData] = useState({
     title: "",
     coordinacion: "",
+    price: "",
+    mail: "",
     disertantes: [""],
     start: "",
     duration: "",
-    description: "",
     place: "",
+    description: "",
     objetivos: [""],
-    imageUrl: "",
+    meet: "",
+    test: "",
+    imageURL: "",
+    workload: "",
+    classes: "",
+    modalidad: "",
   });
   const [imageFile, setImageFile] = useState(null);
   const [imagePreviewUrl, setImagePreviewUrl] = useState("");
@@ -43,9 +55,9 @@ export default function CourseModificationStepper({ cursoId }) {
   useEffect(() => {
     const fetchCourseData = async () => {
       try {
-        const curso = await getCurso(cursoId); // Obtener los datos del curso por ID
+        const curso = await getCurso(cursoId);
         setCourseData(curso);
-        setImagePreviewUrl(curso.imageUrl); // Mostrar la imagen actual
+        setImagePreviewUrl(curso.imageURL);
       } catch (error) {
         console.error("Error al obtener los datos del curso:", error);
       }
@@ -67,15 +79,36 @@ export default function CourseModificationStepper({ cursoId }) {
     if (activeStep === steps.length - 1) {
       setIsSubmitting(true);
       try {
-        let imageUrl = courseData.imageUrl;
+        let imageUrl = courseData.imageURL;
         if (imageFile) {
           imageUrl = await uploadFiles(imageFile);
         }
-        const updatedCourseData = { ...courseData, imageUrl: imageUrl };
+        const updatedCourseData = { ...courseData, imageURL: imageUrl };
         await actualizarDoc(cursoId, updatedCourseData, "cursos");
-        console.log("Curso actualizado con ID:", cursoId);
+        toast.success("actualizado con éxito");
+        // Reiniciar el formulario
+        setCourseData({
+          title: "",
+          coordinacion: "",
+          price: "",
+          mail: "",
+          disertantes: [""],
+          start: "",
+          duration: "",
+          place: "",
+          description: "",
+          objetivos: [""],
+          meet: "",
+          test: "",
+          imageURL: "",
+          workload: "",
+          classes: "",
+          modalidad: "",
+        });
+        setActiveStep(0);
       } catch (error) {
         console.error("Error al actualizar el curso:", error);
+        toast.error("Error al actualizar el curso");
       } finally {
         setIsSubmitting(false);
       }
@@ -101,13 +134,15 @@ export default function CourseModificationStepper({ cursoId }) {
     });
   };
 
-  const handleChange = (event, index, field) => {
+  const handleChange = (event, field, index) => {
     const { value } = event.target;
-    const newData = Array.isArray(courseData[field])
-      ? [...courseData[field]]
-      : [courseData[field]];
-    newData[index] = value;
-    setCourseData({ ...courseData, [field]: newData });
+    if (index !== undefined) {
+      const newData = [...courseData[field]];
+      newData[index] = value;
+      setCourseData({ ...courseData, [field]: newData });
+    } else {
+      setCourseData({ ...courseData, [field]: value });
+    }
   };
 
   const handleAddField = (field) => {
@@ -132,73 +167,82 @@ export default function CourseModificationStepper({ cursoId }) {
   };
 
   return (
-    <Box sx={{ width: "100%" }}>
-      <Stepper activeStep={activeStep}>
-        {steps.map((label, index) => {
-          const stepProps = {};
-          const labelProps = {};
-          if (isStepOptional(index)) {
-            labelProps.optional = (
-              <Typography variant="caption">Optional</Typography>
+    <>
+      <ToastContainer autoClose={2000} />
+      <Backdrop
+        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={isSubmitting}
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>
+      <Box sx={{ width: "100%" }}>
+        <Stepper activeStep={activeStep}>
+          {steps.map((label, index) => {
+            const stepProps = {};
+            const labelProps = {};
+            if (isStepOptional(index)) {
+              labelProps.optional = (
+                <Typography variant="caption">Opcional</Typography>
+              );
+            }
+            if (isStepSkipped(index)) {
+              stepProps.completed = false;
+            }
+            return (
+              <Step key={label} {...stepProps}>
+                <StepLabel {...labelProps}>{label}</StepLabel>
+              </Step>
             );
-          }
-          if (isStepSkipped(index)) {
-            stepProps.completed = false;
-          }
-          return (
-            <Step key={label} {...stepProps}>
-              <StepLabel {...labelProps}>{label}</StepLabel>
-            </Step>
-          );
-        })}
-      </Stepper>
-      {activeStep === steps.length ? (
-        <React.Fragment>
-          <Typography sx={{ mt: 2, mb: 1 }}>
-            Todos los pasos completados - has terminado
-          </Typography>
-          <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
-            <Box sx={{ flex: "1 1 auto" }} />
-            <Button onClick={handleNext}>Finalizar</Button>
-          </Box>
-        </React.Fragment>
-      ) : (
-        <React.Fragment>
-          <Typography sx={{ mt: 2, mb: 1 }}>Paso {activeStep + 1}</Typography>
-          <Box sx={{ display: "flex", flexDirection: "column", pt: 2 }}>
-            {getStepContent(
-              activeStep,
-              courseData,
-              handleChange,
-              handleAddField,
-              handleRemoveField,
-              handleImageChange,
-              imageFile,
-              imagePreviewUrl
-            )}
+          })}
+        </Stepper>
+        {activeStep === steps.length ? (
+          <React.Fragment>
+            <Typography sx={{ mt: 2, mb: 1 }}>
+              Todos los pasos completados - has terminado
+            </Typography>
             <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
-              <Button
-                color="inherit"
-                disabled={activeStep === 0}
-                onClick={handleBack}
-                sx={{ mr: 1 }}
-              >
-                Atrás
-              </Button>
               <Box sx={{ flex: "1 1 auto" }} />
-              {isStepOptional(activeStep) && (
-                <Button color="inherit" onClick={handleSkip} sx={{ mr: 1 }}>
-                  Saltar
-                </Button>
-              )}
-              <Button onClick={handleNext} disabled={isSubmitting}>
-                {activeStep === steps.length - 1 ? "Finalizar" : "Siguiente"}
-              </Button>
+              <Button onClick={handleNext}>Finalizar</Button>
             </Box>
-          </Box>
-        </React.Fragment>
-      )}
-    </Box>
+          </React.Fragment>
+        ) : (
+          <React.Fragment>
+            <Typography sx={{ mt: 2, mb: 1 }}>Paso {activeStep + 1}</Typography>
+            <Box sx={{ display: "flex", flexDirection: "column", pt: 2 }}>
+              {getStepContent(
+                activeStep,
+                courseData,
+                handleChange,
+                handleAddField,
+                handleRemoveField,
+                handleImageChange,
+                imageFile,
+                imagePreviewUrl
+              )}
+              <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
+                <Button
+                  color="inherit"
+                  disabled={activeStep === 0}
+                  onClick={handleBack}
+                  sx={{ mr: 1 }}
+                >
+                  Atrás
+                </Button>
+                <Box sx={{ flex: "1 1 auto" }} />
+                {isStepOptional(activeStep) && (
+                  <Button color="inherit" onClick={handleSkip} sx={{ mr: 1 }}>
+                    Saltar
+                  </Button>
+                )}
+                <Button onClick={handleNext} disabled={isSubmitting}>
+                  {activeStep === steps.length - 1 ? "Finalizar" : "Siguiente"}
+                </Button>
+              </Box>
+            </Box>
+          </React.Fragment>
+        )}
+      </Box>
+    </>
   );
 }
 
@@ -220,17 +264,40 @@ function getStepContent(
             label="Título"
             name="title"
             value={courseData.title}
-            onChange={(e) => handleChange(e, 0, "title")}
+            onChange={(e) => handleChange(e, "title")}
             fullWidth
             margin="normal"
+            required
           />
           <TextField
             label="Coordinación"
             name="coordinacion"
             value={courseData.coordinacion}
-            onChange={(e) => handleChange(e, 0, "coordinacion")}
+            onChange={(e) => handleChange(e, "coordinacion")}
             fullWidth
             margin="normal"
+            required
+          />
+          <TextField
+            label="Precio"
+            name="price"
+            value={courseData.price}
+            onChange={(e) => handleChange(e, "price")}
+            fullWidth
+            margin="normal"
+            required
+            type="number"
+            inputProps={{ min: 0 }}
+          />
+          <TextField
+            label="Correo Electrónico"
+            name="mail"
+            value={courseData.mail}
+            onChange={(e) => handleChange(e, "mail")}
+            fullWidth
+            margin="normal"
+            required
+            type="email"
           />
         </Box>
       );
@@ -246,7 +313,7 @@ function getStepContent(
                 label={`Disertante ${index + 1}`}
                 name={`disertante-${index}`}
                 value={disertante}
-                onChange={(e) => handleChange(e, index, "disertantes")}
+                onChange={(e) => handleChange(e, "disertantes", index)}
                 fullWidth
                 margin="normal"
               />
@@ -271,41 +338,65 @@ function getStepContent(
       return (
         <Box>
           <TextField
-            label="Inicio"
+            label="Fecha de Inicio"
             name="start"
+            type="date"
             value={courseData.start}
-            onChange={(e) => handleChange(e, 0, "start")}
+            onChange={(e) => handleChange(e, "start")}
             fullWidth
             margin="normal"
+            required
+            InputLabelProps={{
+              shrink: true,
+            }}
           />
           <TextField
-            label="Duración"
+            label="Duración (en horas)"
             name="duration"
+            type="number"
             value={courseData.duration}
-            onChange={(e) => handleChange(e, 0, "duration")}
+            onChange={(e) => handleChange(e, "duration")}
             fullWidth
             margin="normal"
+            required
+            inputProps={{ min: 0 }}
           />
+          <TextField
+            label="Modalidad"
+            name="modalidad"
+            value={courseData.modalidad}
+            onChange={(e) => handleChange(e, "modalidad")}
+            fullWidth
+            margin="normal"
+            required
+            select
+          >
+            <MenuItem value="remoto">Remoto</MenuItem>
+            <MenuItem value="hibrido">Híbrido</MenuItem>
+            <MenuItem value="presencial">Presencial</MenuItem>
+          </TextField>
         </Box>
       );
     case 3:
       return (
         <Box>
           <TextField
-            label="Descripción"
-            name="description"
-            value={courseData.description}
-            onChange={(e) => handleChange(e, 0, "description")}
-            fullWidth
-            margin="normal"
-          />
-          <TextField
             label="Lugar"
             name="place"
             value={courseData.place}
-            onChange={(e) => handleChange(e, 0, "place")}
+            onChange={(e) => handleChange(e, "place")}
             fullWidth
             margin="normal"
+            required
+          />
+          <TextField
+            label="Descripción"
+            name="description"
+            value={courseData.description}
+            onChange={(e) => handleChange(e, "description")}
+            fullWidth
+            margin="normal"
+            required
           />
         </Box>
       );
@@ -321,7 +412,7 @@ function getStepContent(
                 label={`Objetivo ${index + 1}`}
                 name={`objetivo-${index}`}
                 value={objetivo}
-                onChange={(e) => handleChange(e, index, "objetivos")}
+                onChange={(e) => handleChange(e, "objetivos", index)}
                 fullWidth
                 margin="normal"
               />
@@ -373,7 +464,6 @@ function getStepContent(
           )}
         </Box>
       );
-
     default:
       return "Paso desconocido";
   }
