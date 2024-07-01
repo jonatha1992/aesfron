@@ -49,7 +49,6 @@ const FeatureGrid = () => {
   const { User } = useAuth();
   const { setActiveCourse } = useContext(AlumnosContext);
 
-<<<<<<< HEAD
   const features = [
     {
       name: "Mis Cursos",
@@ -106,89 +105,6 @@ const FeatureGrid = () => {
       content: <ListaAnunciosEventos isEvento={true} />,
     },
   ];
-=======
-    const features = [
-        {
-            name: "Mis Cursos",
-            icon: <AutoStories fontSize="large" />,
-            route: "/miscursos",
-            content: <MisCursos />,
-        },
-        {
-            name: "Perfil",
-            icon: <Settings fontSize="large" />,
-            route: "/perfil",
-            content: <MiPerfil />,
-        },
-        {
-            name: "Cursos",
-            icon: <InboxIcon />,
-            route: "/alta/cursos",
-            content: <AltaCursos />,
-        },
-        {
-            name: "Anuncios",
-            icon: <InboxIcon />,
-            route: "/alta/anuncios",
-            content: <AltaAnunciosEventos isEvento={false} />,
-        },
-        {
-            name: "Eventos",
-            icon: <InboxIcon />,
-            route: "/alta/eventos",
-            content: <AltaAnunciosEventos isEvento={true} />,
-        },
-        {
-            name: "Contenido",
-            icon: <InboxIcon />,
-            route: "/alta/contenido",
-            content: <ListaCursos operacion="alta" />,
-        },
-        {
-            name: "Cursos",
-            icon: <InboxIcon />,
-            route: "/modificacion/cursos",
-            content: <ListaCursos operacion="modCurso" />,
-        },
-        {
-            name: "Contenido",
-            icon: <InboxIcon />,
-            route: "/modificacion/contenido",
-            content: <ListaCursos operacion="modificacion" />,
-        },
-        {
-            name: "Anuncios",
-            icon: <InboxIcon />,
-            route: "/modificacion/anuncios",
-            content: <ListaAnunciosEventos isEvento={false} />,
-        },
-        {
-            name: "Eventos",
-            icon: <InboxIcon />,
-            route: "/modificacion/eventos",
-            content: <ListaAnunciosEventos isEvento={true} />,
-        },
-        {
-            name: "Cursos",
-            icon: <InboxIcon />,
-            route: "/baja/cursos",
-            content: <BajaCursos />,
-        },
-
-        {
-            name: "Eventos",
-            icon: <InboxIcon />,
-            route: "/gestion",
-            content: <ListaAnunciosEventos isEvento={true} />,
-        },
-        {
-            name: "Anuncios",
-            icon: <InboxIcon />,
-            route: "/gestion",
-            content: <ListaAnunciosEventos isEvento={false} />,
-        },
-    ];
->>>>>>> 9f0977c7a0c4443dd96cc595bbd9cba857365a47
 
   const isAdmin = User.rol === "admin";
   const [activeFeature, setActiveFeature] = useState(features[0]);
