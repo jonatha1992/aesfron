@@ -9,16 +9,20 @@ import TextField from "@mui/material/TextField";
 import IconButton from "@mui/material/IconButton";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
-import { agregarDoc } from "../firebase"; // Actualiza la ruta según sea necesario
-import { uploadFiles } from "../firebase"; // Actualiza la ruta según sea necesario
+import Backdrop from "@mui/material/Backdrop";
+import CircularProgress from "@mui/material/CircularProgress";
+import FormControl from "@mui/material/FormControl";
+import InputLabel from "@mui/material/InputLabel";
+import Select from "@mui/material/Select";
+import MenuItem from "@mui/material/MenuItem";
+import { agregarDoc, uploadFiles } from "../firebase"; // Ajusta las rutas según sea necesario
 
 const steps = [
   "Detalles del Curso",
-  "Coordinación y Disertantes",
-  "Fecha y Duración",
-  "Descripción y Lugar",
+  "Disertantes",
+  "Tiempo y Lugar",
   "Objetivos",
-  "Imagen del Curso", // Nuevo paso para subir imagen
+  "Imagen",
 ];
 
 export default function CourseStepper() {
@@ -27,23 +31,28 @@ export default function CourseStepper() {
   const [courseData, setCourseData] = useState({
     title: "",
     coordinacion: "",
+    price: "",
+    mail: "",
     disertantes: [""],
     start: "",
     duration: "",
-    description: "",
     place: "",
+    description: "",
     objetivos: [""],
-    imageUrl: "", // Nueva propiedad para la URL de la imagen
+    meet: "",
+    test: "",
+    imageURL: "",
+    workload: "",
+    classes: "", // Nuevo campo "clases"
+    modalidad: "", // Nuevo campo "modalidad"
   });
   const [imageFile, setImageFile] = useState(null);
-  const [imagePreviewUrl, setImagePreviewUrl] = useState(""); // Estado para la vista previa de la imagen
-  const [isSubmitting, setIsSubmitting] = useState(false); // Estado para controlar la subida del formulario
-
-  const isStepOptional = (step) => step === 1;
-
-  const isStepSkipped = (step) => skipped.has(step);
+  const [imagePreviewUrl, setImagePreviewUrl] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleNext = async () => {
+    if (!validateStepFields()) return;
+
     let newSkipped = skipped;
     if (isStepSkipped(activeStep)) {
       newSkipped = new Set(newSkipped.values());
@@ -53,26 +62,37 @@ export default function CourseStepper() {
     if (activeStep === steps.length - 1) {
       setIsSubmitting(true);
       try {
-        let imageUrl = "";
+        let imageUrl = courseData.imageURL;
         if (imageFile) {
           imageUrl = await uploadFiles(imageFile);
         }
-        const finalCourseData = { ...courseData, imageUrl: imageUrl };
-        const cursoID = await agregarDoc(finalCourseData, "cursos"); // Cambia 'cursos' por el nombre de tu colección
-        console.log("Curso guardado con ID:", cursoID);
+        if (!imageUrl) {
+          alert("Por favor, sube una imagen.");
+          setIsSubmitting(false);
+          return;
+        }
+        const finalCourseData = { ...courseData, imageURL: imageUrl };
+        const courseId = await agregarDoc(finalCourseData, "cursos");
+        console.log("Course ID:", courseId);
 
-        // Reiniciar el estado después de guardar el curso
         setActiveStep(0);
         setCourseData({
           title: "",
           coordinacion: "",
+          price: "",
+          mail: "",
           disertantes: [""],
           start: "",
           duration: "",
-          description: "",
           place: "",
+          description: "",
           objetivos: [""],
-          imageUrl: "",
+          meet: "",
+          test: "",
+          imageURL: "",
+          workload: "",
+          classes: "",
+          modalidad: "",
         });
         setImageFile(null);
         setImagePreviewUrl("");
@@ -87,38 +107,74 @@ export default function CourseStepper() {
     setSkipped(newSkipped);
   };
 
+  const validateStepFields = () => {
+    const fields = getStepFields(activeStep);
+    for (let field of fields) {
+      if (Array.isArray(courseData[field])) {
+        if (courseData[field].some((item) => item.trim() === "")) {
+          alert(`Por favor completa todos los campos en ${steps[activeStep]}`);
+          return false;
+        }
+      } else {
+        if (!courseData[field] || courseData[field].trim() === "") {
+          alert(`Por favor completa todos los campos en ${steps[activeStep]}`);
+          return false;
+        }
+      }
+    }
+    return true;
+  };
+
+  const getStepFields = (step) => {
+    switch (step) {
+      case 0:
+        return ["title", "coordinacion", "price", "mail", "workload"];
+      case 1:
+        return ["disertantes"];
+      case 2:
+        return ["start", "duration", "place", "description", "modalidad"];
+      case 3:
+        return ["objetivos"];
+      case 4:
+        return ["meet", "test", "classes"]; // Agregar "classes" al último paso
+      default:
+        return [];
+    }
+  };
+
+  const isStepOptional = (step) => false;
+
+  const isStepSkipped = (step) => skipped.has(step);
+
   const handleBack = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
 
-  const handleSkip = () => {
-    if (!isStepOptional(activeStep)) {
-      throw new Error("No puedes saltar un paso que no es opcional.");
-    }
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    setSkipped((prevSkipped) => {
-      const newSkipped = new Set(prevSkipped.values());
-      newSkipped.add(activeStep);
-      return newSkipped;
-    });
-  };
-
-  const handleChange = (event, index, field) => {
+  const handleChange = (event, field, index = null) => {
     const { value } = event.target;
-    const newData = Array.isArray(courseData[field])
-      ? [...courseData[field]]
-      : [courseData[field]];
-    newData[index] = value;
-    setCourseData({ ...courseData, [field]: newData });
+    if (index !== null) {
+      setCourseData((prevData) => {
+        const newArray = [...prevData[field]];
+        newArray[index] = value;
+        return { ...prevData, [field]: newArray };
+      });
+    } else {
+      setCourseData({ ...courseData, [field]: value });
+    }
   };
 
   const handleAddField = (field) => {
-    setCourseData({ ...courseData, [field]: [...courseData[field], ""] });
+    setCourseData((prevData) => ({
+      ...prevData,
+      [field]: [...prevData[field], ""],
+    }));
   };
 
   const handleRemoveField = (index, field) => {
-    const newData = courseData[field].filter((_, i) => i !== index);
-    setCourseData({ ...courseData, [field]: newData });
+    setCourseData((prevData) => {
+      const newArray = prevData[field].filter((_, i) => i !== index);
+      return { ...prevData, [field]: newArray };
+    });
   };
 
   const handleImageChange = (event) => {
@@ -126,7 +182,6 @@ export default function CourseStepper() {
     if (file) {
       setImageFile(file);
 
-      // Mostrar vista previa de la imagen seleccionada
       const reader = new FileReader();
       reader.onloadend = () => {
         setImagePreviewUrl(reader.result);
@@ -138,42 +193,26 @@ export default function CourseStepper() {
   return (
     <Box sx={{ width: "100%" }}>
       <Stepper activeStep={activeStep}>
-        {steps.map((label, index) => {
-          const stepProps = {};
-          const labelProps = {};
-          if (isStepOptional(index)) {
-            labelProps.optional = (
-              <Typography variant="caption">Optional</Typography>
-            );
-          }
-          if (isStepSkipped(index)) {
-            stepProps.completed = false;
-          }
-          return (
-            <Step key={label} {...stepProps}>
-              <StepLabel {...labelProps}>{label}</StepLabel>
-            </Step>
-          );
-        })}
+        {steps.map((label, index) => (
+          <Step key={label}>
+            <StepLabel>{label}</StepLabel>
+          </Step>
+        ))}
       </Stepper>
       {activeStep === steps.length ? (
         <React.Fragment>
-          {/* Contenido después de completar todos los pasos */}
           <Typography sx={{ mt: 2, mb: 1 }}>
             Todos los pasos completados - has terminado
           </Typography>
           <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
             <Box sx={{ flex: "1 1 auto" }} />
-            {/* Botón de reinicio */}
             <Button onClick={handleNext}>Finalizar</Button>
           </Box>
         </React.Fragment>
       ) : (
         <React.Fragment>
-          {/* Contenido del paso actual */}
           <Typography sx={{ mt: 2, mb: 1 }}>Paso {activeStep + 1}</Typography>
           <Box sx={{ display: "flex", flexDirection: "column", pt: 2 }}>
-            {/* Contenido dinámico según el paso */}
             {getStepContent(
               activeStep,
               courseData,
@@ -182,9 +221,8 @@ export default function CourseStepper() {
               handleRemoveField,
               handleImageChange,
               imageFile,
-              imagePreviewUrl // Pasar imagePreviewUrl a getStepContent
+              imagePreviewUrl
             )}
-            {/* Botones de navegación y acciones */}
             <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
               <Button
                 color="inherit"
@@ -195,11 +233,6 @@ export default function CourseStepper() {
                 Atrás
               </Button>
               <Box sx={{ flex: "1 1 auto" }} />
-              {isStepOptional(activeStep) && (
-                <Button color="inherit" onClick={handleSkip} sx={{ mr: 1 }}>
-                  Saltar
-                </Button>
-              )}
               <Button onClick={handleNext} disabled={isSubmitting}>
                 {activeStep === steps.length - 1 ? "Finalizar" : "Siguiente"}
               </Button>
@@ -207,6 +240,12 @@ export default function CourseStepper() {
           </Box>
         </React.Fragment>
       )}
+      <Backdrop
+        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={isSubmitting}
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>
     </Box>
   );
 }
@@ -219,7 +258,7 @@ function getStepContent(
   handleRemoveField,
   handleImageChange,
   imageFile,
-  imagePreviewUrl // Asegúrate de recibir imagePreviewUrl como argumento
+  imagePreviewUrl
 ) {
   switch (step) {
     case 0:
@@ -229,17 +268,64 @@ function getStepContent(
             label="Título"
             name="title"
             value={courseData.title}
-            onChange={(e) => handleChange(e, 0, "title")}
+            onChange={(e) => handleChange(e, "title")}
             fullWidth
-            margin="normal"
+            required
+            sx={{ mb: 2 }}
           />
           <TextField
             label="Coordinación"
             name="coordinacion"
             value={courseData.coordinacion}
-            onChange={(e) => handleChange(e, 0, "coordinacion")}
+            onChange={(e) => handleChange(e, "coordinacion")}
             fullWidth
-            margin="normal"
+            required
+            sx={{ mb: 2 }}
+          />
+          <TextField
+            label="Precio"
+            name="price"
+            value={courseData.price}
+            onChange={(e) => handleChange(e, "price")}
+            fullWidth
+            required
+            inputProps={{
+              inputMode: "numeric",
+              pattern: "[0-9]*",
+              onKeyPress: (event) => {
+                if (!/[0-9]/.test(event.key)) {
+                  event.preventDefault();
+                }
+              },
+            }}
+            sx={{ mb: 2 }}
+          />
+          <TextField
+            label="Correo Electrónico"
+            name="mail"
+            value={courseData.mail}
+            onChange={(e) => handleChange(e, "mail")}
+            fullWidth
+            required
+            sx={{ mb: 2 }}
+          />
+          <TextField
+            label="Carga Horaria"
+            name="workload"
+            value={courseData.workload}
+            onChange={(e) => handleChange(e, "workload")}
+            fullWidth
+            required
+            inputProps={{
+              inputMode: "numeric",
+              pattern: "[0-9]*",
+              onKeyPress: (event) => {
+                if (!/[0-9]/.test(event.key)) {
+                  event.preventDefault();
+                }
+              },
+            }}
+            sx={{ mb: 2 }}
           />
         </Box>
       );
@@ -247,113 +333,152 @@ function getStepContent(
       return (
         <Box>
           {courseData.disertantes.map((disertante, index) => (
-            <Box
+            <TextField
               key={index}
-              sx={{ display: "flex", alignItems: "center", marginBottom: 2 }}
-            >
-              <TextField
-                label={`Disertante ${index + 1}`}
-                name={`disertante-${index}`}
-                value={disertante}
-                onChange={(e) => handleChange(e, index, "disertantes")}
-                fullWidth
-                margin="normal"
-              />
-              <IconButton
-                onClick={() => handleRemoveField(index, "disertantes")}
-                disabled={courseData.disertantes.length === 1}
-              >
-                <RemoveIcon />
-              </IconButton>
-            </Box>
+              label={`Disertante ${index + 1}`}
+              value={disertante}
+              onChange={(e) => handleChange(e, "disertantes", index)}
+              fullWidth
+              sx={{ mb: 2 }}
+            />
           ))}
-          <Button
-            variant="outlined"
+          <IconButton
             onClick={() => handleAddField("disertantes")}
-            startIcon={<AddIcon />}
+            sx={{ mb: 2 }}
           >
-            Añadir Añadir Disertante
-          </Button>
+            <AddIcon />
+          </IconButton>
+          <IconButton
+            onClick={() =>
+              handleRemoveField(
+                courseData.disertantes.length - 1,
+                "disertantes"
+              )
+            }
+            disabled={courseData.disertantes.length <= 1}
+            sx={{ mb: 2 }}
+          >
+            <RemoveIcon />
+          </IconButton>
         </Box>
       );
     case 2:
       return (
         <Box>
           <TextField
-            label="Inicio"
-            name="start"
+            label="Fecha de Inicio"
+            type="date"
             value={courseData.start}
-            onChange={(e) => handleChange(e, 0, "start")}
+            onChange={(e) => handleChange(e, "start")}
+            InputLabelProps={{
+              shrink: true,
+            }}
             fullWidth
-            margin="normal"
+            required
+            sx={{ mb: 2 }}
           />
           <TextField
             label="Duración"
-            name="duration"
             value={courseData.duration}
-            onChange={(e) => handleChange(e, 0, "duration")}
+            onChange={(e) => handleChange(e, "duration")}
             fullWidth
-            margin="normal"
+            required
+            sx={{ mb: 2 }}
           />
+          <TextField
+            label="Lugar"
+            value={courseData.place}
+            onChange={(e) => handleChange(e, "place")}
+            fullWidth
+            required
+            sx={{ mb: 2 }}
+          />
+          <TextField
+            label="Descripción"
+            multiline
+            value={courseData.description}
+            onChange={(e) => handleChange(e, "description")}
+            fullWidth
+            required
+            sx={{ mb: 2 }}
+          />
+          <FormControl fullWidth required sx={{ mb: 2 }}>
+            <InputLabel id="modalidad-label">Modalidad</InputLabel>
+            <Select
+              labelId="modalidad-label"
+              id="modalidad"
+              value={courseData.modalidad}
+              onChange={(e) => handleChange(e, "modalidad")}
+              label="Modalidad"
+            >
+              <MenuItem value="remoto">Remoto</MenuItem>
+              <MenuItem value="hibrido">Híbrido</MenuItem>
+              <MenuItem value="presencial">Presencial</MenuItem>
+            </Select>
+          </FormControl>
         </Box>
       );
     case 3:
       return (
         <Box>
-          <TextField
-            label="Descripción"
-            name="description"
-            value={courseData.description}
-            onChange={(e) => handleChange(e, 0, "description")}
-            fullWidth
-            margin="normal"
-          />
-          <TextField
-            label="Lugar"
-            name="place"
-            value={courseData.place}
-            onChange={(e) => handleChange(e, 0, "place")}
-            fullWidth
-            margin="normal"
-          />
+          {courseData.objetivos.map((objetivo, index) => (
+            <TextField
+              key={index}
+              label={`Objetivo ${index + 1}`}
+              value={objetivo}
+              onChange={(e) => handleChange(e, "objetivos", index)}
+              fullWidth
+              sx={{ mb: 2 }}
+            />
+          ))}
+          <IconButton
+            onClick={() => handleAddField("objetivos")}
+            sx={{ mb: 2 }}
+          >
+            <AddIcon />
+          </IconButton>
+          <IconButton
+            onClick={() =>
+              handleRemoveField(courseData.objetivos.length - 1, "objetivos")
+            }
+            disabled={courseData.objetivos.length <= 1}
+            sx={{ mb: 2 }}
+          >
+            <RemoveIcon />
+          </IconButton>
         </Box>
       );
     case 4:
       return (
         <Box>
-          {courseData.objetivos.map((objetivo, index) => (
-            <Box
-              key={index}
-              sx={{ display: "flex", alignItems: "center", marginBottom: 2 }}
+          <TextField
+            label="Meet"
+            value={courseData.meet}
+            onChange={(e) => handleChange(e, "meet")}
+            fullWidth
+            sx={{ mb: 2 }}
+          />
+          <FormControl fullWidth required sx={{ mb: 2 }}>
+            <InputLabel id="test-label">Evaluacion</InputLabel>
+            <Select
+              labelId="test-label"
+              id="test"
+              value={courseData.test}
+              onChange={(e) => handleChange(e, "test")}
+              label="Evaluacion"
             >
-              <TextField
-                label={`Objetivo ${index + 1}`}
-                name={`objetivo-${index}`}
-                value={objetivo}
-                onChange={(e) => handleChange(e, index, "objetivos")}
-                fullWidth
-                margin="normal"
-              />
-              <IconButton
-                onClick={() => handleRemoveField(index, "objetivos")}
-                disabled={courseData.objetivos.length === 1}
-              >
-                <RemoveIcon />
-              </IconButton>
-            </Box>
-          ))}
-          <Button
-            variant="outlined"
-            onClick={() => handleAddField("objetivos")}
-            startIcon={<AddIcon />}
-          >
-            Añadir Objetivo
-          </Button>
-        </Box>
-      );
-    case 5:
-      return (
-        <Box>
+              <MenuItem value="TP">TP</MenuItem>
+              <MenuItem value="oral">Oral</MenuItem>
+              <MenuItem value="escritos">Escrito</MenuItem>
+            </Select>
+          </FormControl>
+          <TextField
+            label="Dia y horarios"
+            value={courseData.classes}
+            onChange={(e) => handleChange(e, "classes")}
+            fullWidth
+            sx={{ mb: 2 }}
+          />
           <input
             accept="image/*"
             style={{ display: "none" }}
@@ -366,23 +491,15 @@ function getStepContent(
               Subir Imagen
             </Button>
           </label>
-          {imageFile && (
-            <Typography variant="body2" sx={{ mt: 2 }}>
-              Nombre del archivo: {imageFile.name}
-            </Typography>
-          )}
           {imagePreviewUrl && (
-            <Box sx={{ mt: 2 }}>
-              <img
-                src={imagePreviewUrl}
-                alt="Preview"
-                style={{ maxWidth: "100%", maxHeight: 400 }}
-              />
-            </Box>
+            <img
+              src={imagePreviewUrl}
+              alt="Preview"
+              style={{ width: "100%", marginTop: 10 }}
+            />
           )}
         </Box>
       );
-
     default:
       return "Paso desconocido";
   }
