@@ -135,6 +135,32 @@ const CursosInscriptos = async (uid) => {
     }
 };
 
+const CursosAdmin = async () => {
+    try {
+        // Realiza la consulta a Firebase para obtener todos los cursos
+        const cursosRef = collection(db, "cursos");
+        const querySnapshot = await getDocs(cursosRef);
+
+        // Extrae los datos de la consulta
+        const cursosArray = [];
+        querySnapshot.forEach((doc) => {
+            cursosArray.push({ id: doc.id, ...doc.data() });
+        });
+
+        // No necesitamos una segunda consulta aquí, ya que ya tenemos todos los detalles
+        // Sin embargo, si quieres mantener una estructura similar a CursosInscriptos, puedes hacer esto:
+        const cursosDetallesArray = cursosArray.map((curso) => ({
+            cursoid: curso.id,
+            detalles: curso,
+        }));
+
+        return cursosDetallesArray;
+    } catch (error) {
+        console.error("Error en la operación asincrónica:", error);
+        throw error; // Es buena práctica relanzar el error para manejarlo en el nivel superior
+    }
+};
+
 export async function eliminarDoc(id, tabla) {
     await deleteDoc(doc(db, tabla, id));
 }
@@ -192,7 +218,7 @@ const itemsToBeAdded = [
 // const path = "cursos/6ThlcAF2z98yAXyJ4xT1/Modulos/yI2XjQ4swxT5NxTcDc3B/items";
 // agregarItemsModulo(path, itemsToBeAdded);
 
-export { CursosInscriptos, collection, db, getDoc, doc, addDoc, setDoc, updateDoc, getDocs, query, where, ContenidoXCurso };
+export { CursosInscriptos, collection, db, getDoc, doc, addDoc, setDoc, updateDoc, getDocs, query, where, ContenidoXCurso, CursosAdmin };
 
 const ContenidoXCurso = async (cursoid) => {
     const contenidoRef = collection(db, "contenido");
