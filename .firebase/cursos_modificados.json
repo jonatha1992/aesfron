@@ -1,0 +1,677 @@
+{
+  "__collections__": {
+    "anuncios": {
+      "5dZZwXqEbx2ZTZYQ3n5W": {
+        "TITULO": "asdasd",
+        "SUBTITULO": "dasdasd",
+        "DESCRIPCION": "dasdas",
+        "IMAGEN": "https://firebasestorage.googleapis.com/v0/b/aesfron-69a52.appspot.com/o/afef7364-1693-4e27-b16d-7337c4765347?alt=media&token=c53573a7-b91f-4d28-b0b9-cca44224b9e6",
+        "created": {
+          "__datatype__": "timestamp",
+          "value": {
+            "_seconds": 1719789129,
+            "_nanoseconds": 874000000
+          }
+        },
+        "__collections__": {}
+      }
+    },
+    "cursos": {
+      "6ThlcAF2z98yAXyJ4xT1": {
+        "coordinacion": "Lic. Percara Hernan",
+        "mail": "profesorachirinoclaudia@gmail.com",
+        "test": "TP/ECOE",
+        "classes": "Lunes: 09:00 - 11:00 ",
+        "start": "05/08/2024 (4 clases)",
+        "description": "Capacitar a los participantes en el conocimiento teorico y las habilidades practicas necesarias para la insercion y manejo seguro de accesos venosos centrales y perifericos, con el fin de mejorar la calidad de atencion y la seguridad del paciente en entornos clinicos.",
+        "workload": 50,
+        "title": "Acceso Venoso Central y Perisferico",
+        "disertantes": [
+          "Lic. Chirinos Claudia"
+        ],
+        "modalidad": "A Distancia",
+        "objetivos": [
+          "Adquirir Conocimientos Teoricos: Proveer a los participantes con una comprension detallada de la anatomia y fisiologia de los sistemas venosos central y periferico. Identificar las indicaciones, contraindicaciones y posibles complicaciones asociadas con la insercion de accesos venosos centrales y perifericos",
+          "Desarrollar Habilidades Practicas: Entrenar a los participantes en tecnicas estandarizadas para la insercion de cateteres venosos centrales y perifericos, utilizando simuladores y modelos anatomicos. Realizar practicas supervisadas que permitan a los participantes desarrollar destrezas manuales y confianza en la ejecucion de los procedimientos.",
+          "Fomentar la Seguridad del Paciente: Ensenar medidas de prevencion y manejo de complicaciones, como infecciones, trombosis y extravasaciones, asociadas con los accesos venosos. Promover la aplicacion de protocolos y guias clinicas para asegurar practicas seguras y eficaces en la insercion y mantenimiento de accesos venosos, contribuyendo asi a la mejora continua de la calidad de atencion en los servicios de salud"
+        ],
+        "price": 5000,
+        "imageUrl": "https://firebasestorage.googleapis.com/v0/b/aesfron-69a52.appspot.com/o/Acceso%20Venoso%20Central%2FAVC.jpg?alt=media&token=bef94b09-66a5-41fb-8768-dfded98429b5",
+        "place": "Reuniones Sincronicas por meet",
+        "duration": "1 mes (Agosto)",
+        "__collections__": {
+          "Modulos": {
+            "1m0ZxsHfhCjhmqHSQIww": {
+              "titulo": 1,
+              "__collections__": {
+                "items": {
+                  "CdaIBscNpjbNDnXEF1hn": {
+                    "tipo": "pdf",
+                    "titulo": "Presentacion del curso",
+                    "url": "https://firebasestorage.googleapis.com/v0/b/aesfron-69a52.appspot.com/o/Acceso%20Venoso%20Central%2FAcceso%20Vacular.pdf?alt=media&token=3b7475c1-6e71-4ea9-94d1-9ff9fb450ca2",
+                    "orden": 1,
+                    "__collections__": {}
+                  },
+                  "TWVq91AOpkLwqrpwBkuE": {
+                    "tipo": "pdf",
+                    "titulo": "Anatomia y fisiologia, sitio de puncion",
+                    "orden": 2,
+                    "url": "https://firebasestorage.googleapis.com/v0/b/aesfron-69a52.appspot.com/o/Acceso%20Venoso%20Central%2FAcceso%20Vacular.pdf?alt=media&token=3b7475c1-6e71-4ea9-94d1-9ff9fb450ca2",
+                    "__collections__": {}
+                  },
+                  "WKr4QojxPQgLqCKMg5z9": {
+                    "tipo": "pdf",
+                    "titulo": "Tipos de cateteres",
+                    "orden": 3,
+                    "url": "https://firebasestorage.googleapis.com/v0/b/aesfron-69a52.appspot.com/o/Acceso%20Venoso%20Central%2FEleccion%20de%20un%20dispositivo.pdf?alt=media&token=d84c8b63-0dc2-42a6-992c-4fe8cb72a6f9",
+                    "__collections__": {}
+                  }
+                }
+              }
+            },
+            "G29vFaFUI7qSCZI1QGK7": {
+              "titulo": 2,
+              "__collections__": {
+                "items": {
+                  "VbQpNtOg2G5wZqQw9y5": {
+                    "tipo": "pdf",
+                    "titulo": "Indicaciones de uso de los diferentes dispositivos.",
+                    "orden": 1,
+                    "url": "https://firebasestorage.googleapis.com/v0/b/aesfron-69a52.appspot.com/o/Acceso%20Venoso%20Central%2FEleccion%20de%20un%20dispositivo.pdf?alt=media&token=d84c8b63-0dc2-42a6-992c-4fe8cb72a6f9",
+                    "__collections__": {}
+                  },
+                  "WKr4QojxPQgLqCKMg5z9": {
+                    "tipo": "pdf",
+                    "titulo": "Flebitis quimica.",
+                    "orden": 2,
+                    "url": "https://firebasestorage.googleapis.com/v0/b/aesfron-69a52.appspot.com/o/Acceso%20Venoso%20Central%2FEleccion%20de%20un%20dispositivo.pdf?alt=media&token=d84c8b63-0dc2-42a6-992c-4fe8cb72a6f9",
+                    "__collections__": {}
+                  },
+                  "Wl6z6gRQwYVhVcKpGKp": {
+                    "tipo": "pdf",
+                    "titulo": "Ventajas e inconvenientes de los cateteres de insercion periferica.",
+                    "orden": 3,
+                    "url": "https://firebasestorage.googleapis.com/v0/b/aesfron-69a52.appspot.com/o/Acceso%20Venoso%20Central%2FEleccion%20de%20un%20dispositivo.pdf?alt=media&token=d84c8b63-0dc2-42a6-992c-4fe8cb72a6f9",
+                    "__collections__": {}
+                  },
+                  "Wl6z6gRQwYVhVcKpGsa": {
+                    "tipo": "pdf",
+                    "titulo": "Tipos de flebitis",
+                    "orden": 4,
+                    "url": "https://firebasestorage.googleapis.com/v0/b/aesfron-69a52.appspot.com/o/Acceso%20Venoso%20Central%2FEleccion%20de%20un%20dispositivo.pdf?alt=media&token=d84c8b63-0dc2-42a6-992c-4fe8cb72a6f9",
+                    "__collections__": {}
+                  },
+                  "Wl6z6gRQwYVhVcKsafp": {
+                    "tipo": "pdf",
+                    "titulo": "Cuidados de enfermeria",
+                    "orden": 5,
+                    "url": "https://firebasestorage.googleapis.com/v0/b/aesfron-69a52.appspot.com/o/Acceso%20Venoso%20Central%2FEleccion%20de%20un%20dispositivo.pdf?alt=media&token=d84c8b63-0dc2-42a6-992c-4fe8cb72a6f9",
+                    "__collections__": {}
+                  }
+                }
+              }
+            },
+            "G29vFaFUI7sCZI1QsGK9": {
+              "titulo": 3,
+              "__collections__": {
+                "items": {
+                  "VbQpNtOg2G5wZqQw9y5": {
+                    "tipo": "Info",
+                    "titulo": "Practicas en areas de simulacion.",
+                    "orden": 1,
+                    "url": "https://firebasestorage.googleapis.com/v0/b/aesfron-69a52.appspot.com/o/Acceso%20Venoso%20Central%2FEleccion%20de%20un%20dispositivo.pdf?alt=media&token=d84c8b63-0dc2-42a6-992c-4fe8cb72a6f9",
+                    "__collections__": {}
+                  }
+                }
+              }
+            },
+            "G29vFdFUI7qSCZI1QsK8": {
+              "titulo": 4,
+              "__collections__": {
+                "items": {
+                  "VbQpNtOg2G5wZqQway5": {
+                    "tipo": "Info",
+                    "titulo": "Evaluacion. En areas de simulacion.",
+                    "orden": 1,
+                    "url": "https://firebasestorage.googleapis.com/v0/b/aesfron-69a52.appspot.com/o/Acceso%20Venoso%20Central%2FEleccion%20de%20un%20dispositivo.pdf?alt=media&token=d84c8b63-0dc2-42a6-992c-4fe8cb72a6f9",
+                    "__collections__": {}
+                  }
+                }
+              }
+            },
+            "b1zJdsY4tqCjkAsX48G8": {
+              "titulo": 5,
+              "__collections__": {
+                "items": {
+                  "cGHlQgsfqnhMWKdPWaD6": {
+                    "tipo": "pdf",
+                    "titulo": "pdf",
+                    "url": "https://firebasestorage.googleapis.com/v0/b/aesfron-69a52.appspot.com/o/e5e45951-c6fd-4ed1-852e-bdf46b0252df?alt=media&token=4233ddd2-407f-46f1-bc07-da29f6667666",
+                    "__collections__": {}
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "6ThlcAF2z98yAXyJ4xa1": {
+        "coordinacion": "Lic. Barrientos V",
+        "mail": "profesorachirinoclaudia@gmail.com",
+        "test": "TP/ECOE",
+        "classes": "Lunes: 09:00 - 11:00 ",
+        "start": "06/08/2024 (4 clases)",
+        "description": "Capacitar a los participantes en el conocimiento teorico y las habilidades practicas necesarias para la insercion y manejo seguro de accesos venosos centrales y perifericos, con el fin de mejorar la calidad de atencion y la seguridad del paciente en entornos clinicos.",
+        "workload": 50,
+        "title": "Acceso Venoso Central y Perisferico",
+        "disertantes": [
+          "Lic. Chirinos Claudia"
+        ],
+        "modalidad": "Presencial",
+        "objetivos": [
+          "Adquirir Conocimientos Teoricos: Proveer a los participantes con una comprension detallada de la anatomia y fisiologia de los sistemas venosos central y periferico. Identificar las indicaciones, contraindicaciones y posibles complicaciones asociadas con la insercion de accesos venosos centrales y perifericos",
+          "Desarrollar Habilidades Practicas: Entrenar a los participantes en tecnicas estandarizadas para la insercion de cateteres venosos centrales y perifericos, utilizando simuladores y modelos anatomicos. Realizar practicas supervisadas que permitan a los participantes desarrollar destrezas manuales y confianza en la ejecucion de los procedimientos.",
+          "Fomentar la Seguridad del Paciente: Ensenar medidas de prevencion y manejo de complicaciones, como infecciones, trombosis y extravasaciones, asociadas con los accesos venosos. Promover la aplicacion de protocolos y guias clinicas para asegurar practicas seguras y eficaces en la insercion y mantenimiento de accesos venosos, contribuyendo asi a la mejora continua de la calidad de atencion en los servicios de salud"
+        ],
+        "price": 5000,
+        "imageUrl": "https://firebasestorage.googleapis.com/v0/b/aesfron-69a52.appspot.com/o/Acceso%20Venoso%20Central%2FAVC.jpg?alt=media&token=bef94b09-66a5-41fb-8768-dfded98429b5",
+        "place": "ISAM / UNLa / Soldati.",
+        "duration": "1 mes (Agosto)",
+        "__collections__": {
+          "Modulos": {
+            "1m0ZxsHfhCjhmqHasdIww": {
+              "titulo": 1,
+              "__collections__": {
+                "items": {
+                  "CdaIBscNpjbN2nXEF1hn": {
+                    "tipo": "pdf",
+                    "titulo": "Presentacion del curso",
+                    "orden": 1,
+                    "url": "https://firebasestorage.googleapis.com/v0/b/aesfron-69a52.appspot.com/o/Acceso%20Venoso%20Central%2FAcceso%20Vacular.pdf?alt=media&token=3b7475c1-6e71-4ea9-94d1-9ff9fb450ca2",
+                    "__collections__": {}
+                  },
+                  "TWVq91AOpkLw2rpwBkuE": {
+                    "tipo": "pdf",
+                    "titulo": "Anatomia y fisiologia, sitio de puncion",
+                    "orden": 2,
+                    "url": "https://firebasestorage.googleapis.com/v0/b/aesfron-69a52.appspot.com/o/Acceso%20Venoso%20Central%2FAcceso%20Vacular.pdf?alt=media&token=3b7475c1-6e71-4ea9-94d1-9ff9fb450ca2",
+                    "__collections__": {}
+                  },
+                  "WKr4QojxPQ4LqCKMg5z9": {
+                    "tipo": "pdf",
+                    "titulo": "Tipos de cateteres",
+                    "orden": 3,
+                    "url": "https://firebasestorage.googleapis.com/v0/b/aesfron-69a52.appspot.com/o/Acceso%20Venoso%20Central%2FEleccion%20de%20un%20dispositivo.pdf?alt=media&token=d84c8b63-0dc2-42a6-992c-4fe8cb72a6f9",
+                    "__collections__": {}
+                  }
+                }
+              }
+            },
+            "G29vFaFUI7qSCZI1QGK7": {
+              "titulo": 2,
+              "__collections__": {
+                "items": {
+                  "VbQpNtOg2G5wZqQw9y5": {
+                    "tipo": "pdf",
+                    "titulo": "Indicaciones de uso de los diferentes dispositivos.",
+                    "orden": 1,
+                    "url": "https://firebasestorage.googleapis.com/v0/b/aesfron-69a52.appspot.com/o/Acceso%20Venoso%20Central%2FEleccion%20de%20un%20dispositivo.pdf?alt=media&token=d84c8b63-0dc2-42a6-992c-4fe8cb72a6f9",
+                    "__collections__": {}
+                  },
+                  "WKr4QojxPQgLqCKMg5z9": {
+                    "tipo": "pdf",
+                    "titulo": "Flebitis quimica.",
+                    "orden": 2,
+                    "url": "https://firebasestorage.googleapis.com/v0/b/aesfron-69a52.appspot.com/o/Acceso%20Venoso%20Central%2FEleccion%20de%20un%20dispositivo.pdf?alt=media&token=d84c8b63-0dc2-42a6-992c-4fe8cb72a6f9",
+                    "__collections__": {}
+                  },
+                  "Wl6z6gRQwYVhVcKpGKp": {
+                    "tipo": "pdf",
+                    "titulo": "Ventajas e inconvenientes de los cateteres de insercion periferica.",
+                    "orden": 3,
+                    "url": "https://firebasestorage.googleapis.com/v0/b/aesfron-69a52.appspot.com/o/Acceso%20Venoso%20Central%2FEleccion%20de%20un%20dispositivo.pdf?alt=media&token=d84c8b63-0dc2-42a6-992c-4fe8cb72a6f9",
+                    "__collections__": {}
+                  },
+                  "Wl6z6gRQwYVhVcKpGsa": {
+                    "tipo": "pdf",
+                    "titulo": "Tipos de flebitis",
+                    "orden": 4,
+                    "url": "https://firebasestorage.googleapis.com/v0/b/aesfron-69a52.appspot.com/o/Acceso%20Venoso%20Central%2FEleccion%20de%20un%20dispositivo.pdf?alt=media&token=d84c8b63-0dc2-42a6-992c-4fe8cb72a6f9",
+                    "__collections__": {}
+                  },
+                  "Wl6z6gRQwYVhVcKsafp": {
+                    "tipo": "pdf",
+                    "titulo": "Cuidados de enfermeria",
+                    "orden": 5,
+                    "url": "https://firebasestorage.googleapis.com/v0/b/aesfron-69a52.appspot.com/o/Acceso%20Venoso%20Central%2FEleccion%20de%20un%20dispositivo.pdf?alt=media&token=d84c8b63-0dc2-42a6-992c-4fe8cb72a6f9",
+                    "__collections__": {}
+                  }
+                }
+              }
+            },
+            "G29vFaFUI7sCZ31QsGK9": {
+              "titulo": 3,
+              "__collections__": {
+                "items": {
+                  "VbQpNtOg2G5wZ2Qw9y5": {
+                    "tipo": "Info",
+                    "titulo": "Practicas en areas de simulacion.",
+                    "orden": 1,
+                    "url": "",
+                    "__collections__": {}
+                  }
+                }
+              }
+            },
+            "G29vFdFUI7qSCZ11QsK8": {
+              "titulo": 4,
+              "__collections__": {
+                "items": {
+                  "VbQpNtOg2G554ZqQway5": {
+                    "tipo": "Info",
+                    "titulo": "Evaluacion. En areas de simulacion.",
+                    "orden": 1,
+                    "url": "",
+                    "__collections__": {}
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "DAFhIw8PXBggdhWvnc0": {
+        "coordinacion": "Lic. Barrientos Veronica",
+        "mail": "",
+        "test": "Escrito",
+        "classes": "Sabados: 09:00 - 12:00",
+        "start": "10/08/2024 (11 clases)",
+        "description": "Capacitar y actualizar al equipo de salud en enfermeria para desarrollar cuidados integrales de la embarazada y del recien nacido sano y /o de bajo riesgo.",
+        "workload": 50,
+        "title": "Cuidado integral de la embarazada y Neonatal",
+        "disertantes": [
+          "Lic. Cabrejos Laura",
+          "Lic. Crispin Veronica"
+        ],
+        "duration": "3 meses (Agosto)",
+        "imageUrl": "https://firebasestorage.googleapis.com/v0/b/aesfron-69a52.appspot.com/o/Neonatal%2FNeo.JPG?alt=media&token=94ac0e1e-a4dc-4fcb-87d0-0f19f896bc3f",
+        "place": [
+          "soldati"
+        ],
+        "objetivos": [
+          "Incorporar saberes y habilidades en los cuidados de la embarazada y sus complicaciones.",
+          "adquirir conocimientos y habilidades en el manejo del recien nacido en internacion conjunta con la madre para su estabilizacion cardiorrespiratoria y alimentacion adecuada.",
+          "Desarrollar conocimientos y destrezas en la admision en la UCIN del recien nacido de bajo riesgo."
+        ],
+        "price": 5,
+        "__collections__": {
+          "Modulos": {
+            "1m0ZxsHfhCjhmqHSQIww": {
+              "titulo": 1,
+              "__collections__": {
+                "items": {
+                  "CdaIBscNpjbNDnXEF1hn": {
+                    "tipo": "pdf",
+                    "titulo": "Amenaza de parto prematuro, rotura prematura de membrana",
+                    "orden": 1,
+                    "url": "https://firebasestorage.googleapis.com/v0/b/aesfron-69a52.appspot.com/o/Acceso%20Venoso%20Central%2FAcceso%20Vacular.pdf?alt=media&token=3b7475c1-6e71-4ea9-94d1-9ff9fb450ca2",
+                    "__collections__": {}
+                  }
+                }
+              }
+            },
+            "G21vFaFUI7qSCZI1SGK9": {
+              "titulo": 8,
+              "__collections__": {
+                "items": {
+                  "VbQpNtOg2G5wZaQw9s6": {
+                    "tipo": "info",
+                    "titulo": "Segundo Examen parcial",
+                    "orden": 1,
+                    "url": "",
+                    "__collections__": {}
+                  },
+                  "VbQpNtOg2G5wZqQw9y5": {
+                    "tipo": "pdf",
+                    "titulo": "Anatomo-Fisiologia respiratoria del Recien Nacido. Distres respiratorio, oxigenoterapia (Halo, CBFO, CAFO, CPAP burbuja)",
+                    "orden": 2,
+                    "url": "https://firebasestorage.googleapis.com/v0/b/aesfron-69a52.appspot.com/o/Acceso%20Venoso%20Central%2FEleccion%20de%20un%20dispositivo.pdf?alt=media&token=d84c8b63-0dc2-42a6-992c-4fe8cb72a6f9",
+                    "__collections__": {}
+                  }
+                }
+              }
+            },
+            "G29vFaFUI7aCZI1QGKS9": {
+              "titulo": 3,
+              "__collections__": {
+                "items": {
+                  "VbQpNtOg2G5wZqQw9y5": {
+                    "tipo": "pdf",
+                    "titulo": "Hipertension Gestacional (preeclampsia, eclampsia).",
+                    "orden": 1,
+                    "url": "https://firebasestorage.googleapis.com/v0/b/aesfron-69a52.appspot.com/o/Acceso%20Venoso%20Central%2FEleccion%20de%20un%20dispositivo.pdf?alt=media&token=d84c8b63-0dc2-42a6-992c-4fe8cb72a6f9",
+                    "__collections__": {}
+                  }
+                }
+              }
+            },
+            "G29vFaFUI7qSCZI1QGK7": {
+              "titulo": 2,
+              "__collections__": {
+                "items": {
+                  "VbQpNtOg2G5wZqws9y5": {
+                    "tipo": "pdf",
+                    "titulo": "Diabetes Gestacional.",
+                    "orden": 1,
+                    "url": "https://firebasestorage.googleapis.com/v0/b/aesfron-69a52.appspot.com/o/Acceso%20Venoso%20Central%2FEleccion%20de%20un%20dispositivo.pdf?alt=media&token=d84c8b63-0dc2-42a6-992c-4fe8cb72a6f9",
+                    "__collections__": {}
+                  }
+                }
+              }
+            },
+            "G29vFaFUI7qSCZI1QGK9": {
+              "titulo": 6,
+              "__collections__": {
+                "items": {
+                  "VbQpNtOg2G5wZqQw9y5": {
+                    "tipo": "pdf",
+                    "titulo": "Binomio / Lactancia Materna.",
+                    "orden": 1,
+                    "url": "https://firebasestorage.googleapis.com/v0/b/aesfron-69a52.appspot.com/o/Acceso%20Venoso%20Central%2FEleccion%20de%20un%20dispositivo.pdf?alt=media&token=d84c8b63-0dc2-42a6-992c-4fe8cb72a6f9",
+                    "__collections__": {}
+                  }
+                }
+              }
+            },
+            "G29vFaFUI7qSaZI1QGK8": {
+              "titulo": 4,
+              "__collections__": {
+                "items": {
+                  "VbQpNtOA2G5wZqQw9y5": {
+                    "tipo": "info",
+                    "titulo": "Primer Examen Parcial.",
+                    "orden": 1,
+                    "url": "https://firebasestorage.googleapis.com/v0/b/aesfron-69a52.appspot.com/o/Acceso%20Venoso%20Central%2FEleccion%20de%20un%20dispositivo.pdf?alt=media&token=d84c8b63-0dc2-42a6-992c-4fe8cb72a6f9",
+                    "__collections__": {}
+                  },
+                  "VbQpNtOg2G5wZqQw9y5": {
+                    "tipo": "pdf",
+                    "titulo": "Trabajo de parto / cesarea.",
+                    "orden": 2,
+                    "url": "https://firebasestorage.googleapis.com/v0/b/aesfron-69a52.appspot.com/o/Acceso%20Venoso%20Central%2FEleccion%20de%20un%20dispositivo.pdf?alt=media&token=d84c8b63-0dc2-42a6-992c-4fe8cb72a6f9",
+                    "__collections__": {}
+                  },
+                  "VbQpNtOg2G5wZqQw9y6": {
+                    "tipo": "pdf",
+                    "titulo": "Hemorragias de la segunda mitad.",
+                    "orden": 3,
+                    "url": "https://firebasestorage.googleapis.com/v0/b/aesfron-69a52.appspot.com/o/Acceso%20Venoso%20Central%2FEleccion%20de%20un%20dispositivo.pdf?alt=media&token=d84c8b63-0dc2-42a6-992c-4fe8cb72a6f9",
+                    "__collections__": {}
+                  }
+                }
+              }
+            },
+            "G29vFaFUI7sqSCZI1QGK9": {
+              "titulo": 7,
+              "__collections__": {
+                "items": {
+                  "VbQpNtOg2G5wZqQw9y5": {
+                    "tipo": "pdf",
+                    "titulo": "Cuidados del RN: hipoglucemia, hiperbilirrubinemia.",
+                    "orden": 1,
+                    "url": "https://firebasestorage.googleapis.com/v0/b/aesfron-69a52.appspot.com/o/Acceso%20Venoso%20Central%2FEleccion%20de%20un%20dispositivo.pdf?alt=media&token=d84c8b63-0dc2-42a6-992c-4fe8cb72a6f9",
+                    "__collections__": {}
+                  }
+                }
+              }
+            },
+            "G2vFaFUI7qSCSZI1QGs8": {
+              "titulo": 5,
+              "__collections__": {
+                "items": {
+                  "VbQpNtOg2G5wZqQw9y5": {
+                    "tipo": "pdf",
+                    "titulo": "Recepcion del RN sano",
+                    "orden": 1,
+                    "url": "https://firebasestorage.googleapis.com/v0/b/aesfron-69a52.appspot.com/o/Acceso%20Venoso%20Central%2FEleccion%20de%20un%20dispositivo.pdf?alt=media&token=d84c8b63-0dc2-42a6-992c-4fe8cb72a6f9",
+                    "__collections__": {}
+                  }
+                }
+              }
+            },
+            "M1QbOhzpl3W9JY7PVWSv": {
+              "titulo": 9,
+              "__collections__": {
+                "items": {
+                  "RuV1zFDJra7iS1LtVH2V": {
+                    "tipo": "pdf",
+                    "titulo": "prueba",
+                    "moduloId": "M1QbOhzpl3W9JY7PVWSv",
+                    "cursoId": "DAFhIw8PXBggdhWvnc0",
+                    "id": "RuV1zFDJra7iS1LtVH2V",
+                    "url": "https://firebasestorage.googleapis.com/v0/b/aesfron-69a52.appspot.com/o/cursos%2FDAFhIw8PXBggdhWvnc0%2FModulos%2FM1QbOhzpl3W9JY7PVWSv%2Fitems%2FRuV1zFDJra7iS1LtVH2V%2FAPPReclamos.docx?alt=media&token=d00d35f7-7d1f-411b-ab73-7e1bcf3242df",
+                    "__collections__": {}
+                  }
+                }
+              }
+            },
+            "WGI4U1nuJIU7c8cuXZny": {
+              "titulo": 10,
+              "__collections__": {
+                "items": {
+                  "PLB05YYoPF4BCchxaVlm": {
+                    "tipo": "pdf",
+                    "titulo": "SysCtrl",
+                    "url": "https://firebasestorage.googleapis.com/v0/b/aesfron-69a52.appspot.com/o/abb1fcfd-20e2-48e1-b00f-0e99d35bf3e0?alt=media&token=0780d9e8-4f81-4b7c-9bdc-272a121536da",
+                    "__collections__": {}
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "eventos": {
+      "qVla3wijVyRK6hg07nac": {
+        "TITULO": "dsadas",
+        "SUBTITULO": "asdasd",
+        "IMAGEN": "https://firebasestorage.googleapis.com/v0/b/aesfron-69a52.appspot.com/o/d45560f7-3ecb-4bf0-8cba-6e5f3cb4da50?alt=media&token=6c0496a0-0b58-4c3e-8323-a9b94f7f440d",
+        "created": {
+          "__datatype__": "timestamp",
+          "value": {
+            "_seconds": 1719789189,
+            "_nanoseconds": 23000000
+          }
+        },
+        "DESCRIPCION": "dasdasdasdasdas",
+        "__collections__": {}
+      }
+    },
+    "inscripciones": {
+      "WeQ0Glc7pdU3Wtp22dl4": {
+        "uid": "rs3SHhXeJ4NXbn11fx2idySM21D2",
+        "pago": true,
+        "cursoid": "6ThlcAF2z98yAXyJ4xT1",
+        "__collections__": {}
+      },
+      "fjL4ywZTTGWc7HozdGBM": {
+        "uid": "4mMAfI2bmfYy4RmIJJfph3cZv7A2",
+        "cursoid": "6ThlcAF2z98yAXyJ4xT1",
+        "pago": "true",
+        "__collections__": {}
+      },
+      "gLfiVcsZbbWjAmn73WBx": {
+        "uid": "tvvSfvM7piWjmSUnTLtUuDRs92E2",
+        "pago": true,
+        "cursoid": "DAFhIw8PXBggdhWvnc0",
+        "__collections__": {}
+      }
+    },
+    "transacciones": {
+      "72952612230": {
+        "Payer": {
+          "entity_type": null,
+          "identification": {
+            "number": "23011111114",
+            "type": "CUIL"
+          },
+          "phone": {
+            "number": null,
+            "extension": null,
+            "area_code": null
+          },
+          "operator_id": null,
+          "last_name": null,
+          "id": "1176547879",
+          "type": null,
+          "first_name": null,
+          "email": "test_user_17993042@testuser.com"
+        },
+        "payment_method_id": "visa",
+        "payment_type_id": "credit_card",
+        "status": "approved",
+        "status_detail": "accredited",
+        "__collections__": {}
+      },
+      "72953880010": {
+        "Payer": {
+          "entity_type": null,
+          "identification": {
+            "number": "23011111114",
+            "type": "CUIL"
+          },
+          "phone": {
+            "number": null,
+            "extension": null,
+            "area_code": null
+          },
+          "operator_id": null,
+          "last_name": null,
+          "id": "1176547879",
+          "type": null,
+          "first_name": null,
+          "email": "test_user_17993042@testuser.com"
+        },
+        "payment_method_id": "visa",
+        "payment_type_id": "credit_card",
+        "status": "approved",
+        "status_detail": "accredited",
+        "__collections__": {}
+      },
+      "uHPYCsVU2BTtoSCpzuMD": {
+        "__collections__": {}
+      }
+    },
+    "users": {
+      "Huqx6ICDw8hbzHQcN8yzTX9xF8R2": {
+        "nombre_completo": "Franco",
+        "piso": "",
+        "codigo_postal": "1758",
+        "numero": "6544",
+        "calle": "Santo tome",
+        "fecha_nacimiento": {
+          "__datatype__": "timestamp",
+          "value": {
+            "_seconds": 731037600,
+            "_nanoseconds": 0
+          }
+        },
+        "institucion": "otro",
+        "dept": "",
+        "provincia": "B",
+        "pais": "AR",
+        "uid": "Huqx6ICDw8hbzHQcN8yzTX9xF8R2",
+        "puesto": "otro",
+        "localidad": "Catan",
+        "telefono": "01160235647",
+        "nivel": "estudiante",
+        "DNI": "36578449",
+        "email": "franco.more1758@gmail.com",
+        "rol": "admin",
+        "__collections__": {}
+      },
+      "gY1Vrdxadtc7V8gzoC5BdVytllM2": {
+        "nombre_completo": "Franco2",
+        "piso": "",
+        "codigo_postal": "1758",
+        "numero": "6544",
+        "calle": "Santo tome",
+        "fecha_nacimiento": {
+          "__datatype__": "timestamp",
+          "value": {
+            "_seconds": 731037600,
+            "_nanoseconds": 0
+          }
+        },
+        "institucion": "a",
+        "dept": "",
+        "provincia": "B",
+        "rol": "user",
+        "pais": "AR",
+        "uid": "gY1Vrdxadtc7V8gzoC5BdVytllM2",
+        "puesto": "a",
+        "localidad": "Catan",
+        "telefono": "01160235647",
+        "nivel": "Estudiante de Enfermeria",
+        "DNI": "36578449",
+        "email": "fran1758@hotmail.com",
+        "__collections__": {}
+      },
+      "rs3SHhXeJ4NXbn11fx2idySM21D2": {
+        "nombre_completo": "Noelia piceda",
+        "piso": "",
+        "codigo_postal": "1759",
+        "numero": "6542",
+        "calle": "Pareja",
+        "fecha_nacimiento": {
+          "__datatype__": "timestamp",
+          "value": {
+            "_seconds": 683694000,
+            "_nanoseconds": 0
+          }
+        },
+        "institucion": "No tengo ",
+        "dept": "",
+        "provincia": "B",
+        "pais": "AR",
+        "uid": "rs3SHhXeJ4NXbn11fx2idySM21D2",
+        "puesto": "No tengo",
+        "localidad": "González ctan",
+        "telefono": "1159910666",
+        "nivel": "Averiguando",
+        "DNI": "35998353",
+        "email": "jonicorrea1992@gmail.com",
+        "rol": "admin",
+        "__collections__": {}
+      },
+      "tvvSfvM7piWjmSUnTLtUuDRs92E2": {
+        "nombre_completo": "Chiolo hernan",
+        "piso": "B",
+        "codigo_postal": "1801",
+        "numero": "361",
+        "calle": "Combate ",
+        "fecha_nacimiento": {
+          "__datatype__": "timestamp",
+          "value": {
+            "_seconds": 360644400,
+            "_nanoseconds": 0
+          }
+        },
+        "institucion": "Universidad nacional de lanús",
+        "dept": "",
+        "provincia": "B",
+        "rol": "user",
+        "pais": "AR",
+        "uid": "tvvSfvM7piWjmSUnTLtUuDRs92E2",
+        "puesto": "Estidiante",
+        "localidad": "CABA ",
+        "telefono": "01122386013",
+        "nivel": "Estudiante de Enfermeria",
+        "DNI": "22853413",
+        "email": "hmcholo@hotmail.com",
+        "__collections__": {}
+      }
+    }
+  }
+}
