@@ -221,54 +221,54 @@ export default function Inscripcion() {
                 <div className="col-12 col-md-5">
                     <h2 className="fs-3">Detalles</h2>
                     <div className="row">
-                        <div className="col-6">
+                        <div className="col-6 ">
                             <h3>
-                                Coordinación<p>{curso.coordinacion}</p>
+                                Coordinación<p className="mt-1">{curso.coordinacion}</p>
+                            </h3>
+                        </div>
+                        <div className="col-6 ">
+                            <h3>
+                                Clases<p className="mt-1">{curso.classes}</p>
                             </h3>
                         </div>
                         <div className="col-6">
                             <h3>
                                 Docentes
-                                <ul className="fs-6">
+                                <ul className="mt-1">
                                     {curso.disertantes.map((disertante, index) => (
                                         <li key={index}>{disertante}</li>
                                     ))}
                                 </ul>
                             </h3>
                         </div>
-                        <div className="col-6">
+                        <div className="col-6 ">
                             <h3>
-                                Carga Horaria<p>{curso.workload + " Horas"}</p>
-                            </h3>
-                        </div>
-                        <div className="col-6">
-                            <h3>
-                                Duración<p>{curso.duration}</p>
+                                Modalidad<p className="mt-1">{curso.modalidad}</p>
                             </h3>
                         </div>
                         <div className="col-6">
                             <h3>
-                                Inicio<p>{curso.start}</p>
+                                Carga Horaria<p className="mt-1">{curso.workload + " Horas"}</p>
                             </h3>
                         </div>
                         <div className="col-6 ">
                             <h3>
-                                Clases<p>{curso.classes}</p>
+                                Evaluacion<p className="mt-1">{curso.test}</p>
+                            </h3>
+                        </div>
+                        <div className="col-6">
+                            <h3>
+                                Duración<p className="mt-1">{curso.duration}</p>
                             </h3>
                         </div>
                         <div className="col-6 ">
                             <h3>
-                                Modalidad<p>{curso.modalidad}</p>
+                                Mail de contacto<p className="mt-1">{curso.mail}</p>
                             </h3>
                         </div>
-                        <div className="col-6 ">
+                        <div className="col-6">
                             <h3>
-                                Mail de contacto<p>{curso.mail}</p>
-                            </h3>
-                        </div>
-                        <div className="col-6 ">
-                            <h3>
-                                Evaluacion<p>{curso.test}</p>
+                                Inicio<p className="mt-1">{curso.start}</p>
                             </h3>
                         </div>
                     </div>
