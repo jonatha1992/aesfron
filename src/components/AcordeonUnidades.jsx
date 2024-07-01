@@ -64,7 +64,7 @@ const UnidadAccordion = ({ unidad }) => (
     <Accordion key={unidad.id} className="w-100">
         <AccordionSummary expandIcon={<ExpandMoreIcon />} style={accordionItemSummaryStyle}>
             <FolderIcon style={iconStyle} />
-            <Typography>{unidad.titulo}</Typography>
+            <Typography>{"Unidad " + unidad.titulo}</Typography>
         </AccordionSummary>
         <AccordionDetails style={accordionDetailsStyle}>
             <List>

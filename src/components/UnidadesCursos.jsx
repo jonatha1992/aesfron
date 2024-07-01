@@ -27,7 +27,7 @@ const accordionTitleStyle = {
 };
 
 const accordionItemSummaryStyle = {
-    background: "var(--color6)", // Gradiente de azul oscuro a azul claro
+    background: "var(--color6)",
     color: "white",
     textTransform: "uppercase",
     fontSize: "1.2rem",
@@ -38,7 +38,7 @@ const accordionItemSummaryStyle = {
 };
 
 const accordionDetailsStyle = {
-    backgroundColor: "#f4f4f4", // Gris claro
+    backgroundColor: "#f4f4f4",
     paddingBottom: "0.2rem",
     borderRadius: "5px",
 };
@@ -54,7 +54,7 @@ const itemStyle = {
 };
 
 const itemHoverStyle = {
-    backgroundColor: "#cececf", // Gris un poco más oscuro al pasar el ratón
+    backgroundColor: "#cececf",
 };
 
 const textStyle = {
@@ -86,11 +86,12 @@ const MaterialItem = ({ item }) => {
 
     const handleClick = (e, url) => {
         if (item.tipo === "link") {
-            window.open(item.url, "_blank");
+            window.open(url, "_blank");
         }
     };
+
     const handleDownloadClick = (e, url) => {
-        const fileUrl = url; // Cambia esto por la URL de tu archivo
+        const fileUrl = url;
         const link = document.createElement("a");
         link.target = "_blank";
         link.href = fileUrl;
@@ -102,8 +103,8 @@ const MaterialItem = ({ item }) => {
 
     return (
         <div
-            className={` ${isClickable ? "" : "non-clickable"}`}
-            onClick={isClickable ? handleClick : null}
+            className={`${isClickable ? "" : "non-clickable"}`}
+            onClick={isClickable ? (e) => handleClick(e, item.url) : null}
             style={itemStyle}
             onMouseEnter={isClickable ? (e) => (e.currentTarget.style.backgroundColor = itemHoverStyle.backgroundColor) : null}
             onMouseLeave={isClickable ? (e) => (e.currentTarget.style.backgroundColor = itemStyle.background) : null}
@@ -111,7 +112,7 @@ const MaterialItem = ({ item }) => {
             <div className="d-flex flex-row align-items-center w-100">
                 {getIcon(item.tipo)}
                 <Typography style={textStyle}>{item.titulo}</Typography>
-                {item.tipo !== "link" && item.tipo !== "Info" && (
+                {item.tipo === "pdf" && (
                     <DownloadForOfflineIcon
                         style={{ marginLeft: "auto", cursor: "pointer" }}
                         onClick={(e) => handleDownloadClick(e, item.url)}
@@ -125,7 +126,8 @@ const MaterialItem = ({ item }) => {
 const UnidadAccordion = ({ unidad }) => (
     <Accordion key={unidad.id}>
         <AccordionSummary expandIcon={<ExpandMoreIcon />} style={accordionItemSummaryStyle}>
-            <FolderIcon style={{ width: "1.5rem", height: "1.5rem", marginRight: "5px" }} /> {unidad.titulo}
+            <FolderIcon style={{ width: "1.5rem", height: "1.5rem", marginRight: "5px" }} />
+            {unidad.id === "biblioteca" ? unidad.titulo : "Unidad " + unidad.titulo}
         </AccordionSummary>
         <AccordionDetails style={accordionDetailsStyle}>
             {unidad.items.map((item) => (
@@ -168,7 +170,7 @@ const InfoCursosAccordion = ({ detalles }) => {
                     <Typography className="fw-bold text-uppercase">Docentes</Typography>
                     {detalles.disertantes.map((disertante, index) => (
                         <Typography key={index} className="text-capitalize mb-2">
-                            <li>{disertante}</li>
+                            <p>{disertante}</p>
                         </Typography>
                     ))}
                 </AccordionDetails>
@@ -179,27 +181,50 @@ const InfoCursosAccordion = ({ detalles }) => {
 
 const UnidadesCursos = ({ activeCourse }) => {
     const { cursoid, detalles } = activeCourse || {};
-    const [loading, setLoading] = useState(true); // Estado para controlar la carga inicial
+    const [loading, setLoading] = useState(true);
     const [contenido, setContenido] = useState([]);
+    const [biblioteca, setBiblioteca] = useState({ pdfs: [], links: [] });
 
     useEffect(() => {
         const fetchDataFromFirebase = async () => {
-            setLoading(true); // Mover esto aquí para empezar la carga
+            setLoading(true);
             try {
                 const contenidoData = await getModulos(cursoid);
+
+                // Filtrar PDFs y links para la biblioteca
+                const allPdfs = [];
+                const allLinks = [];
+                contenidoData.forEach((unidad) => {
+                    unidad.items.forEach((item) => {
+                        if (item.tipo === "pdf" && !allPdfs.some((pdf) => pdf.url === item.url)) {
+                            allPdfs.push(item);
+                        } else if (item.tipo === "link" && !allLinks.some((link) => link.url === item.url)) {
+                            allLinks.push(item);
+                        }
+                    });
+                });
+
+                setBiblioteca({ pdfs: allPdfs, links: allLinks });
                 setContenido(contenidoData);
             } catch (error) {
                 console.error("Error al obtener datos de Firebase:", error);
             } finally {
-                setLoading(false); // Mover esto aquí para finalizar la carga
+                setLoading(false);
             }
         };
         if (cursoid) {
             fetchDataFromFirebase();
         } else {
-            setLoading(false); // Asegurarse de que el loading se detenga si no hay cursoid
+            setLoading(false);
         }
     }, [cursoid]);
+
+    const bibliotecaUnidad = {
+        id: "biblioteca",
+        titulo: "Biblioteca / Enlaces",
+        items: [...biblioteca.pdfs, ...biblioteca.links],
+    };
+
     return (
         <>
             <Backdrop open={loading} style={{ zIndex: 9999 }}>
@@ -213,6 +238,7 @@ const UnidadesCursos = ({ activeCourse }) => {
                     {contenido.map((unidad) => (
                         <UnidadAccordion key={unidad.id} unidad={unidad} />
                     ))}
+                    <UnidadAccordion unidad={bibliotecaUnidad} />
                 </div>
             </div>
         </>

@@ -33,11 +33,12 @@ export async function getCurso(cursoId) {
 export async function getModulos(cursoid) {
     // Obtiene una referencia al documento del curso usando el ID proporcionado
     const cursoDocRef = doc(db, "cursos", cursoid);
+    console.log(cursoid);
 
     try {
         // Obtiene el documento del curso desde Firestore
         const cursoSnapshot = await getDoc(cursoDocRef);
-
+        console.log("Document data:", cursoSnapshot.data());
         // Verifica si el documento del curso existe
         if (!cursoSnapshot.exists()) {
             console.error("No se encontró el curso con el ID proporcionado.");
@@ -72,11 +73,14 @@ export async function getModulos(cursoid) {
             return unidadData; // Devuelve los datos de la unidad con sus ítems
         });
 
+        console.log(unidadesPromises);
         // Espera a que todas las promesas se resuelvan
         const unidades = await Promise.all(unidadesPromises);
 
+        console.log(unidades);
         // Ordena las unidades por su título
-        unidades.sort((a, b) => a.titulo.localeCompare(b.titulo));
+        // unidades.sort((a, b) => a.titulo.localeCompare(b.titulo));
+        return unidades.sort((a, b) => a.titulo - b.titulo);
         console.log(unidades);
         return unidades; // Devuelve las unidades ordenadas
     } catch (error) {

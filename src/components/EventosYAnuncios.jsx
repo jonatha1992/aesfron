@@ -3,51 +3,76 @@ import Slider from "react-slick";
 import "../css/eventos.css";
 import { FaWhatsapp, FaFacebook, FaInstagram } from "react-icons/fa";
 import { FiMail } from "react-icons/fi";
-import { obtenerRecientes } from "../firebase"; // Asegúrate de que esta ruta sea correcta
+import { obtenerRecientes } from "../firebase";
 
 const EventosYAnuncios = () => {
     const [eventos, setEventos] = useState([]);
     const [anuncios, setAnuncios] = useState([]);
-    const fetchEventos = async () => {
-        const eventosObtenidos = await obtenerRecientes(5, "eventos");
-        setEventos(eventosObtenidos);
-    };
-
-    const fetchAnuncios = async () => {
-        const anunciosObtenidos = await obtenerRecientes(5, "anuncios");
-        setAnuncios(anunciosObtenidos);
-    };
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        fetchEventos();
-        fetchAnuncios();
+        const fetchData = async () => {
+            setLoading(true);
+            try {
+                const eventosObtenidos = await obtenerRecientes(5, "eventos");
+                setEventos(eventosObtenidos);
+                const anunciosObtenidos = await obtenerRecientes(5, "anuncios");
+                setAnuncios(anunciosObtenidos);
+            } catch (error) {
+                console.error("Error al obtener datos:", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchData();
     }, []);
+
+    if (loading) {
+        return <div>Cargando...</div>;
+    }
+
+    const hayEventos = eventos && eventos.length > 0;
+    const hayAnuncios = anuncios && anuncios.length > 0;
+
+    if (!hayEventos && !hayAnuncios) {
+        return (
+            <div className="container p-5 text-center">
+                {" "}
+                <h1 className="titulo-evento-anuncio">No hay eventos ni anuncios disponibles al momento.</h1>
+            </div>
+        );
+    }
+
+    const soloUno = (hayEventos && !hayAnuncios) || (!hayEventos && hayAnuncios);
 
     return (
         <div className="container p-5">
-            <div className="   row pt-5">
-                <div className="col-12 col-md-6 mb-4">
-                    <div className="evento-encabezado">
-                        <h1 className="titulo-evento-anuncio mt-0">EVENTOS</h1>
+            <div className={`row pt-5 ${soloUno ? "justify-content-center" : ""}`}>
+                {hayEventos && (
+                    <div className={`col-12 ${soloUno ? "col-md-8" : "col-md-6"} mb-4`}>
+                        <div className="evento-encabezado">
+                            <h1 className="titulo-evento-anuncio mt-0">EVENTOS</h1>
+                        </div>
+                        <EventosSlider eventos={eventos} />
                     </div>
-                    <EventosSlider eventos={eventos} />
-                </div>
-                <div className="col-12 col-md-6 mb-4">
-                    <div className="evento-encabezado">
-                        <h1 className="titulo-evento-anuncio mt-0">ANUNCIOS</h1>
+                )}
+                {hayAnuncios && (
+                    <div className={`col-12 ${soloUno ? "col-md-6" : "col-md-6"} mb-4`}>
+                        <div className="evento-encabezado">
+                            <h1 className="titulo-evento-anuncio mt-0">ANUNCIOS</h1>
+                        </div>
+                        <AnunciosSlider anuncios={anuncios} />
                     </div>
-                    <AnunciosSlider anuncios={anuncios} />
-                </div>
+                )}
             </div>
         </div>
     );
 };
-
 const divStyle = {
     backgroundPosition: "center",
     backgroundSize: "cover",
     backgroundRepeat: "no-repeat",
-    height: "200px", // Ajusta la altura según sea necesario
+    height: "200px",
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center",
@@ -103,8 +128,8 @@ const EventosSlider = ({ eventos }) => {
     const settings = {
         arrows: false,
         dots: false,
-        autoplay: true,
-        infinite: true,
+        autoplay: eventos?.length > 1,
+        infinite: eventos?.length > 1,
         speed: 500,
         slidesToShow: 1,
         slidesToScroll: 1,
@@ -115,7 +140,7 @@ const EventosSlider = ({ eventos }) => {
                 settings: {
                     slidesToShow: 1,
                     slidesToScroll: 1,
-                    infinite: true,
+                    infinite: eventos?.length > 1,
                     dots: true,
                 },
             },
@@ -139,13 +164,17 @@ const EventosSlider = ({ eventos }) => {
 
     const defaultImageURL = "https://www.uba.ar/imgs/w-HOSPITALES-1920x980.jpg";
 
+    if (!eventos || eventos.length === 0) {
+        return <div>No hay eventos disponibles.</div>;
+    }
+
     return (
         <Slider {...settings} className="px-lg-5">
             {eventos.map((evento) => (
                 <Card
                     key={evento.id}
                     titulo={evento.TITULO}
-                    fecha={new Date(evento.created.seconds * 1000).toLocaleDateString()}
+                    fecha={evento.created?.seconds ? new Date(evento.created.seconds * 1000).toLocaleDateString() : "Fecha no disponible"}
                     imagen={evento.IMAGEN || defaultImageURL}
                     descripcion={evento.DESCRIPCION}
                     fondoStyle={divStyle}
@@ -159,8 +188,8 @@ const AnunciosSlider = ({ anuncios }) => {
     const settings = {
         arrows: false,
         dots: false,
-        autoplay: true,
-        infinite: true,
+        autoplay: anuncios?.length > 1,
+        infinite: anuncios?.length > 1,
         speed: 500,
         slidesToShow: 1,
         slidesToScroll: 1,
@@ -171,7 +200,7 @@ const AnunciosSlider = ({ anuncios }) => {
                 settings: {
                     slidesToShow: 1,
                     slidesToScroll: 1,
-                    infinite: true,
+                    infinite: anuncios?.length > 1,
                     dots: true,
                 },
             },
@@ -195,13 +224,17 @@ const AnunciosSlider = ({ anuncios }) => {
 
     const defaultImageURL = "https://www.uba.ar/imgs/w-HOSPITALES-1920x980.jpg";
 
+    if (!anuncios || anuncios.length === 0) {
+        return <div>No hay anuncios disponibles.</div>;
+    }
+
     return (
         <Slider {...settings} className="px-lg-5">
             {anuncios.map((anuncio) => (
                 <Card
                     key={anuncio.id}
                     titulo={anuncio.TITULO}
-                    fecha={new Date(anuncio.created.seconds * 1000).toLocaleDateString()}
+                    fecha={anuncio.created?.seconds ? new Date(anuncio.created.seconds * 1000).toLocaleDateString() : "Fecha no disponible"}
                     imagen={anuncio.IMAGEN || defaultImageURL}
                     descripcion={anuncio.DESCRIPCION}
                     fondoStyle={divStyle}

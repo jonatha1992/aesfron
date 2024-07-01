@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { obtenerRecientes, eliminarDoc, deleteFile } from "../firebase"; // Asegúrate de que estas rutas sean correctas
+import { obtenerRecientes, eliminarDoc, deleteFile } from "../firebase";
 import ModificacionAnuncioEventos from "./ModificacionAnuncioEventos";
-import { List, ListItem, ListItemText, Box, Button, IconButton } from "@mui/material";
+import { List, ListItem, ListItemText, Box, Button, IconButton, Backdrop, CircularProgress } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import { ToastContainer, toast } from "react-toastify";
@@ -11,14 +11,24 @@ const ListaAnunciosEventos = ({ isEvento = false }) => {
     const [documentos, setDocumentos] = useState([]);
     const [documentoSeleccionado, setDocumentoSeleccionado] = useState(null);
     const [mostrarLista, setMostrarLista] = useState(true);
+    const [loading, setLoading] = useState(true);
+    const [deleting, setDeleting] = useState(false);
 
     const tipoDocumento = isEvento ? "eventos" : "anuncios";
     const nombreSingular = isEvento ? "Evento" : "Anuncio";
     const nombrePlural = isEvento ? "Eventos" : "Anuncios";
 
     const fetchDocumentos = async () => {
-        const documentosRecientes = await obtenerRecientes(10, tipoDocumento);
-        setDocumentos(documentosRecientes);
+        setLoading(true);
+        try {
+            const documentosRecientes = await obtenerRecientes(10, tipoDocumento);
+            setDocumentos(documentosRecientes);
+        } catch (error) {
+            console.error(`Error al obtener ${nombrePlural.toLowerCase()}: `, error);
+            toast.error(`Error al cargar ${nombrePlural.toLowerCase()}`);
+        } finally {
+            setLoading(false);
+        }
     };
 
     useEffect(() => {
@@ -30,9 +40,12 @@ const ListaAnunciosEventos = ({ isEvento = false }) => {
         setMostrarLista(false);
     };
 
-    const handleDocumentoActualizado = () => {
+    const handleDocumentoActualizado = (mensaje) => {
         fetchDocumentos();
         setMostrarLista(true);
+        if (mensaje) {
+            toast.success(mensaje);
+        }
     };
 
     const handleNuevoDocumento = () => {
@@ -42,6 +55,7 @@ const ListaAnunciosEventos = ({ isEvento = false }) => {
 
     const handleEliminarDocumento = async (documento, event) => {
         event.stopPropagation();
+        setDeleting(true);
         try {
             await eliminarDoc(documento.id, tipoDocumento);
             await deleteFile(documento.IMAGEN);
@@ -50,12 +64,17 @@ const ListaAnunciosEventos = ({ isEvento = false }) => {
         } catch (error) {
             toast.error(`Error al eliminar el ${nombreSingular.toLowerCase()}`);
             console.error(`Error al eliminar el ${nombreSingular.toLowerCase()}: `, error);
+        } finally {
+            setDeleting(false);
         }
     };
 
     return (
         <Box>
-            <ToastContainer />
+            <ToastContainer autoClose={2000} />
+            <Backdrop open={loading || deleting} style={{ zIndex: 9999, color: "#fff" }}>
+                <CircularProgress color="inherit" />
+            </Backdrop>
             {!mostrarLista && (
                 <Button variant="contained" color="secondary" onClick={() => setMostrarLista(true)} sx={{ margin: "5px 0" }}>
                     Volver a la lista
