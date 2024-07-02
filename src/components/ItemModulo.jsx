@@ -4,8 +4,13 @@ import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
 
-import { updateItem, deleteItem, uploadFile } from "../firebase";
+import { updateItem, deleteItem, uploadFile, deleteFile } from "../firebase";
 
 export default function ItemModulo({
   item,
@@ -18,6 +23,7 @@ export default function ItemModulo({
   const [itemData, setItemData] = useState({ ...item, cursoId, moduloId });
   const [file, setFile] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [openConfirmDialog, setOpenConfirmDialog] = useState(false);
 
   const handleEditToggle = () => {
     setIsEditing(!isEditing);
@@ -50,10 +56,23 @@ export default function ItemModulo({
     }
   };
 
+  const handleDeleteConfirmation = () => {
+    setOpenConfirmDialog(true);
+  };
+
   const handleDelete = async () => {
     try {
       setLoading(true);
-      await deleteItem(cursoId, moduloId, item.id);
+      setOpenConfirmDialog(false);
+
+      // Eliminar el archivo de Firebase Storage
+      if (itemData.url) {
+        await deleteFile(itemData.url);
+      }
+
+      // Eliminar el item de la base de datos
+      await deleteItem(item.id, cursoId, moduloId);
+
       onDelete(item.id);
     } catch (error) {
       console.error("Error al eliminar el ítem:", error);
@@ -105,7 +124,7 @@ export default function ItemModulo({
             Descargar archivo
           </a>
           <Button onClick={handleEditToggle}>Editar</Button>
-          <Button onClick={handleDelete}>Eliminar</Button>
+          <Button onClick={handleDeleteConfirmation}>Eliminar</Button>
         </div>
       )}
       <Backdrop
@@ -114,6 +133,28 @@ export default function ItemModulo({
       >
         <CircularProgress color="inherit" />
       </Backdrop>
+      <Dialog
+        open={openConfirmDialog}
+        onClose={() => setOpenConfirmDialog(false)}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          {"Confirmar eliminación"}
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            ¿Estás seguro de que quieres eliminar este ítem? Esta acción no se
+            puede deshacer.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setOpenConfirmDialog(false)}>Cancelar</Button>
+          <Button onClick={handleDelete} autoFocus>
+            Eliminar
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Box>
   );
 }
