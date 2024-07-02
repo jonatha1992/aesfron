@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
+import Backdrop from "@mui/material/Backdrop";
+import CircularProgress from "@mui/material/CircularProgress";
 
 import { updateItem, deleteItem, uploadFile } from "../firebase";
 
@@ -15,6 +17,7 @@ export default function ItemModulo({
   const [isEditing, setIsEditing] = useState(false);
   const [itemData, setItemData] = useState({ ...item, cursoId, moduloId });
   const [file, setFile] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const handleEditToggle = () => {
     setIsEditing(!isEditing);
@@ -31,32 +34,45 @@ export default function ItemModulo({
 
   const handleUpdate = async () => {
     try {
+      setLoading(true);
       if (file) {
         const url = await uploadFile(file, cursoId, moduloId, item.id);
         itemData.url = url;
       }
-      console.log("Updating item with data: ", itemData); // Añadir log para depuración
+      console.log("Updating item with data: ", itemData);
       await updateItem(cursoId, moduloId, item.id, itemData);
       onUpdate(itemData);
       setIsEditing(false);
     } catch (error) {
       console.error("Error al actualizar el ítem:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
   const handleDelete = async () => {
     try {
+      setLoading(true);
       await deleteItem(cursoId, moduloId, item.id);
       onDelete(item.id);
     } catch (error) {
       console.error("Error al eliminar el ítem:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <Box>
       {isEditing ? (
-        <Box>
+        <Box
+          style={{
+            backgroundColor: "#b4ccd6",
+            padding: "1rem",
+            margin: "1rem",
+            borderRadius: "1rem",
+          }}
+        >
           <TextField
             name="titulo"
             label="Título"
@@ -89,8 +105,15 @@ export default function ItemModulo({
             Descargar archivo
           </a>
           <Button onClick={handleEditToggle}>Editar</Button>
+          <Button onClick={handleDelete}>Eliminar</Button>
         </div>
       )}
+      <Backdrop
+        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={loading}
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>
     </Box>
   );
 }
