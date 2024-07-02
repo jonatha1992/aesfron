@@ -69,12 +69,12 @@ const textStyle = {
 };
 
 const getIcon = (tipo) => {
-    switch (tipo) {
+    switch (tipo.toLowerCase()) {
         case "pdf":
             return <PictureAsPdfIcon style={iconStyle} />;
         case "link":
             return <LinkIcon style={iconStyle} />;
-        case "Info":
+        case "info":
             return <InfoIcon style={iconStyle} />;
         default:
             return null;
@@ -82,19 +82,21 @@ const getIcon = (tipo) => {
 };
 
 const MaterialItem = ({ item }) => {
-    const isClickable = item.tipo !== "Info";
+    const isClickable = item.tipo.toLowerCase() !== "info";
 
-    const handleClick = (e, url) => {
-        if (item.tipo === "link") {
-            window.open(url, "_blank");
+    const handleItemClick = (e) => {
+        e.stopPropagation(); // Previene la propagación del evento
+        if (item.tipo.toLowerCase() === "link") {
+            window.open(item.url, "_blank");
+        } else if (item.tipo.toLowerCase() === "pdf") {
+            handleDownloadClick(item.url);
         }
     };
 
-    const handleDownloadClick = (e, url) => {
-        const fileUrl = url;
+    const handleDownloadClick = (url) => {
         const link = document.createElement("a");
         link.target = "_blank";
-        link.href = fileUrl;
+        link.href = url;
         link.download = "file.pdf";
         document.body.appendChild(link);
         link.click();
@@ -103,26 +105,23 @@ const MaterialItem = ({ item }) => {
 
     return (
         <div
-            className={`${isClickable ? "" : "non-clickable"}`}
-            onClick={isClickable ? (e) => handleClick(e, item.url) : null}
-            style={itemStyle}
+            className={`${isClickable ? "clickable" : "non-clickable"}`}
+            onClick={isClickable ? handleItemClick : null}
+            style={{
+                ...itemStyle,
+                cursor: isClickable ? "pointer" : "default",
+            }}
             onMouseEnter={isClickable ? (e) => (e.currentTarget.style.backgroundColor = itemHoverStyle.backgroundColor) : null}
             onMouseLeave={isClickable ? (e) => (e.currentTarget.style.backgroundColor = itemStyle.background) : null}
         >
             <div className="d-flex flex-row align-items-center w-100">
                 {getIcon(item.tipo)}
                 <Typography style={textStyle}>{item.titulo}</Typography>
-                {item.tipo === "pdf" && (
-                    <DownloadForOfflineIcon
-                        style={{ marginLeft: "auto", cursor: "pointer" }}
-                        onClick={(e) => handleDownloadClick(e, item.url)}
-                    />
-                )}
+                {item.tipo.toLowerCase() === "pdf" && <DownloadForOfflineIcon style={{ marginLeft: "auto" }} />}
             </div>
         </div>
     );
 };
-
 const UnidadAccordion = ({ unidad }) => (
     <Accordion key={unidad.id}>
         <AccordionSummary expandIcon={<ExpandMoreIcon />} style={accordionItemSummaryStyle}>
@@ -194,18 +193,26 @@ const UnidadesCursos = ({ activeCourse }) => {
                 // Filtrar PDFs y links para la biblioteca
                 const allPdfs = [];
                 const allLinks = [];
-                contenidoData.forEach((unidad) => {
-                    unidad.items.forEach((item) => {
-                        if (item.tipo === "pdf" && !allPdfs.some((pdf) => pdf.url === item.url)) {
-                            allPdfs.push(item);
-                        } else if (item.tipo === "link" && !allLinks.some((link) => link.url === item.url)) {
-                            allLinks.push(item);
+                const updatedContenidoData = contenidoData.map((unidad) => {
+                    const updatedItems = unidad.items.filter((item) => {
+                        if (item.tipo === "pdf") {
+                            if (!allPdfs.some((pdf) => pdf.url === item.url)) {
+                                allPdfs.push(item);
+                                return false; // No incluir en updatedItems
+                            }
+                        } else if (item.tipo === "link") {
+                            if (!allLinks.some((link) => link.url === item.url)) {
+                                allLinks.push(item);
+                                return false; // No incluir en updatedItems
+                            }
                         }
+                        return true; // Mantener otros tipos de items
                     });
+                    return { ...unidad, items: updatedItems };
                 });
 
                 setBiblioteca({ pdfs: allPdfs, links: allLinks });
-                setContenido(contenidoData);
+                setContenido(updatedContenidoData);
             } catch (error) {
                 console.error("Error al obtener datos de Firebase:", error);
             } finally {
