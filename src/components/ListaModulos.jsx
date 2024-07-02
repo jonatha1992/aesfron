@@ -5,6 +5,7 @@ import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
 import ItemModulo from "./ItemModulo";
 import MenuItem from "@mui/material/MenuItem";
+import { List, ListItem } from "@mui/material";
 
 export default function ListaModulos({ cursoId }) {
   const [modulos, setModulos] = useState([]);
@@ -55,24 +56,34 @@ export default function ListaModulos({ cursoId }) {
         <div
           style={{
             display: "flex",
-
+            justifyContent: "space-between",
             marginTop: "2rem",
           }}
         >
-          <div className="col-4">
-            <ul>
+          <div className="col-3">
+            <List>
               {modulos.map((modulo) => (
-                <MenuItem
+                <ListItem
                   key={modulo.id}
                   onClick={() => handleModuloClick(modulo)}
+                  sx={{
+                    borderRadius: "8px",
+                    border: "1px solid var(--color1)",
+                    margin: "8px 0",
+                    transition: "background 0.3s ease",
+                    "&:hover": {
+                      background: "var(--color2)",
+                      color: "white",
+                    },
+                  }}
                 >
                   {modulo.titulo}
-                </MenuItem>
+                </ListItem>
               ))}
-            </ul>
+            </List>
           </div>
           {selectedModulo && (
-            <div className="col-6">
+            <div className="col-9">
               <h3>{selectedModulo.titulo}</h3>
               <ul>
                 {selectedModulo.items.map((item) => (

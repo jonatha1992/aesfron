@@ -77,7 +77,13 @@ export default function ItemModulo({
           <Button onClick={handleEditToggle}>Cancelar</Button>
         </Box>
       ) : (
-        <div style={{ border: "solid, 1px", background: "#e4efef" }}>
+        <div
+          style={{
+            border: "solid, 1px",
+            background: "rgb(138, 225, 234)",
+            marginBottom: "0.5rem",
+          }}
+        >
           <p>{itemData.titulo}</p>
           <a href={itemData.url} target="_blank" rel="noopener noreferrer">
             Descargar archivo
