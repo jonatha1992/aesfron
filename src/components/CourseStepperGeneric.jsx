@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Box from "@mui/material/Box";
 import Stepper from "@mui/material/Stepper";
 import Step from "@mui/material/Step";
@@ -15,11 +15,13 @@ import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
-import { agregarDoc, uploadFiles } from "../firebase"; // Ajusta las rutas según sea necesario
+import { agregarDoc, actualizarDoc, uploadFiles } from "../firebase";
+import { getCurso } from "../controllers/controllerCurso";
+import { toast } from "react-toastify";
 
 const steps = ["Detalles del Curso", "Disertantes", "Tiempo y Lugar", "Objetivos", "Imagen"];
 
-export default function CourseStepper() {
+export default function CourseStepperGeneric({ cursoId, onCursoActualizado }) {
     const [activeStep, setActiveStep] = useState(0);
     const [skipped, setSkipped] = useState(new Set());
     const [courseData, setCourseData] = useState({
@@ -35,14 +37,30 @@ export default function CourseStepper() {
         objetivos: [""],
         meet: "",
         test: "",
-        imageURL: "",
+        imageUrl: "",
         workload: "",
-        classes: "", // Nuevo campo "clases"
-        modalidad: "", // Nuevo campo "modalidad"
+        classes: "",
+        modalidad: "",
     });
     const [imageFile, setImageFile] = useState(null);
     const [imagePreviewUrl, setImagePreviewUrl] = useState("");
     const [isSubmitting, setIsSubmitting] = useState(false);
+
+    useEffect(() => {
+        if (cursoId) {
+            const fetchCourseData = async () => {
+                try {
+                    const curso = await getCurso(cursoId);
+                    setCourseData(curso);
+                    setImagePreviewUrl(curso.imageURL);
+                } catch (error) {
+                    console.error("Error al obtener los datos del curso:", error);
+                    toast.error("Error al cargar los datos del curso");
+                }
+            };
+            fetchCourseData();
+        }
+    }, [cursoId]);
 
     const handleNext = async () => {
         if (!validateStepFields()) return;
@@ -56,42 +74,24 @@ export default function CourseStepper() {
         if (activeStep === steps.length - 1) {
             setIsSubmitting(true);
             try {
-                let imageUrl = courseData.imageURL;
+                let CargadaimageUrl = courseData.imageURL;
                 if (imageFile) {
-                    imageUrl = await uploadFiles(imageFile);
+                    CargadaimageUrl = await uploadFiles(imageFile);
                 }
-                if (!imageUrl) {
-                    alert("Por favor, sube una imagen.");
-                    setIsSubmitting(false);
-                    return;
+                const finalCourseData = { ...courseData, imageUrl: CargadaimageUrl };
+                console.log("finalCourseData:", finalCourseData);
+                if (cursoId) {
+                    await actualizarDoc(cursoId, finalCourseData, "cursos");
+                    onCursoActualizado("Curso actualizado con éxito");
+                } else {
+                    await agregarDoc(finalCourseData, "cursos");
+                    onCursoActualizado("Curso creado con éxito");
                 }
-                const finalCourseData = { ...courseData, imageURL: imageUrl };
-                const courseId = await agregarDoc(finalCourseData, "cursos");
-                console.log("Course ID:", courseId);
 
-                setActiveStep(0);
-                setCourseData({
-                    title: "",
-                    coordinacion: "",
-                    price: "",
-                    mail: "",
-                    disertantes: [""],
-                    start: "",
-                    duration: "",
-                    place: "",
-                    description: "",
-                    objetivos: [""],
-                    meet: "",
-                    test: "",
-                    imageURL: "",
-                    workload: "",
-                    classes: "",
-                    modalidad: "",
-                });
-                setImageFile(null);
-                setImagePreviewUrl("");
+                resetForm();
             } catch (error) {
                 console.error("Error al guardar el curso:", error);
+                toast.error("Error al guardar el curso");
             } finally {
                 setIsSubmitting(false);
             }
@@ -101,17 +101,41 @@ export default function CourseStepper() {
         setSkipped(newSkipped);
     };
 
+    const resetForm = () => {
+        setActiveStep(0);
+        setCourseData({
+            title: "",
+            coordinacion: "",
+            price: "",
+            mail: "",
+            disertantes: [""],
+            start: "",
+            duration: "",
+            place: "",
+            description: "",
+            objetivos: [""],
+            meet: "",
+            test: "",
+            imageURL: "",
+            workload: "",
+            classes: "",
+            modalidad: "",
+        });
+        setImageFile(null);
+        setImagePreviewUrl("");
+    };
+
     const validateStepFields = () => {
         const fields = getStepFields(activeStep);
         for (let field of fields) {
             if (Array.isArray(courseData[field])) {
                 if (courseData[field].some((item) => item.trim() === "")) {
-                    alert(`Por favor completa todos los campos en ${steps[activeStep]}`);
+                    toast.error(`Por favor completa todos los campos en ${steps[activeStep]}`);
                     return false;
                 }
             } else {
                 if (!courseData[field] || courseData[field].trim() === "") {
-                    alert(`Por favor completa todos los campos en ${steps[activeStep]}`);
+                    toast.error(`Por favor completa todos los campos en ${steps[activeStep]}`);
                     return false;
                 }
             }
@@ -130,7 +154,7 @@ export default function CourseStepper() {
             case 3:
                 return ["objetivos"];
             case 4:
-                return ["meet", "test", "classes"]; // Agregar "classes" al último paso
+                return ["meet", "test", "classes"];
             default:
                 return [];
         }
@@ -193,40 +217,30 @@ export default function CourseStepper() {
                     </Step>
                 ))}
             </Stepper>
-            {activeStep === steps.length ? (
-                <React.Fragment>
-                    <Typography sx={{ mt: 2, mb: 1 }}>Todos los pasos completados - has terminado</Typography>
+            <React.Fragment>
+                <Typography sx={{ mt: 2, mb: 1 }}>Paso {activeStep + 1}</Typography>
+                <Box sx={{ display: "flex", flexDirection: "column", pt: 2 }}>
+                    {getStepContent(
+                        activeStep,
+                        courseData,
+                        handleChange,
+                        handleAddField,
+                        handleRemoveField,
+                        handleImageChange,
+                        imageFile,
+                        imagePreviewUrl
+                    )}
                     <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
+                        <Button color="inherit" disabled={activeStep === 0} onClick={handleBack} sx={{ mr: 1 }}>
+                            Atrás
+                        </Button>
                         <Box sx={{ flex: "1 1 auto" }} />
-                        <Button onClick={handleNext}>Finalizar</Button>
+                        <Button onClick={handleNext} disabled={isSubmitting}>
+                            {activeStep === steps.length - 1 ? "Finalizar" : "Siguiente"}
+                        </Button>
                     </Box>
-                </React.Fragment>
-            ) : (
-                <React.Fragment>
-                    <Typography sx={{ mt: 2, mb: 1 }}>Paso {activeStep + 1}</Typography>
-                    <Box sx={{ display: "flex", flexDirection: "column", pt: 2 }}>
-                        {getStepContent(
-                            activeStep,
-                            courseData,
-                            handleChange,
-                            handleAddField,
-                            handleRemoveField,
-                            handleImageChange,
-                            imageFile,
-                            imagePreviewUrl
-                        )}
-                        <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
-                            <Button color="inherit" disabled={activeStep === 0} onClick={handleBack} sx={{ mr: 1 }}>
-                                Atrás
-                            </Button>
-                            <Box sx={{ flex: "1 1 auto" }} />
-                            <Button onClick={handleNext} disabled={isSubmitting}>
-                                {activeStep === steps.length - 1 ? "Finalizar" : "Siguiente"}
-                            </Button>
-                        </Box>
-                    </Box>
-                </React.Fragment>
-            )}
+                </Box>
+            </React.Fragment>
             <Backdrop sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }} open={isSubmitting}>
                 <CircularProgress color="inherit" />
             </Backdrop>
@@ -264,15 +278,7 @@ function getStepContent(step, courseData, handleChange, handleAddField, handleRe
                         onChange={(e) => handleChange(e, "price")}
                         fullWidth
                         required
-                        inputProps={{
-                            inputMode: "numeric",
-                            pattern: "[0-9]*",
-                            onKeyPress: (event) => {
-                                if (!/[0-9]/.test(event.key)) {
-                                    event.preventDefault();
-                                }
-                            },
-                        }}
+                        type="number"
                         sx={{ mb: 2 }}
                     />
                     <TextField
@@ -282,6 +288,7 @@ function getStepContent(step, courseData, handleChange, handleAddField, handleRe
                         onChange={(e) => handleChange(e, "mail")}
                         fullWidth
                         required
+                        type="email"
                         sx={{ mb: 2 }}
                     />
                     <TextField
@@ -291,15 +298,7 @@ function getStepContent(step, courseData, handleChange, handleAddField, handleRe
                         onChange={(e) => handleChange(e, "workload")}
                         fullWidth
                         required
-                        inputProps={{
-                            inputMode: "numeric",
-                            pattern: "[0-9]*",
-                            onKeyPress: (event) => {
-                                if (!/[0-9]/.test(event.key)) {
-                                    event.preventDefault();
-                                }
-                            },
-                        }}
+                        type="number"
                         sx={{ mb: 2 }}
                     />
                 </Box>
@@ -308,25 +307,25 @@ function getStepContent(step, courseData, handleChange, handleAddField, handleRe
             return (
                 <Box>
                     {courseData.disertantes.map((disertante, index) => (
-                        <TextField
-                            key={index}
-                            label={`Disertante ${index + 1}`}
-                            value={disertante}
-                            onChange={(e) => handleChange(e, "disertantes", index)}
-                            fullWidth
-                            sx={{ mb: 2 }}
-                        />
+                        <Box key={index} sx={{ display: "flex", alignItems: "center", mb: 2 }}>
+                            <TextField
+                                label={`Disertante ${index + 1}`}
+                                value={disertante}
+                                onChange={(e) => handleChange(e, "disertantes", index)}
+                                fullWidth
+                                sx={{ mr: 1 }}
+                            />
+                            <IconButton
+                                onClick={() => handleRemoveField(index, "disertantes")}
+                                disabled={courseData.disertantes.length === 1}
+                            >
+                                <RemoveIcon />
+                            </IconButton>
+                        </Box>
                     ))}
-                    <IconButton onClick={() => handleAddField("disertantes")} sx={{ mb: 2 }}>
-                        <AddIcon />
-                    </IconButton>
-                    <IconButton
-                        onClick={() => handleRemoveField(courseData.disertantes.length - 1, "disertantes")}
-                        disabled={courseData.disertantes.length <= 1}
-                        sx={{ mb: 2 }}
-                    >
-                        <RemoveIcon />
-                    </IconButton>
+                    <Button startIcon={<AddIcon />} onClick={() => handleAddField("disertantes")}>
+                        Añadir Disertante
+                    </Button>
                 </Box>
             );
         case 2:
@@ -334,15 +333,13 @@ function getStepContent(step, courseData, handleChange, handleAddField, handleRe
                 <Box>
                     <TextField
                         label="Fecha de Inicio"
-                        type="date"
                         value={courseData.start}
                         onChange={(e) => handleChange(e, "start")}
-                        InputLabelProps={{
-                            shrink: true,
-                        }}
                         fullWidth
                         required
+                        InputLabelProps={{ shrink: true }}
                         sx={{ mb: 2 }}
+                        placeholder="Ej. 05/08/2024 (4 clases)"
                     />
                     <TextField
                         label="Duración"
@@ -351,6 +348,7 @@ function getStepContent(step, courseData, handleChange, handleAddField, handleRe
                         fullWidth
                         required
                         sx={{ mb: 2 }}
+                        placeholder="Ej. 1 mes (Agosto)"
                     />
                     <TextField
                         label="Lugar"
@@ -363,6 +361,7 @@ function getStepContent(step, courseData, handleChange, handleAddField, handleRe
                     <TextField
                         label="Descripción"
                         multiline
+                        rows={4}
                         value={courseData.description}
                         onChange={(e) => handleChange(e, "description")}
                         fullWidth
@@ -370,14 +369,8 @@ function getStepContent(step, courseData, handleChange, handleAddField, handleRe
                         sx={{ mb: 2 }}
                     />
                     <FormControl fullWidth required sx={{ mb: 2 }}>
-                        <InputLabel id="modalidad-label">Modalidad</InputLabel>
-                        <Select
-                            labelId="modalidad-label"
-                            id="modalidad"
-                            value={courseData.modalidad}
-                            onChange={(e) => handleChange(e, "modalidad")}
-                            label="Modalidad"
-                        >
+                        <InputLabel>Modalidad</InputLabel>
+                        <Select value={courseData.modalidad} onChange={(e) => handleChange(e, "modalidad")} label="Modalidad">
                             <MenuItem value="remoto">Remoto</MenuItem>
                             <MenuItem value="hibrido">Híbrido</MenuItem>
                             <MenuItem value="presencial">Presencial</MenuItem>
@@ -389,51 +382,52 @@ function getStepContent(step, courseData, handleChange, handleAddField, handleRe
             return (
                 <Box>
                     {courseData.objetivos.map((objetivo, index) => (
-                        <TextField
-                            key={index}
-                            label={`Objetivo ${index + 1}`}
-                            value={objetivo}
-                            onChange={(e) => handleChange(e, "objetivos", index)}
-                            fullWidth
-                            sx={{ mb: 2 }}
-                        />
+                        <Box key={index} sx={{ display: "flex", alignItems: "center", mb: 2 }}>
+                            <TextField
+                                label={`Objetivo ${index + 1}`}
+                                value={objetivo}
+                                onChange={(e) => handleChange(e, "objetivos", index)}
+                                fullWidth
+                                sx={{ mr: 1 }}
+                            />
+                            <IconButton onClick={() => handleRemoveField(index, "objetivos")} disabled={courseData.objetivos.length === 1}>
+                                <RemoveIcon />
+                            </IconButton>
+                        </Box>
                     ))}
-                    <IconButton onClick={() => handleAddField("objetivos")} sx={{ mb: 2 }}>
-                        <AddIcon />
-                    </IconButton>
-                    <IconButton
-                        onClick={() => handleRemoveField(courseData.objetivos.length - 1, "objetivos")}
-                        disabled={courseData.objetivos.length <= 1}
-                        sx={{ mb: 2 }}
-                    >
-                        <RemoveIcon />
-                    </IconButton>
+                    <Button startIcon={<AddIcon />} onClick={() => handleAddField("objetivos")}>
+                        Añadir Objetivo
+                    </Button>
                 </Box>
             );
         case 4:
             return (
                 <Box>
-                    <TextField label="Meet" value={courseData.meet} onChange={(e) => handleChange(e, "meet")} fullWidth sx={{ mb: 2 }} />
+                    <TextField
+                        label="Meet"
+                        value={courseData.meet}
+                        onChange={(e) => handleChange(e, "meet")}
+                        fullWidth
+                        sx={{ mb: 2 }}
+                        placeholder="colocar el enlace Ej. https://meet.google.com"
+                    />
                     <FormControl fullWidth required sx={{ mb: 2 }}>
-                        <InputLabel id="test-label">Evaluacion</InputLabel>
-                        <Select
-                            labelId="test-label"
-                            id="test"
-                            value={courseData.test}
-                            onChange={(e) => handleChange(e, "test")}
-                            label="Evaluacion"
-                        >
+                        <InputLabel>Evaluación</InputLabel>
+                        <Select value={courseData.test} onChange={(e) => handleChange(e, "test")} label="Evaluación">
                             <MenuItem value="TP">TP</MenuItem>
-                            <MenuItem value="oral">Oral</MenuItem>
-                            <MenuItem value="escritos">Escrito</MenuItem>
+                            <MenuItem value="ORAL">Oral</MenuItem>
+                            <MenuItem value="ESCRITO">Escrito</MenuItem>
+                            <MenuItem value="ECOE">ECOE</MenuItem>
+                            <MenuItem value="TP/ECOE">TP/ECOE</MenuItem>
                         </Select>
                     </FormControl>
                     <TextField
-                        label="Dia y horarios"
+                        label="Día y horarios"
                         value={courseData.classes}
                         onChange={(e) => handleChange(e, "classes")}
                         fullWidth
                         sx={{ mb: 2 }}
+                        placeholder="Ej. Lunes 10:00 - 11:00"
                     />
                     <input accept="image/*" style={{ display: "none" }} id="raised-button-file" type="file" onChange={handleImageChange} />
                     <label htmlFor="raised-button-file">
@@ -441,7 +435,11 @@ function getStepContent(step, courseData, handleChange, handleAddField, handleRe
                             Subir Imagen
                         </Button>
                     </label>
-                    {imagePreviewUrl && <img src={imagePreviewUrl} alt="Preview" style={{ width: "100%", marginTop: 10 }} />}
+                    {imagePreviewUrl && (
+                        <Box sx={{ mt: 2 }}>
+                            <img src={imagePreviewUrl} alt="Preview" style={{ maxWidth: "100%", maxHeight: 300 }} />
+                        </Box>
+                    )}
                 </Box>
             );
         default:

@@ -218,7 +218,22 @@ const itemsToBeAdded = [
 // const path = "cursos/6ThlcAF2z98yAXyJ4xT1/Modulos/yI2XjQ4swxT5NxTcDc3B/items";
 // agregarItemsModulo(path, itemsToBeAdded);
 
-export { CursosInscriptos, collection, db, getDoc, doc, addDoc, setDoc, updateDoc, getDocs, query, where, ContenidoXCurso, CursosAdmin };
+export {
+    deleteDoc,
+    CursosInscriptos,
+    collection,
+    db,
+    getDoc,
+    doc,
+    addDoc,
+    setDoc,
+    updateDoc,
+    getDocs,
+    query,
+    where,
+    ContenidoXCurso,
+    CursosAdmin,
+};
 
 const ContenidoXCurso = async (cursoid) => {
     const contenidoRef = collection(db, "contenido");

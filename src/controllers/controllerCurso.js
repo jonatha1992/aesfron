@@ -1,4 +1,4 @@
-import { db, doc, getDoc, getDocs, addDoc, collection, query, where } from "../firebase";
+import { deleteDoc, db, doc, getDoc, getDocs, addDoc, collection, query, where } from "../firebase";
 
 export async function agregarCurso(dati) {
     const newCourseRef = await addDoc(collection(db, "cursos"), dati);
@@ -13,9 +13,9 @@ export async function getAllCursos() {
         ...doc.data(),
         id: doc.id,
     }));
-
     return cursos;
 }
+
 export async function getCurso(cursoId) {
     const userDocRef = doc(db, "cursos", cursoId);
     try {
@@ -81,8 +81,6 @@ export async function getModulos(cursoid) {
         // Ordena las unidades por su título
         // unidades.sort((a, b) => a.titulo.localeCompare(b.titulo));
         return unidades.sort((a, b) => a.titulo - b.titulo);
-        console.log(unidades);
-        return unidades; // Devuelve las unidades ordenadas
     } catch (error) {
         console.error("Error al obtener la información del curso:", error);
         throw error; // Lanza el error para que pueda ser manejado por el llamador de esta función
@@ -104,3 +102,16 @@ export const ContenidoXCurso = async (cursoid) => {
 
     return resultados;
 };
+
+export async function deleteCurso(id) {
+    try {
+        console.log("Intentando eliminar curso con ID:", id);
+        const docRef = doc(db, "cursos", id);
+        console.log("Referencia del documento:", docRef);
+        await deleteDoc(docRef);
+        console.log("Documento eliminado exitosamente");
+    } catch (error) {
+        console.error("Error al borrar el curso:", error);
+        throw error;
+    }
+}
