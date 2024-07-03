@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { getAllCursos, eliminarCurso } from "../controllers/controllerCurso";
-import CourseStepper from "../components/CourseStepper";
-import CourseModificationStepper from "./CourseModificationStepper";
+import { getAllCursos, deleteCurso } from "../controllers/controllerCurso";
+import CourseStepperGeneric from "../components/CourseStepperGeneric";
 import { List, ListItem, ListItemText, Box, Button, IconButton, Backdrop, CircularProgress } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const ListaCursos = () => {
+const ListaCursos2 = () => {
     const [cursos, setCursos] = useState([]);
     const [cursoSeleccionado, setCursoSeleccionado] = useState(null);
     const [mostrarLista, setMostrarLista] = useState(true);
@@ -40,6 +39,7 @@ const ListaCursos = () => {
     const handleCursoActualizado = (mensaje) => {
         fetchCursos();
         setMostrarLista(true);
+        setCursoSeleccionado(null);
         if (mensaje) {
             toast.success(mensaje);
         }
@@ -54,12 +54,14 @@ const ListaCursos = () => {
         event.stopPropagation();
         setDeleting(true);
         try {
-            await eliminarCurso(curso.id);
+            console.log("Iniciando eliminación del curso:", curso);
+            await deleteCurso(curso.id);
+            console.log("Curso eliminado exitosamente");
             toast.success("Curso eliminado con éxito");
             fetchCursos();
         } catch (error) {
-            toast.error("Error al eliminar el curso");
-            console.error("Error al eliminar el curso: ", error);
+            console.error("Error completo al eliminar el curso:", error);
+            toast.error(`Error al eliminar el curso: ${error.message}`);
         } finally {
             setDeleting(false);
         }
@@ -98,7 +100,7 @@ const ListaCursos = () => {
                                 }}
                             >
                                 <ListItemText primary={curso.title} secondary={curso.description} />
-                                <IconButton onClick={(event) => handleSelectCurso(curso, event)} color="primary">
+                                <IconButton onClick={(event) => handleSelectCurso(curso)} color="primary">
                                     <EditIcon />
                                 </IconButton>
                                 <IconButton onClick={(event) => handleEliminarCurso(curso, event)} color="secondary">
@@ -108,13 +110,14 @@ const ListaCursos = () => {
                         ))}
                     </List>
                 </>
-            ) : cursoSeleccionado ? (
-                <CourseModificationStepper cursoId={cursoSeleccionado.id} onCursoActualizado={handleCursoActualizado} />
             ) : (
-                <CourseStepper />
+                <CourseStepperGeneric
+                    cursoId={cursoSeleccionado ? cursoSeleccionado.id : null}
+                    onCursoActualizado={handleCursoActualizado}
+                />
             )}
         </Box>
     );
 };
 
-export default ListaCursos;
+export default ListaCursos2;
