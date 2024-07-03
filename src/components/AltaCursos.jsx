@@ -1,12 +1,11 @@
 import CourseStepper from "../components/CourseStepper";
 
 const AltaCursos = () => {
-  return (
-    <>
-      <div>AltaCurso</div>;
-      <CourseStepper />
-    </>
-  );
+    return (
+        <>
+            <CourseStepper />
+        </>
+    );
 };
 
 export default AltaCursos;
