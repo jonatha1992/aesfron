@@ -4,9 +4,10 @@ import { AlumnosContext } from "../context/AlumnoContext";
 import { Settings, AutoStories, Inbox as InboxIcon, ExpandLess, ExpandMore, StarBorder } from "@mui/icons-material";
 import MisCursos from "../components/MisCursos";
 import MiPerfil from "./MiPerfil";
-import AltaCurso from "./AltaCursos";
+import AltaCurso from "../componentesviejos/AltaCursos.jsx";
 import ListaCursos from "./ListaCursos";
-import ListaModulos from "./ListaModulos";
+// import ListaModulos from "./ListaModulos";
+import ListaModulos from "./ListaModulos2";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
@@ -14,30 +15,8 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import Collapse from "@mui/material/Collapse";
 import Divider from "@mui/material/Divider";
-import AltaAnunciosEventos from "./AltaAnunciosEventos.jsx";
 import ListaAnunciosEventos from "./ListaAnunciosEventos.jsx";
 import ListaCursos2 from "./ListaCursos2.jsx";
-
-const AltaCursos = () => (
-    <div>
-        <h2>Alta de Cursos</h2>
-        <AltaCurso />
-    </div>
-);
-
-const BajaCursos = () => (
-    <div>
-        <h2>Baja de Cursos</h2>
-        {/* Agrega tu formulario o funcionalidad aquí */}
-    </div>
-);
-
-const ModificacionCursos = () => (
-    <div>
-        <h2>Modificación de Cursos</h2>
-        {/* Agrega tu formulario o funcionalidad aquí */}
-    </div>
-);
 
 const FeatureGrid = () => {
     const { User } = useAuth();
@@ -56,36 +35,21 @@ const FeatureGrid = () => {
             route: "/perfil",
             content: <MiPerfil />,
         },
-        {
-            name: "Cursos",
-            icon: <InboxIcon />,
-            route: "/alta/cursos",
-            content: <AltaCursos />,
-        },
+
         {
             name: "Contenido",
             icon: <InboxIcon />,
             route: "/alta/contenido",
             content: <ListaCursos operacion="alta" />,
         },
-        {
-            name: "Cursos",
-            icon: <InboxIcon />,
-            route: "/modificacion/cursos",
-            content: <ListaCursos operacion="modCurso" />,
-        },
+
         {
             name: "Contenido",
             icon: <InboxIcon />,
             route: "/modificacion/contenido",
             content: <ListaCursos operacion="modificacion" />,
         },
-        {
-            name: "Cursos",
-            icon: <InboxIcon />,
-            route: "/baja/cursos",
-            content: <BajaCursos />,
-        },
+
         {
             name: "Eventos",
             icon: <InboxIcon />,
@@ -103,6 +67,12 @@ const FeatureGrid = () => {
             icon: <InboxIcon />,
             route: "/gestion",
             content: <ListaCursos2 />,
+        },
+        {
+            name: "Contenido",
+            icon: <InboxIcon />,
+            route: "/gestion",
+            content: <ListaModulos />,
         },
     ];
 

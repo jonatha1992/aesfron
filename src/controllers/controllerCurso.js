@@ -115,3 +115,60 @@ export async function deleteCurso(id) {
         throw error;
     }
 }
+
+export async function eliminarModulo(cursoId, moduloId) {
+    try {
+        console.log(`Intentando eliminar módulo con ID: ${moduloId} del curso: ${cursoId}`);
+        const moduloDocRef = doc(db, "cursos", cursoId, "Modulos", moduloId);
+
+        // Primero, eliminamos todos los ítems del módulo
+        const itemsCollectionRef = collection(moduloDocRef, "items");
+        const itemsSnapshot = await getDocs(itemsCollectionRef);
+        const deleteItemPromises = itemsSnapshot.docs.map((itemDoc) => deleteDoc(doc(itemsCollectionRef, itemDoc.id)));
+        await Promise.all(deleteItemPromises);
+
+        // Luego, eliminamos el módulo
+        await deleteDoc(moduloDocRef);
+        console.log("Módulo y sus ítems eliminados exitosamente");
+    } catch (error) {
+        console.error("Error al eliminar el módulo:", error);
+        throw error;
+    }
+}
+
+export async function actualizarModulo(cursoId, moduloId, nuevosDatos) {
+    try {
+        console.log(`Intentando actualizar módulo con ID: ${moduloId} del curso: ${cursoId}`);
+        const moduloDocRef = doc(db, "cursos", cursoId, "Modulos", moduloId);
+
+        await updateDoc(moduloDocRef, nuevosDatos);
+        console.log("Módulo actualizado exitosamente");
+    } catch (error) {
+        console.error("Error al actualizar el módulo:", error);
+        throw error;
+    }
+}
+
+export async function agregarModulo(cursoId, datosModulo) {
+    try {
+        console.log(`Intentando agregar nuevo módulo al curso: ${cursoId}`);
+        const modulosCollectionRef = collection(db, "cursos", cursoId, "Modulos");
+
+        // Añadir el nuevo módulo
+        const nuevoModuloRef = await addDoc(modulosCollectionRef, datosModulo);
+
+        console.log(`Nuevo módulo agregado con ID: ${nuevoModuloRef.id}`);
+
+        // Obtener los datos del módulo recién creado
+        const nuevoModuloSnapshot = await getDoc(nuevoModuloRef);
+
+        // Devolver los datos del nuevo módulo incluyendo su ID
+        return {
+            id: nuevoModuloRef.id,
+            ...nuevoModuloSnapshot.data(),
+        };
+    } catch (error) {
+        console.error("Error al agregar el módulo:", error);
+        throw error;
+    }
+}
