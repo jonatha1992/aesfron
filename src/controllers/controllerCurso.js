@@ -1,4 +1,4 @@
-import { deleteDoc, db, doc, getDoc, getDocs, addDoc, collection, query, where } from "../firebase";
+import { deleteDoc, db, doc, getDoc, getDocs, addDoc, collection, query, where, getCountFromServer } from "../firebase";
 import { eliminarModulo } from "../controllers/controllerModulo";
 
 export async function agregarCurso(dati) {
@@ -17,6 +17,31 @@ export async function getAllCursos() {
     return cursos;
 }
 
+export async function getAllCursosSeccion() {
+    const cursosRef = collection(db, "cursos");
+    const cursosSnapshot = await getDocs(cursosRef);
+    let cursosConModulos = [];
+
+    await Promise.all(
+        cursosSnapshot.docs.map(async (doc) => {
+            const cursoId = doc.id; // Guardamos el ID en una variable
+            const modulosRef = collection(doc.ref, "Modulos");
+            const modulosSnapshot = await getCountFromServer(modulosRef);
+            const modulosCount = modulosSnapshot.data().count;
+
+            if (modulosCount > 0) {
+                cursosConModulos.push({
+                    id: cursoId, // Usamos el ID guardado
+                    ...doc.data(),
+                    modulosCount: modulosCount,
+                });
+            }
+        })
+    );
+
+    console.log(cursosConModulos);
+    return cursosConModulos;
+}
 export async function getCurso(cursoId) {
     const userDocRef = doc(db, "cursos", cursoId);
     try {

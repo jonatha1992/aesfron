@@ -139,14 +139,25 @@ export default function CourseStepperGeneric({ cursoId, onCursoActualizado }) {
         const fields = getStepFields(activeStep);
         for (let field of fields) {
             if (Array.isArray(courseData[field])) {
-                if (courseData[field].some((item) => item.trim() === "")) {
-                    toast.error(`Por favor completa todos los campos en ${steps[activeStep]}`);
+                // Para arrays, verifica que al menos un elemento no esté vacío
+                if (!courseData[field].some((item) => item.trim() !== "")) {
+                    toast.error(`Por favor añade al menos un ${field} en ${steps[activeStep]}`);
                     return false;
                 }
             } else {
-                if (!courseData[field] || courseData[field].trim() === "") {
-                    toast.error(`Por favor completa todos los campos en ${steps[activeStep]}`);
-                    return false;
+                // Para campos obligatorios
+                if (["title", "coordinacion", "mail", "start", "duration", "place", "description", "modalidad"].includes(field)) {
+                    if (!courseData[field] || courseData[field].trim() === "") {
+                        toast.error(`Por favor completa el campo ${field} en ${steps[activeStep]}`);
+                        return false;
+                    }
+                }
+                // Para campos numéricos
+                if (["price", "workload"].includes(field)) {
+                    if (isNaN(courseData[field]) || courseData[field] <= 0) {
+                        toast.error(`Por favor ingresa un valor válido para ${field} en ${steps[activeStep]}`);
+                        return false;
+                    }
                 }
             }
         }

@@ -14,6 +14,7 @@ import {
     serverTimestamp,
     orderBy,
     limit,
+    getCountFromServer,
 } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
 
 import { getStorage, uploadBytes, ref, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-storage.js";
@@ -59,59 +60,6 @@ export async function actualizarDoc(id, datos, tabla) {
     await updateDoc(docRef, datos);
 }
 
-// import { agregarItemsModulo } from "./security/Tools";
-// import { fabClasses } from "@mui/material";
-// const itemsToBeAdded = [
-//     {
-//         tipo: "video",
-//         titulo: "Cuidados para el neurodesarrollo. ",
-//         url: "http://link-al-video.com",
-//     },
-//     {
-//         tipo: "pdf",
-//         titulo: "La importancia de la leche humana en UCIN",
-//         url: "http://link-al-pdf.com",
-//     },
-//     {
-//         tipo: "video",
-//         titulo: "Drogas de reanimación",
-//         url: "http://link-al-video.com",
-//     },
-//     {
-//         tipo: "video",
-//         titulo: "Cuidado Canguro ",
-//         url: "http://link-al-video.com",
-//     },
-//     {
-//         tipo: "pdf",
-//         titulo: "Niveles de ruido en UCIN- Prevención de la hipoacusia",
-//         url: "http://link-al-pdf.com",
-//     },
-//     {
-//         tipo: "video",
-//         titulo: "Paciente Recién Nacido quirúrgico",
-//         url: "http://link-al-video.com",
-//     },
-//     {
-//         tipo: "video",
-//         titulo: "Cuidado infectologico en UCIN",
-//         url: "http://link-al-video.com",
-//     },
-//     {
-//         tipo: "pdf",
-//         titulo: "Trastornos de la deglución en el Recién Nacido de Riesgo",
-//         url: "http://link-al-pdf.com",
-//     },
-//     {
-//         tipo: "video",
-//         titulo: "Detección del síndrome genético en el Recién Nacido/ Cardiopatías neonatales",
-//         url: "http://link-al-video.com",
-//     },
-// ];
-
-// const path = "cursos/6ThlcAF2z98yAXyJ4xT1/Modulos/yI2XjQ4swxT5NxTcDc3B/items";
-// agregarItemsModulo(path, itemsToBeAdded);
-
 export {
     deleteDoc,
     collection,
@@ -130,23 +78,8 @@ export {
     ref,
     uploadBytes,
     serverTimestamp,
+    getCountFromServer,
 };
-
-// const ContenidoXCurso = async (cursoid) => {
-//     const contenidoRef = collection(db, "contenido");
-//     const q1 = query(contenidoRef, where("cursoid", "==", cursoid));
-
-//     const querySnapshot = await getDocs(q1);
-
-//     // Construye un array con los resultados
-//     const resultados = [];
-
-//     querySnapshot.forEach((doc) => {
-//         resultados.push({ id: doc.id, ...doc.data() });
-//     });
-
-//     return resultados;
-// };
 
 // Función para agregar un documento
 export async function agregarDocSub(data, path) {

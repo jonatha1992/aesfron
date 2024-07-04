@@ -1,6 +1,6 @@
 import React from "react";
 import "../css/cursosSeccion.css";
-import { getAllCursos } from "../controllers/controllerCurso";
+import { getAllCursos, getAllCursosSeccion } from "../controllers/controllerCurso";
 import SliderCursosLanding from "./SliderCursosLanding";
 // Crear instancias de los modelos Curso
 
@@ -18,7 +18,9 @@ export default class CursosSeccion extends React.Component {
     // Método para cargar los cursos
     cargarCursos = async () => {
         try {
-            const cursos = await getAllCursos();
+            // const cursos = await getAllCursos();
+            const cursos = await getAllCursosSeccion();
+
             this.setState({ cursos });
         } catch (error) {
             console.error("Error cargando los cursos: ", error);
