@@ -189,7 +189,7 @@ const UnidadesCursos = ({ activeCourse }) => {
             setLoading(true);
             try {
                 const contenidoData = await getModulos(cursoid);
-
+                log("contenidoData", contenidoData);
                 // Filtrar PDFs y links para la biblioteca
                 const allPdfs = [];
                 const allLinks = [];
