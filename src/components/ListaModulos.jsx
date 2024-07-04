@@ -36,7 +36,6 @@ export default function ListaModulos({ cursoId }) {
         setLoading(true);
         try {
             const modulosData = await getModulos(cursoId);
-            console.log("modulosData: ", modulosData);
             setModulos(modulosData);
         } catch (error) {
             console.error("Error al obtener los módulos:", error);
@@ -66,8 +65,10 @@ export default function ListaModulos({ cursoId }) {
                 await actualizarModulo(cursoId, editingModulo.id, { titulo: parseInt(editingModulo.titulo) });
                 setEditingModulo(null);
                 fetchModulos();
+                toast.success("Módulo editado exitosamente");
             } catch (error) {
                 console.error("Error al editar módulo:", error);
+                toast.error("Error al editar módulo:", error);
             }
         }
     };
@@ -76,8 +77,10 @@ export default function ListaModulos({ cursoId }) {
         try {
             await eliminarModulo(cursoId, moduloId);
             fetchModulos();
+            toast.success("Módulo eliminado exitosamente");
         } catch (error) {
             console.error("Error al eliminar módulo:", error);
+            toast.error("Error al eliminar módulo:", error);
         }
     };
 

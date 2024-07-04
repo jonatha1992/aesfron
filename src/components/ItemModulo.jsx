@@ -6,6 +6,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
 import LinkIcon from "@mui/icons-material/Link";
 import InfoIcon from "@mui/icons-material/Info";
+import { toast } from "react-toastify";
 
 const getIcon = (tipo) => {
     switch (tipo.toLowerCase()) {
@@ -48,8 +49,10 @@ export default function ItemModulo({ cursoId, moduloId, items, onUpdate }) {
                 setEditingItem(null);
                 setOpenDialog(false);
                 onUpdate();
+                toast.success("Iztem actualizado exitosamente");
             } catch (error) {
                 console.error("Error al actualizar el ítem:", error);
+                toast.error("Iztem actualizado exitosamente");
             }
         } else {
             setErrors(validationErrors);
@@ -60,8 +63,10 @@ export default function ItemModulo({ cursoId, moduloId, items, onUpdate }) {
         try {
             await deleteItem(cursoId, moduloId, itemId);
             onUpdate();
+            toast.success("Iztem eliminado exitosamente");
         } catch (error) {
             console.error("Error al eliminar el ítem:", error);
+            toast.error("Iztem eliminado exitosamente");
         }
     };
 
@@ -74,8 +79,10 @@ export default function ItemModulo({ cursoId, moduloId, items, onUpdate }) {
                 setNewItemData({ titulo: "", tipo: "info", url: "", file: null });
                 setOpenDialog(false);
                 onUpdate();
+                toast.success("Iztem agregado exitosamente");
             } catch (error) {
                 console.error("Error al agregar el ítem:", error);
+                toast.error("Error al agregar el ítem:", error);
             }
         } else {
             console.log(validationErrors);
