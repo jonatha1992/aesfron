@@ -45,9 +45,6 @@ export const agregarItem = async (cursoId, moduloId, itemData) => {
 
         // Si es un PDF, asumimos que itemData.file contiene el archivo
         if (itemData.tipo === "pdf" && itemData.file) {
-            // Aquí deberías subir el archivo a Firebase Storage y obtener la URL
-            // Este es un ejemplo simplificado, deberás implementar la lógica de subida de archivos
-            // const fileUrl = await uploadPDFToFirebaseStorage(itemData.file);
             const fileUrl = await uploadFiles(itemData.file);
             newItemData.url = fileUrl;
             delete newItemData.file; // No guardamos el archivo en Firestore, solo la URL

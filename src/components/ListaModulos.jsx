@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { getModulos, agregarModulo, eliminarModulo, actualizarModulo } from "../controllers/controllerModulo";
 import {
     Box,
@@ -15,10 +15,11 @@ import {
     AccordionSummary,
     AccordionDetails,
 } from "@mui/material";
-import ItemModulo from "./ItemModulo";
+import ItemModulo from "./ItemModulo.jsx";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { toast } from "react-toastify";
 
 export default function ListaModulos({ cursoId }) {
     const [modulos, setModulos] = useState([]);
@@ -91,7 +92,7 @@ export default function ListaModulos({ cursoId }) {
                         Agregar Unidad
                     </Button>
                     <List>
-                        {modulos.map((modulo, index) => (
+                        {modulos.map((modulo) => (
                             <Accordion key={modulo.id}>
                                 <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                                     <ListItem

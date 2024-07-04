@@ -1,4 +1,5 @@
 import { deleteDoc, db, doc, getDoc, getDocs, addDoc, collection, query, where, updateDoc } from "../firebase";
+import { deleteItem } from "../controllers/controllerItem";
 
 export async function eliminarModulo(cursoId, moduloId) {
     try {
@@ -39,9 +40,11 @@ export async function agregarModulo(cursoId, datosModulo) {
     try {
         console.log(`Intentando agregar nuevo módulo al curso: ${cursoId}`);
         const modulosCollectionRef = collection(db, "cursos", cursoId, "Modulos");
+        console.log(modulosCollectionRef);
 
         // Verificar si ya existe un módulo con el mismo título
         const querySnapshot = await getDocs(query(modulosCollectionRef, where("titulo", "==", datosModulo.titulo)));
+        console.log(querySnapshot);
         if (!querySnapshot.empty) {
             throw new Error(`Ya existe un módulo con el número ${datosModulo.titulo}`);
         }

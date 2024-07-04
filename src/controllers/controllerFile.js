@@ -2,10 +2,7 @@ import { storage, ref, uploadBytes, getDownloadURL, deleteObject } from "../fire
 
 export async function uploadFiles(file) {
     const storageRef = ref(storage, crypto.randomUUID());
-    const metadata = {
-        contentType: "image/jpeg",
-    };
-    const meta = await uploadBytes(storageRef, file, metadata);
+    const meta = await uploadBytes(storageRef, file);
     console.log(meta);
     const url = await getDownloadURL(storageRef);
     return url;
