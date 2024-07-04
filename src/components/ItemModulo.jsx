@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Box, Button, TextField, Dialog, List, ListItem, IconButton, Select, MenuItem, FormControl, InputLabel } from "@mui/material";
-import { updateItem, deleteItem, agregarItem } from "../controllers/controllerCurso";
+import { updateItem, deleteItem, agregarItem } from "../controllers/controllerItem";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";

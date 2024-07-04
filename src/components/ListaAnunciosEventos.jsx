@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { obtenerRecientes, eliminarDoc, deleteFile } from "../firebase";
+import { deleteFile } from "../controllers/controllerFile";
+import { obtenerRecientes, eliminarDoc } from "../firebase";
 import ModificacionAnuncioEventos from "./ModificacionAnuncioEventos";
 import { List, ListItem, ListItemText, Box, Button, IconButton, Backdrop, CircularProgress } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";

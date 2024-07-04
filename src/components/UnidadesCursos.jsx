@@ -8,7 +8,7 @@ import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
 import LinkIcon from "@mui/icons-material/Link";
 import DownloadForOfflineIcon from "@mui/icons-material/DownloadForOffline";
 import InfoIcon from "@mui/icons-material/Info";
-import { getModulos } from "../controllers/controllerCurso";
+import { getModulos } from "../controllers/controllerModulo";
 import FolderIcon from "@mui/icons-material/Folder";
 import { Backdrop, CircularProgress } from "@mui/material";
 

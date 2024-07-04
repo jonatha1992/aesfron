@@ -10,7 +10,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import Backdrop from "@mui/material/Backdrop";
 import FolderIcon from "@mui/icons-material/Folder";
 
-import { getModulos } from "../controllers/controllerCurso";
+import { getModulos } from "../controllers/controllerModulo";
 
 const iconStyle = {
     width: "1.5rem",

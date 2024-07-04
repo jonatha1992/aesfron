@@ -15,7 +15,8 @@ import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
-import { agregarDoc, actualizarDoc, uploadFiles } from "../firebase";
+import { agregarDoc, actualizarDoc } from "../firebase";
+import { uploadFiles } from "../controllers/controllerFile";
 import { getCurso } from "../controllers/controllerCurso";
 import { toast } from "react-toastify";
 

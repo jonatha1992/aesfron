@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { getModulos, agregarModulo, eliminarModulo, actualizarModulo } from "../controllers/controllerCurso";
+import { getModulos, agregarModulo, eliminarModulo, actualizarModulo } from "../controllers/controllerModulo";
 import {
     Box,
     Backdrop,
