@@ -1,4 +1,5 @@
 import { deleteDoc, db, doc, getDoc, getDocs, addDoc, collection, query, where } from "../firebase";
+import { eliminarModulo } from "../controllers/controllerModulo";
 
 export async function agregarCurso(dati) {
     const newCourseRef = await addDoc(collection(db, "cursos"), dati);
