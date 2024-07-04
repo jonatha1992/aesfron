@@ -19,5 +19,6 @@ module.exports = {
         "import/named": "error", // Añadido para verificar que los nombres importados coincidan con los exportados
         "import/default": "error", // Añadido para verificar las importaciones predeterminadas
         "import/namespace": "error", // Añadido para verificar las importaciones de namespace
+        "react/prop-types": "off", // Desactiva la advertencia sobre prop-types
     },
 };
