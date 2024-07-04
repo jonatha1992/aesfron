@@ -6,7 +6,6 @@ import EditIcon from "@mui/icons-material/Edit";
 import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
 import LinkIcon from "@mui/icons-material/Link";
 import InfoIcon from "@mui/icons-material/Info";
-import { toast } from "react-toastify";
 
 const getIcon = (tipo) => {
     switch (tipo.toLowerCase()) {
@@ -27,7 +26,7 @@ const iconStyle = {
     marginRight: "5px",
 };
 
-export default function ItemModulo({ cursoId, moduloId, items, onUpdate }) {
+export default function ItemModulo({ cursoId, moduloId, items, onUpdate, mostrarToast }) {
     const [editingItem, setEditingItem] = useState(null);
     const [newItemData, setNewItemData] = useState({ titulo: "", tipo: "info", url: "", file: null });
     const [openDialog, setOpenDialog] = useState(false);
@@ -49,10 +48,10 @@ export default function ItemModulo({ cursoId, moduloId, items, onUpdate }) {
                 setEditingItem(null);
                 setOpenDialog(false);
                 onUpdate();
-                toast.success("Iztem actualizado exitosamente");
+                mostrarToast("Item actualizado exitosamente", "success");
             } catch (error) {
                 console.error("Error al actualizar el ítem:", error);
-                toast.error("Iztem actualizado exitosamente");
+                mostrarToast("Error al actualizar el ítem:", "error");
             }
         } else {
             setErrors(validationErrors);
@@ -63,10 +62,10 @@ export default function ItemModulo({ cursoId, moduloId, items, onUpdate }) {
         try {
             await deleteItem(cursoId, moduloId, itemId);
             onUpdate();
-            toast.success("Iztem eliminado exitosamente");
+            mostrarToast("Item eliminado exitosamente", "success");
         } catch (error) {
             console.error("Error al eliminar el ítem:", error);
-            toast.error("Iztem eliminado exitosamente");
+            mostrarToast("Item eliminado exitosamente", "error");
         }
     };
 
@@ -79,10 +78,10 @@ export default function ItemModulo({ cursoId, moduloId, items, onUpdate }) {
                 setNewItemData({ titulo: "", tipo: "info", url: "", file: null });
                 setOpenDialog(false);
                 onUpdate();
-                toast.success("Iztem agregado exitosamente");
+                mostrarToast("Item agregado exitosamente", "success");
             } catch (error) {
                 console.error("Error al agregar el ítem:", error);
-                toast.error("Error al agregar el ítem:", error);
+                mostrarToast("Error al agregar el ítem:", "error");
             }
         } else {
             console.log(validationErrors);

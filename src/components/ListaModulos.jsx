@@ -19,8 +19,8 @@ import ItemModulo from "./ItemModulo.jsx";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import { toast } from "react-toastify";
-
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 export default function ListaModulos({ cursoId }) {
     const [modulos, setModulos] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -84,8 +84,14 @@ export default function ListaModulos({ cursoId }) {
         }
     };
 
+    const mostrarToast = (message, type) => {
+        toast[type](message);
+    };
+
     return (
         <Box>
+            <ToastContainer autoClose={2000} />
+
             <Backdrop open={loading} style={{ zIndex: 1 }}>
                 <CircularProgress color="inherit" />
             </Backdrop>
@@ -134,7 +140,13 @@ export default function ListaModulos({ cursoId }) {
                                     </ListItem>
                                 </AccordionSummary>
                                 <AccordionDetails>
-                                    <ItemModulo cursoId={cursoId} moduloId={modulo.id} items={modulo.items || []} onUpdate={fetchModulos} />
+                                    <ItemModulo
+                                        cursoId={cursoId}
+                                        moduloId={modulo.id}
+                                        items={modulo.items || []}
+                                        onUpdate={fetchModulos}
+                                        mostrarToast={mostrarToast}
+                                    />
                                 </AccordionDetails>
                             </Accordion>
                         ))}
