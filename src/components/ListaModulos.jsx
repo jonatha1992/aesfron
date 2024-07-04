@@ -51,8 +51,10 @@ export default function ListaModulos({ cursoId }) {
                 setNewModuloTitle("");
                 setOpenDialog(false);
                 fetchModulos();
+                toast.success("Módulo agregado exitosamente");
             } catch (error) {
                 console.error("Error al agregar módulo:", error);
+                toast.error(error.message || "Error al agregar módulo");
             }
         }
     };

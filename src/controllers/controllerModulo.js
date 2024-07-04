@@ -40,6 +40,12 @@ export async function agregarModulo(cursoId, datosModulo) {
         console.log(`Intentando agregar nuevo módulo al curso: ${cursoId}`);
         const modulosCollectionRef = collection(db, "cursos", cursoId, "Modulos");
 
+        // Verificar si ya existe un módulo con el mismo título
+        const querySnapshot = await getDocs(query(modulosCollectionRef, where("titulo", "==", datosModulo.titulo)));
+        if (!querySnapshot.empty) {
+            throw new Error(`Ya existe un módulo con el número ${datosModulo.titulo}`);
+        }
+
         // Añadir el nuevo módulo
         const nuevoModuloRef = await addDoc(modulosCollectionRef, datosModulo);
 

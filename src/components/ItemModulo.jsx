@@ -67,6 +67,7 @@ export default function ItemModulo({ cursoId, moduloId, items, onUpdate }) {
 
     const handleAddItem = async () => {
         const validationErrors = validateItem(newItemData);
+        console.log(newItemData);
         if (Object.keys(validationErrors).length === 0) {
             try {
                 await agregarItem(cursoId, moduloId, newItemData);
@@ -77,6 +78,7 @@ export default function ItemModulo({ cursoId, moduloId, items, onUpdate }) {
                 console.error("Error al agregar el ítem:", error);
             }
         } else {
+            console.log(validationErrors);
             setErrors(validationErrors);
         }
     };
@@ -113,7 +115,6 @@ export default function ItemModulo({ cursoId, moduloId, items, onUpdate }) {
                 helperText={errors.titulo}
             />
             <FormControl fullWidth margin="normal">
-                <InputLabel>Tipo de contenido</InputLabel>
                 <Select name="tipo" value={data.tipo} onChange={(e) => handleChange(e, isEditing)}>
                     <MenuItem value="info">Info</MenuItem>
                     <MenuItem value="pdf">PDF</MenuItem>
@@ -133,12 +134,43 @@ export default function ItemModulo({ cursoId, moduloId, items, onUpdate }) {
                 />
             )}
             {data.tipo === "pdf" && (
-                <Button variant="contained" component="label" fullWidth sx={{ marginTop: 2 }}>
-                    Subir PDF
-                    <input type="file" hidden name="file" accept=".pdf" onChange={(e) => handleChange(e, isEditing)} />
-                </Button>
+                <>
+                    <Button variant="contained" component="label" fullWidth sx={{ marginTop: 2 }}>
+                        Subir PDF
+                        <input
+                            type="file"
+                            hidden
+                            name="file"
+                            accept=".pdf"
+                            onChange={(e) => {
+                                const file = e.target.files[0];
+                                if (file) {
+                                    handleChange(
+                                        {
+                                            target: {
+                                                name: "file",
+                                                value: file,
+                                                files: e.target.files,
+                                            },
+                                        },
+                                        isEditing
+                                    );
+                                    // Actualizar el título con el nombre del archivo
+                                    const fileName = file.name;
+                                    if (isEditing) {
+                                        setEditingItem((prev) => ({ ...prev, titulo: fileName, file: file }));
+                                    } else {
+                                        setNewItemData((prev) => ({ ...prev, titulo: fileName, file: file }));
+                                    }
+                                }
+                            }}
+                        />
+                    </Button>
+                    {isEditing
+                        ? editingItem.file && <p className="mt-3">{editingItem.file.name}</p>
+                        : newItemData.file && <p className="mt-3">{newItemData.file.name}</p>}
+                </>
             )}
-            {errors.file && <p style={{ color: "red" }}>{errors.file}</p>}
         </>
     );
 

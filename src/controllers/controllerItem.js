@@ -1,5 +1,5 @@
-import { db, doc, deleteDoc, updateDoc } from "../firebase";
-
+import { db, doc, getDoc, deleteDoc, updateDoc, collection, serverTimestamp, addDoc } from "../firebase";
+import { deleteFile, uploadFiles } from "./controllerFile";
 export const updateItem = async (cursoId, moduloId, itemId, itemData) => {
     const itemRef = doc(db, `cursos/${cursoId}/Modulos/${moduloId}/items`, itemId);
     await updateDoc(itemRef, itemData);
@@ -35,6 +35,7 @@ export const deleteItem = async (cursoId, moduloId, itemId) => {
 export const agregarItem = async (cursoId, moduloId, itemData) => {
     try {
         const itemsCollectionRef = collection(db, "cursos", cursoId, "Modulos", moduloId, "items");
+        console.log(`Intentando agregar nuevo ítem al módulo: ${moduloId} en el curso: ${cursoId}`);
         // Preparar los datos del ítem
         const newItemData = {
             ...itemData,
@@ -46,7 +47,8 @@ export const agregarItem = async (cursoId, moduloId, itemData) => {
         if (itemData.tipo === "pdf" && itemData.file) {
             // Aquí deberías subir el archivo a Firebase Storage y obtener la URL
             // Este es un ejemplo simplificado, deberás implementar la lógica de subida de archivos
-            const fileUrl = await uploadPDFToFirebaseStorage(itemData.file);
+            // const fileUrl = await uploadPDFToFirebaseStorage(itemData.file);
+            const fileUrl = await uploadFiles(itemData.file);
             newItemData.url = fileUrl;
             delete newItemData.file; // No guardamos el archivo en Firestore, solo la URL
         }
