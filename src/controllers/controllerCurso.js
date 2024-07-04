@@ -50,10 +50,21 @@ export const ContenidoXCurso = async (cursoid) => {
 export async function deleteCurso(id) {
     try {
         console.log("Intentando eliminar curso con ID:", id);
-        const docRef = doc(db, "cursos", id);
-        console.log("Referencia del documento:", docRef);
-        await deleteDoc(docRef);
-        console.log("Documento eliminado exitosamente");
+        const cursoRef = doc(db, "cursos", id);
+
+        // Obtener todos los módulos del curso
+        const modulosRef = collection(cursoRef, "Modulos");
+        const modulosSnapshot = await getDocs(modulosRef);
+
+        // Para cada módulo, llamar a eliminarModulo
+        for (const moduloDoc of modulosSnapshot.docs) {
+            await eliminarModulo(id, moduloDoc.id);
+        }
+
+        // Finalmente, eliminar el documento del curso
+        await deleteDoc(cursoRef);
+
+        console.log("Curso y todos sus contenidos eliminados exitosamente");
     } catch (error) {
         console.error("Error al borrar el curso:", error);
         throw error;

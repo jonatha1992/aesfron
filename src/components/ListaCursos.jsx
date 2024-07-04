@@ -4,6 +4,8 @@ import CourseStepperGeneric from "./CourseStepperGeneric";
 import { List, ListItem, ListItemText, Box, Button, IconButton, Backdrop, CircularProgress } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
+import Avatar from "@mui/material/Avatar";
+
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -99,6 +101,19 @@ const ListaCursos = () => {
                                     },
                                 }}
                             >
+                                {" "}
+                                {curso.imageUrl && (
+                                    <Avatar
+                                        src={curso.imageUrl}
+                                        alt={curso.title}
+                                        sx={{
+                                            width: 40,
+                                            height: 40,
+                                            marginRight: 1,
+                                            cursor: "pointer",
+                                        }}
+                                    />
+                                )}
                                 <ListItemText primary={curso.title} secondary={curso.description} />
                                 <IconButton onClick={(event) => handleSelectCurso(curso)} color="primary">
                                     <EditIcon />

@@ -5,11 +5,14 @@ export async function eliminarModulo(cursoId, moduloId) {
         console.log(`Intentando eliminar módulo con ID: ${moduloId} del curso: ${cursoId}`);
         const moduloDocRef = doc(db, "cursos", cursoId, "Modulos", moduloId);
 
-        // Primero, eliminamos todos los ítems del módulo
+        // Obtener todos los ítems del módulo
         const itemsCollectionRef = collection(moduloDocRef, "items");
         const itemsSnapshot = await getDocs(itemsCollectionRef);
-        const deleteItemPromises = itemsSnapshot.docs.map((itemDoc) => deleteDoc(doc(itemsCollectionRef, itemDoc.id)));
-        await Promise.all(deleteItemPromises);
+
+        // Para cada ítem en el módulo, llamar a deleteItem
+        for (const itemDoc of itemsSnapshot.docs) {
+            await deleteItem(cursoId, moduloId, itemDoc.id);
+        }
 
         // Luego, eliminamos el módulo
         await deleteDoc(moduloDocRef);
@@ -19,7 +22,6 @@ export async function eliminarModulo(cursoId, moduloId) {
         throw error;
     }
 }
-
 export async function actualizarModulo(cursoId, moduloId, nuevosDatos) {
     try {
         console.log(`Intentando actualizar módulo con ID: ${moduloId} del curso: ${cursoId}`);

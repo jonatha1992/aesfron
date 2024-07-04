@@ -16,7 +16,7 @@ import InputLabel from "@mui/material/InputLabel";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import { agregarDoc, actualizarDoc } from "../firebase";
-import { uploadFiles } from "../controllers/controllerFile";
+import { uploadFiles, deleteFile } from "../controllers/controllerFile";
 import { getCurso } from "../controllers/controllerCurso";
 import { toast } from "react-toastify";
 
@@ -45,6 +45,7 @@ export default function CourseStepperGeneric({ cursoId, onCursoActualizado }) {
     });
     const [imageFile, setImageFile] = useState(null);
     const [imagePreviewUrl, setImagePreviewUrl] = useState("");
+    const [currentImageUrl, setCurrentImageUrl] = useState("");
     const [isSubmitting, setIsSubmitting] = useState(false);
 
     useEffect(() => {
@@ -53,7 +54,8 @@ export default function CourseStepperGeneric({ cursoId, onCursoActualizado }) {
                 try {
                     const curso = await getCurso(cursoId);
                     setCourseData(curso);
-                    setImagePreviewUrl(curso.imageURL);
+                    setCurrentImageUrl(curso.imageUrl);
+                    setImagePreviewUrl(curso.imageUrl);
                 } catch (error) {
                     console.error("Error al obtener los datos del curso:", error);
                     toast.error("Error al cargar los datos del curso");
@@ -75,11 +77,17 @@ export default function CourseStepperGeneric({ cursoId, onCursoActualizado }) {
         if (activeStep === steps.length - 1) {
             setIsSubmitting(true);
             try {
-                let CargadaimageUrl = courseData.imageURL;
+                let updatedImageUrl = currentImageUrl;
                 if (imageFile) {
-                    CargadaimageUrl = await uploadFiles(imageFile);
+                    updatedImageUrl = await uploadFiles(imageFile);
+                    if (currentImageUrl) {
+                        await deleteFile(currentImageUrl);
+                    }
+                } else if (currentImageUrl === "" && courseData.imageUrl) {
+                    await deleteFile(courseData.imageUrl);
+                    updatedImageUrl = "";
                 }
-                const finalCourseData = { ...courseData, imageUrl: CargadaimageUrl };
+                const finalCourseData = { ...courseData, imageUrl: updatedImageUrl };
                 console.log("finalCourseData:", finalCourseData);
                 if (cursoId) {
                     await actualizarDoc(cursoId, finalCourseData, "cursos");
@@ -117,13 +125,14 @@ export default function CourseStepperGeneric({ cursoId, onCursoActualizado }) {
             objetivos: [""],
             meet: "",
             test: "",
-            imageURL: "",
+            imageUrl: "",
             workload: "",
             classes: "",
             modalidad: "",
         });
         setImageFile(null);
         setImagePreviewUrl("");
+        setCurrentImageUrl("");
     };
 
     const validateStepFields = () => {
@@ -160,8 +169,6 @@ export default function CourseStepperGeneric({ cursoId, onCursoActualizado }) {
                 return [];
         }
     };
-
-    const isStepOptional = (step) => false;
 
     const isStepSkipped = (step) => skipped.has(step);
 
@@ -200,6 +207,7 @@ export default function CourseStepperGeneric({ cursoId, onCursoActualizado }) {
         const file = event.target.files[0];
         if (file) {
             setImageFile(file);
+            setCurrentImageUrl(""); // Limpia la URL de la imagen actual
 
             const reader = new FileReader();
             reader.onloadend = () => {
@@ -207,6 +215,15 @@ export default function CourseStepperGeneric({ cursoId, onCursoActualizado }) {
             };
             reader.readAsDataURL(file);
         }
+    };
+
+    const handleRemoveImage = () => {
+        if (currentImageUrl) {
+            deleteFile(currentImageUrl);
+        }
+        setImagePreviewUrl("");
+        setCurrentImageUrl("");
+        setImageFile(null);
     };
 
     return (
@@ -229,7 +246,9 @@ export default function CourseStepperGeneric({ cursoId, onCursoActualizado }) {
                         handleRemoveField,
                         handleImageChange,
                         imageFile,
-                        imagePreviewUrl
+                        imagePreviewUrl,
+                        currentImageUrl,
+                        handleRemoveImage
                     )}
                     <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
                         <Button color="inherit" disabled={activeStep === 0} onClick={handleBack} sx={{ mr: 1 }}>
@@ -249,7 +268,18 @@ export default function CourseStepperGeneric({ cursoId, onCursoActualizado }) {
     );
 }
 
-function getStepContent(step, courseData, handleChange, handleAddField, handleRemoveField, handleImageChange, imageFile, imagePreviewUrl) {
+function getStepContent(
+    step,
+    courseData,
+    handleChange,
+    handleAddField,
+    handleRemoveField,
+    handleImageChange,
+    imageFile,
+    imagePreviewUrl,
+    currentImageUrl,
+    handleRemoveImage
+) {
     switch (step) {
         case 0:
             return (
@@ -436,9 +466,12 @@ function getStepContent(step, courseData, handleChange, handleAddField, handleRe
                             Subir Imagen
                         </Button>
                     </label>
-                    {imagePreviewUrl && (
-                        <Box sx={{ mt: 2 }}>
-                            <img src={imagePreviewUrl} alt="Preview" style={{ maxWidth: "100%", maxHeight: 300 }} />
+                    {(imagePreviewUrl || currentImageUrl) && (
+                        <Box sx={{ mt: 2 }} display={"flex"} flexDirection={"column"} alignItems={"center"}>
+                            <img src={imagePreviewUrl || currentImageUrl} alt="Preview" style={{ maxWidth: "100%", maxHeight: 300 }} />
+                            <Button variant="contained" color="secondary" onClick={handleRemoveImage} sx={{ mt: 1 }}>
+                                Eliminar Imagen
+                            </Button>
                         </Box>
                     )}
                 </Box>
