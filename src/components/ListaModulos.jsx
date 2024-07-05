@@ -9,6 +9,10 @@ import {
     Button,
     TextField,
     Dialog,
+    DialogActions,
+    DialogContent,
+    DialogContentText,
+    DialogTitle,
     ListItemText,
     IconButton,
     Accordion,
@@ -21,10 +25,13 @@ import EditIcon from "@mui/icons-material/Edit";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+
 export default function ListaModulos({ cursoId }) {
     const [modulos, setModulos] = useState([]);
     const [loading, setLoading] = useState(true);
     const [openDialog, setOpenDialog] = useState(false);
+    const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
+    const [moduloToDelete, setModuloToDelete] = useState(null);
     const [newModuloTitle, setNewModuloTitle] = useState("");
     const [editingModulo, setEditingModulo] = useState(null);
 
@@ -68,20 +75,35 @@ export default function ListaModulos({ cursoId }) {
                 toast.success("Módulo editado exitosamente");
             } catch (error) {
                 console.error("Error al editar módulo:", error);
-                toast.error("Error al editar módulo:", error);
+                toast.error("Error al editar módulo");
             }
         }
     };
 
-    const handleDeleteModulo = async (moduloId) => {
-        try {
-            await eliminarModulo(cursoId, moduloId);
-            fetchModulos();
-            toast.success("Módulo eliminado exitosamente");
-        } catch (error) {
-            console.error("Error al eliminar módulo:", error);
-            toast.error("Error al eliminar módulo:", error);
+    const handleDeleteClick = (modulo) => {
+        setModuloToDelete(modulo);
+        setOpenDeleteDialog(true);
+    };
+
+    const handleDeleteConfirm = async () => {
+        if (moduloToDelete) {
+            try {
+                await eliminarModulo(cursoId, moduloToDelete.id);
+                fetchModulos();
+                toast.success("Módulo eliminado exitosamente");
+            } catch (error) {
+                console.error("Error al eliminar módulo:", error);
+                toast.error("Error al eliminar módulo");
+            } finally {
+                setOpenDeleteDialog(false);
+                setModuloToDelete(null);
+            }
         }
+    };
+
+    const handleDeleteCancel = () => {
+        setOpenDeleteDialog(false);
+        setModuloToDelete(null);
     };
 
     const mostrarToast = (message, type) => {
@@ -132,7 +154,7 @@ export default function ListaModulos({ cursoId }) {
                                                 <IconButton onClick={() => setEditingModulo(modulo)} color="primary">
                                                     <EditIcon />
                                                 </IconButton>
-                                                <IconButton onClick={() => handleDeleteModulo(modulo.id)} color="secondary">
+                                                <IconButton onClick={() => handleDeleteClick(modulo)} color="secondary">
                                                     <DeleteIcon />
                                                 </IconButton>
                                             </>
@@ -168,6 +190,25 @@ export default function ListaModulos({ cursoId }) {
                     <Button onClick={handleAddModulo}>Agregar</Button>
                     <Button onClick={() => setOpenDialog(false)}>Cancelar</Button>
                 </div>
+            </Dialog>
+            <Dialog
+                open={openDeleteDialog}
+                onClose={handleDeleteCancel}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+            >
+                <DialogTitle id="alert-dialog-title">{"Confirmar eliminación"}</DialogTitle>
+                <DialogContent>
+                    <DialogContentText id="alert-dialog-description">
+                        ¿Estás seguro de que quieres eliminar la Unidad {moduloToDelete?.titulo}?
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleDeleteCancel}>Cancelar</Button>
+                    <Button onClick={handleDeleteConfirm} autoFocus>
+                        Eliminar
+                    </Button>
+                </DialogActions>
             </Dialog>
         </Box>
     );

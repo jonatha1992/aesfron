@@ -2,7 +2,22 @@ import React, { useState, useEffect } from "react";
 import { deleteFile } from "../controllers/controllerFile";
 import { obtenerRecientes, eliminarDoc } from "../firebase";
 import ModificacionAnuncioEventos from "./ModificacionAnuncioEventos";
-import { List, ListItem, ListItemText, Box, Button, IconButton, Backdrop, CircularProgress, Avatar } from "@mui/material";
+import {
+    List,
+    ListItem,
+    ListItemText,
+    Box,
+    Button,
+    IconButton,
+    Backdrop,
+    CircularProgress,
+    Avatar,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogContentText,
+    DialogTitle,
+} from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import { ToastContainer, toast } from "react-toastify";
@@ -14,6 +29,8 @@ const ListaAnunciosEventos = ({ isEvento = false }) => {
     const [mostrarLista, setMostrarLista] = useState(true);
     const [loading, setLoading] = useState(true);
     const [deleting, setDeleting] = useState(false);
+    const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
+    const [documentoToDelete, setDocumentoToDelete] = useState(null);
 
     const tipoDocumento = isEvento ? "eventos" : "anuncios";
     const nombreSingular = isEvento ? "Evento" : "Anuncio";
@@ -54,20 +71,34 @@ const ListaAnunciosEventos = ({ isEvento = false }) => {
         setMostrarLista(false);
     };
 
-    const handleEliminarDocumento = async (documento, event) => {
+    const handleEliminarDocumentoClick = (documento, event) => {
         event.stopPropagation();
-        setDeleting(true);
-        try {
-            await eliminarDoc(documento.id, tipoDocumento);
-            await deleteFile(documento.IMAGEN);
-            toast.success(`${nombreSingular} eliminado con éxito`);
-            fetchDocumentos();
-        } catch (error) {
-            toast.error(`Error al eliminar el ${nombreSingular.toLowerCase()}`);
-            console.error(`Error al eliminar el ${nombreSingular.toLowerCase()}: `, error);
-        } finally {
-            setDeleting(false);
+        setDocumentoToDelete(documento);
+        setOpenDeleteDialog(true);
+    };
+
+    const handleEliminarDocumentoConfirm = async () => {
+        if (documentoToDelete) {
+            setDeleting(true);
+            try {
+                await eliminarDoc(documentoToDelete.id, tipoDocumento);
+                await deleteFile(documentoToDelete.IMAGEN);
+                toast.success(`${nombreSingular} eliminado con éxito`);
+                fetchDocumentos();
+            } catch (error) {
+                toast.error(`Error al eliminar el ${nombreSingular.toLowerCase()}`);
+                console.error(`Error al eliminar el ${nombreSingular.toLowerCase()}: `, error);
+            } finally {
+                setDeleting(false);
+                setOpenDeleteDialog(false);
+                setDocumentoToDelete(null);
+            }
         }
+    };
+
+    const handleDeleteCancel = () => {
+        setOpenDeleteDialog(false);
+        setDocumentoToDelete(null);
     };
 
     return (
@@ -118,7 +149,7 @@ const ListaAnunciosEventos = ({ isEvento = false }) => {
                                 <IconButton onClick={(event) => handleSelectDocumento(documento, event)} color="primary">
                                     <EditIcon />
                                 </IconButton>
-                                <IconButton onClick={(event) => handleEliminarDocumento(documento, event)} color="secondary">
+                                <IconButton onClick={(event) => handleEliminarDocumentoClick(documento, event)} color="secondary">
                                     <DeleteIcon />
                                 </IconButton>
                             </ListItem>
@@ -132,6 +163,25 @@ const ListaAnunciosEventos = ({ isEvento = false }) => {
                     isEvento={isEvento}
                 />
             )}
+            <Dialog
+                open={openDeleteDialog}
+                onClose={handleDeleteCancel}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+            >
+                <DialogTitle id="alert-dialog-title">{`Confirmar eliminación de ${nombreSingular}`}</DialogTitle>
+                <DialogContent>
+                    <DialogContentText id="alert-dialog-description">
+                        ¿Estás seguro de que quieres eliminar el {nombreSingular.toLowerCase()} "{documentoToDelete?.TITULO}"?
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleDeleteCancel}>Cancelar</Button>
+                    <Button onClick={handleEliminarDocumentoConfirm} autoFocus>
+                        Eliminar
+                    </Button>
+                </DialogActions>
+            </Dialog>
         </Box>
     );
 };
