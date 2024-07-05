@@ -137,6 +137,7 @@ const UnidadAccordion = ({ unidad }) => (
 );
 
 const InfoCursosAccordion = ({ detalles }) => {
+    console.log(detalles);
     return (
         <>
             <Accordion className="mb-3" defaultExpanded style={headerStyle}>
@@ -152,7 +153,15 @@ const InfoCursosAccordion = ({ detalles }) => {
                     <Typography className="text-capitalize mb-2">{detalles.classes}</Typography>
 
                     <Typography className="fw-bold text-uppercase">Link / Lugar de Reunión</Typography>
-                    <Typography className="text-capitalize mb-2">{"meet"}</Typography>
+                    <Typography className="text-capitalize mb-2">
+                        {detalles.meet ? (
+                            <a className="text-secondary hover-primary" href={detalles.meet} target="_blank" rel="noopener noreferrer">
+                                Enlace a la reunión
+                            </a>
+                        ) : (
+                            detalles.place
+                        )}{" "}
+                    </Typography>
 
                     <Typography className="fw-bold text-uppercase">Mail</Typography>
                     <Typography className="text-lowercase">{detalles.mail}</Typography>
