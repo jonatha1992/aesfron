@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { obtenerRecientes, eliminarDoc, deleteFile } from "../firebase";
+import { deleteFile } from "../controllers/controllerFile";
+import { obtenerRecientes, eliminarDoc } from "../firebase";
 import ModificacionAnuncioEventos from "./ModificacionAnuncioEventos";
-import { List, ListItem, ListItemText, Box, Button, IconButton, Backdrop, CircularProgress } from "@mui/material";
+import { List, ListItem, ListItemText, Box, Button, IconButton, Backdrop, CircularProgress, Avatar } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import { ToastContainer, toast } from "react-toastify";
@@ -101,6 +102,18 @@ const ListaAnunciosEventos = ({ isEvento = false }) => {
                                     },
                                 }}
                             >
+                                {documento.IMAGEN && (
+                                    <Avatar
+                                        src={documento.IMAGEN}
+                                        alt={documento.IMAGEN}
+                                        sx={{
+                                            width: 40,
+                                            height: 40,
+                                            marginRight: 1,
+                                            cursor: "pointer",
+                                        }}
+                                    />
+                                )}
                                 <ListItemText primary={documento.TITULO} secondary={documento.SUBTITULO} />
                                 <IconButton onClick={(event) => handleSelectDocumento(documento, event)} color="primary">
                                     <EditIcon />

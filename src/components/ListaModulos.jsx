@@ -1,106 +1,174 @@
-import React, { useEffect, useState } from "react";
-import { getModulos } from "../controllers/controllerCurso"; // Ajusta la importación según tu configuración
-import Box from "@mui/material/Box";
-import Backdrop from "@mui/material/Backdrop";
-import CircularProgress from "@mui/material/CircularProgress";
-import ItemModulo from "./ItemModulo";
-import MenuItem from "@mui/material/MenuItem";
-import { List, ListItem } from "@mui/material";
-
+import { useEffect, useState } from "react";
+import { getModulos, agregarModulo, eliminarModulo, actualizarModulo } from "../controllers/controllerModulo";
+import {
+    Box,
+    Backdrop,
+    CircularProgress,
+    List,
+    ListItem,
+    Button,
+    TextField,
+    Dialog,
+    ListItemText,
+    IconButton,
+    Accordion,
+    AccordionSummary,
+    AccordionDetails,
+} from "@mui/material";
+import ItemModulo from "./ItemModulo.jsx";
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 export default function ListaModulos({ cursoId }) {
-  const [modulos, setModulos] = useState([]);
-  const [selectedModulo, setSelectedModulo] = useState(null);
-  const [loading, setLoading] = useState(true);
+    const [modulos, setModulos] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [openDialog, setOpenDialog] = useState(false);
+    const [newModuloTitle, setNewModuloTitle] = useState("");
+    const [editingModulo, setEditingModulo] = useState(null);
 
-  useEffect(() => {
+    useEffect(() => {
+        fetchModulos();
+    }, [cursoId]);
+
     const fetchModulos = async () => {
-      try {
-        const modulosData = await getModulos(cursoId);
-        setModulos(modulosData);
-      } catch (error) {
-        console.error("Error al obtener los módulos:", error);
-      } finally {
-        setLoading(false);
-      }
+        setLoading(true);
+        try {
+            const modulosData = await getModulos(cursoId);
+            setModulos(modulosData);
+        } catch (error) {
+            console.error("Error al obtener los módulos:", error);
+        } finally {
+            setLoading(false);
+        }
     };
 
-    fetchModulos();
-  }, [cursoId]);
+    const handleAddModulo = async () => {
+        if (newModuloTitle.trim()) {
+            try {
+                await agregarModulo(cursoId, { titulo: parseInt(newModuloTitle) });
+                setNewModuloTitle("");
+                setOpenDialog(false);
+                fetchModulos();
+                toast.success("Módulo agregado exitosamente");
+            } catch (error) {
+                console.error("Error al agregar módulo:", error);
+                toast.error(error.message || "Error al agregar módulo");
+            }
+        }
+    };
 
-  const handleModuloClick = (modulo) => {
-    setSelectedModulo(modulo);
-  };
+    const handleEditModulo = async () => {
+        if (editingModulo && editingModulo.titulo) {
+            try {
+                await actualizarModulo(cursoId, editingModulo.id, { titulo: parseInt(editingModulo.titulo) });
+                setEditingModulo(null);
+                fetchModulos();
+                toast.success("Módulo editado exitosamente");
+            } catch (error) {
+                console.error("Error al editar módulo:", error);
+                toast.error("Error al editar módulo:", error);
+            }
+        }
+    };
 
-  const handleItemUpdate = (updatedItem) => {
-    setSelectedModulo((prevModulo) => ({
-      ...prevModulo,
-      items: prevModulo.items.map((item) =>
-        item.id === updatedItem.id ? updatedItem : item
-      ),
-    }));
-  };
+    const handleDeleteModulo = async (moduloId) => {
+        try {
+            await eliminarModulo(cursoId, moduloId);
+            fetchModulos();
+            toast.success("Módulo eliminado exitosamente");
+        } catch (error) {
+            console.error("Error al eliminar módulo:", error);
+            toast.error("Error al eliminar módulo:", error);
+        }
+    };
 
-  const handleItemDelete = (itemId) => {
-    setSelectedModulo((prevModulo) => ({
-      ...prevModulo,
-      items: prevModulo.items.filter((item) => item.id !== itemId),
-    }));
-  };
+    const mostrarToast = (message, type) => {
+        toast[type](message);
+    };
 
-  return (
-    <Box>
-      <Backdrop open={loading} style={{ zIndex: 1 }}>
-        <CircularProgress color="inherit" />
-      </Backdrop>
-      {!loading && (
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            marginTop: "2rem",
-          }}
-        >
-          <div className="col-3">
-            <List>
-              {modulos.map((modulo) => (
-                <ListItem
-                  key={modulo.id}
-                  onClick={() => handleModuloClick(modulo)}
-                  sx={{
-                    borderRadius: "8px",
-                    border: "1px solid var(--color1)",
-                    margin: "8px 0",
-                    transition: "background 0.3s ease",
-                    "&:hover": {
-                      background: "var(--color2)",
-                      color: "white",
-                    },
-                  }}
-                >
-                  {modulo.titulo}
-                </ListItem>
-              ))}
-            </List>
-          </div>
-          {selectedModulo && (
-            <div className="col-9">
-              <h3>{selectedModulo.titulo}</h3>
-              <ul>
-                {selectedModulo.items.map((item) => (
-                  <ItemModulo
-                    key={item.id}
-                    item={item}
-                    cursoId={cursoId}
-                    moduloId={selectedModulo.id}
-                    onUpdate={handleItemUpdate}
-                    onDelete={handleItemDelete}
-                  />
-                ))}
-              </ul>
-            </div>
-          )}
-        </div>
-      )}
-    </Box>
-  );
+    return (
+        <Box>
+            <ToastContainer autoClose={2000} />
+
+            <Backdrop open={loading} style={{ zIndex: 1 }}>
+                <CircularProgress color="inherit" />
+            </Backdrop>
+            {!loading && (
+                <div>
+                    <Button variant="contained" color="primary" onClick={() => setOpenDialog(true)} sx={{ margin: "5px 0" }}>
+                        Agregar Unidad
+                    </Button>
+                    <List>
+                        {modulos.map((modulo) => (
+                            <Accordion key={modulo.id}>
+                                <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                                    <ListItem
+                                        sx={{
+                                            borderRadius: "8px",
+                                            border: "1px solid var(--color1)",
+                                            margin: "8px 0",
+                                            transition: "background 0.3s ease",
+                                            "&:hover": {
+                                                background: "var(--color2)",
+                                                color: "white",
+                                            },
+                                        }}
+                                    >
+                                        {editingModulo && editingModulo.id === modulo.id ? (
+                                            <>
+                                                <TextField
+                                                    type="number"
+                                                    value={editingModulo.titulo}
+                                                    onChange={(e) => setEditingModulo({ ...editingModulo, titulo: e.target.value })}
+                                                />
+                                                <Button onClick={handleEditModulo}>Guardar</Button>
+                                                <Button onClick={() => setEditingModulo(null)}>Cancelar</Button>
+                                            </>
+                                        ) : (
+                                            <>
+                                                <ListItemText primary={`Unidad  ${modulo.titulo}`} />
+                                                <IconButton onClick={() => setEditingModulo(modulo)} color="primary">
+                                                    <EditIcon />
+                                                </IconButton>
+                                                <IconButton onClick={() => handleDeleteModulo(modulo.id)} color="secondary">
+                                                    <DeleteIcon />
+                                                </IconButton>
+                                            </>
+                                        )}
+                                    </ListItem>
+                                </AccordionSummary>
+                                <AccordionDetails>
+                                    <ItemModulo
+                                        cursoId={cursoId}
+                                        moduloId={modulo.id}
+                                        items={modulo.items || []}
+                                        onUpdate={fetchModulos}
+                                        mostrarToast={mostrarToast}
+                                    />
+                                </AccordionDetails>
+                            </Accordion>
+                        ))}
+                    </List>
+                </div>
+            )}
+            <Dialog open={openDialog} onClose={() => setOpenDialog(false)}>
+                <div style={{ padding: "16px" }}>
+                    <h3 className="text-center mt-3">Agregar Unidad</h3>
+
+                    <TextField
+                        type="number"
+                        value={newModuloTitle}
+                        onChange={(e) => setNewModuloTitle(e.target.value)}
+                        label="Número de la nueva unidad"
+                    />
+                </div>
+                <div style={{ display: "flex", justifyContent: "space-between", margin: "16px" }}>
+                    <Button onClick={handleAddModulo}>Agregar</Button>
+                    <Button onClick={() => setOpenDialog(false)}>Cancelar</Button>
+                </div>
+            </Dialog>
+        </Box>
+    );
 }

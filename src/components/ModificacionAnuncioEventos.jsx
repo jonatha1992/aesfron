@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Button, TextField, Box, Input, Backdrop, CircularProgress, Card } from "@mui/material";
-import { agregarDoc, actualizarDoc, eliminarDoc, uploadFiles, deleteFile } from "../firebase";
+import { agregarDoc, actualizarDoc, eliminarDoc } from "../firebase";
+import { uploadFiles, deleteFile } from "../controllers/controllerFile";
 import CardEventoVistaPrevia from "./CardEventoVistaPrevia";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";

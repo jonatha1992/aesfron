@@ -14,6 +14,7 @@ import {
     serverTimestamp,
     orderBy,
     limit,
+    getCountFromServer,
 } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
 
 import { getStorage, uploadBytes, ref, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-storage.js";
@@ -59,168 +60,8 @@ export async function actualizarDoc(id, datos, tabla) {
     await updateDoc(docRef, datos);
 }
 
-export async function uploadFiles(file) {
-    const storageRef = ref(storage, crypto.randomUUID());
-    const metadata = {
-        contentType: "image/jpeg",
-    };
-    const meta = await uploadBytes(storageRef, file, metadata);
-    console.log(meta);
-    const url = await getDownloadURL(storageRef);
-    return url;
-}
-
-export async function deletear(id, tabla) {
-    const docRef = doc(db, `${tabla}`, id);
-    const docSnap = await getDoc(docRef);
-
-    if (docSnap.exists()) {
-        console.log("Document data:", docSnap.data());
-        let dato = docSnap.data();
-        console.log("intentando eliminar la imagen:", dato.imagen);
-
-        try {
-            if (tabla == "cursos") {
-                await deleteFile(dato.image);
-                await deleteDoc(doc(db, `${tabla}`, id));
-                return true;
-                /* notyf.error("Pic eliminado de la galeria"); */
-                /* administrarGaleria(); */
-            }
-        } catch (error) {
-            console.log("algo paso", error);
-            return false;
-            /* notyf.error("ocurrio un error en la operacion"); */
-        }
-    }
-}
-
-export async function deleteFile(url) {
-    console.log("la url desde bd: ", url);
-    // var fileRef = storage.refFromURL(url);
-    var fileRef = ref(storage, url);
-
-    try {
-        await deleteObject(fileRef);
-        console.log("Archivo eliminado exitosamente.");
-    } catch (error) {
-        console.log("Error al eliminar archivo:", error);
-    }
-}
-
-const CursosInscriptos = async (uid) => {
-    try {
-        // Realiza la consulta a Firebase
-        const miscursosRef = await collection(db, "inscripciones");
-        const q = await query(miscursosRef, where("uid", "==", uid));
-        const querySnapshot = await getDocs(q);
-
-        // Extrae los datos de la consulta y actualiza el estado
-        const cursosArray = [];
-        querySnapshot.forEach((doc) => {
-            cursosArray.push({ inscripcionid: doc.id, ...doc.data() });
-        });
-        // Realiza una segunda consulta para obtener los detalles de cada curso
-        const cursosDetallesArray = await Promise.all(
-            cursosArray.map(async (curso) => {
-                const cursoDetallesRef = doc(db, "cursos", curso.cursoid);
-                const cursoDetallesSnapshot = await getDoc(cursoDetallesRef);
-                return { ...curso, detalles: cursoDetallesSnapshot.data() };
-            })
-        );
-
-        return cursosDetallesArray;
-    } catch (error) {
-        console.error("Error en la operación asincrónica:", error);
-    }
-};
-
-const CursosAdmin = async () => {
-    try {
-        // Realiza la consulta a Firebase para obtener todos los cursos
-        const cursosRef = collection(db, "cursos");
-        const querySnapshot = await getDocs(cursosRef);
-
-        // Extrae los datos de la consulta
-        const cursosArray = [];
-        querySnapshot.forEach((doc) => {
-            cursosArray.push({ id: doc.id, ...doc.data() });
-        });
-
-        // No necesitamos una segunda consulta aquí, ya que ya tenemos todos los detalles
-        // Sin embargo, si quieres mantener una estructura similar a CursosInscriptos, puedes hacer esto:
-        const cursosDetallesArray = cursosArray.map((curso) => ({
-            cursoid: curso.id,
-            detalles: curso,
-        }));
-
-        return cursosDetallesArray;
-    } catch (error) {
-        console.error("Error en la operación asincrónica:", error);
-        throw error; // Es buena práctica relanzar el error para manejarlo en el nivel superior
-    }
-};
-
-export async function eliminarDoc(id, tabla) {
-    await deleteDoc(doc(db, tabla, id));
-}
-
-import { agregarItemsModulo } from "./security/Tools";
-import { fabClasses } from "@mui/material";
-const itemsToBeAdded = [
-    {
-        tipo: "video",
-        titulo: "Cuidados para el neurodesarrollo. ",
-        url: "http://link-al-video.com",
-    },
-    {
-        tipo: "pdf",
-        titulo: "La importancia de la leche humana en UCIN",
-        url: "http://link-al-pdf.com",
-    },
-    {
-        tipo: "video",
-        titulo: "Drogas de reanimación",
-        url: "http://link-al-video.com",
-    },
-    {
-        tipo: "video",
-        titulo: "Cuidado Canguro ",
-        url: "http://link-al-video.com",
-    },
-    {
-        tipo: "pdf",
-        titulo: "Niveles de ruido en UCIN- Prevención de la hipoacusia",
-        url: "http://link-al-pdf.com",
-    },
-    {
-        tipo: "video",
-        titulo: "Paciente Recién Nacido quirúrgico",
-        url: "http://link-al-video.com",
-    },
-    {
-        tipo: "video",
-        titulo: "Cuidado infectologico en UCIN",
-        url: "http://link-al-video.com",
-    },
-    {
-        tipo: "pdf",
-        titulo: "Trastornos de la deglución en el Recién Nacido de Riesgo",
-        url: "http://link-al-pdf.com",
-    },
-    {
-        tipo: "video",
-        titulo: "Detección del síndrome genético en el Recién Nacido/ Cardiopatías neonatales",
-        url: "http://link-al-video.com",
-    },
-];
-
-// const path = "cursos/6ThlcAF2z98yAXyJ4xT1/Modulos/yI2XjQ4swxT5NxTcDc3B/items";
-// agregarItemsModulo(path, itemsToBeAdded);
-
 export {
     deleteDoc,
-    CursosInscriptos,
     collection,
     db,
     getDoc,
@@ -231,24 +72,13 @@ export {
     getDocs,
     query,
     where,
-    ContenidoXCurso,
-    CursosAdmin,
-};
-
-const ContenidoXCurso = async (cursoid) => {
-    const contenidoRef = collection(db, "contenido");
-    const q1 = query(contenidoRef, where("cursoid", "==", cursoid));
-
-    const querySnapshot = await getDocs(q1);
-
-    // Construye un array con los resultados
-    const resultados = [];
-
-    querySnapshot.forEach((doc) => {
-        resultados.push({ id: doc.id, ...doc.data() });
-    });
-
-    return resultados;
+    storage,
+    deleteObject,
+    getDownloadURL,
+    ref,
+    uploadBytes,
+    serverTimestamp,
+    getCountFromServer,
 };
 
 // Función para agregar un documento
@@ -264,6 +94,9 @@ export async function agregarSubcoleccionDoc(data, path) {
     await addDoc(colRef, data);
 }
 
+export async function eliminarDoc(id, tabla) {
+    await deleteDoc(doc(db, tabla, id));
+}
 // Función para subir archivos
 export async function uploadFilesConte(file) {
     const storageRef = ref(storage, crypto.randomUUID());
@@ -280,16 +113,6 @@ export const getDocumentCount = async (collectionPath) => {
     const colRef = collection(db, collectionPath);
     const snapshot = await getDocs(colRef);
     return snapshot.size;
-};
-
-export const updateItem = async (cursoId, moduloId, itemId, itemData) => {
-    const itemRef = doc(db, `cursos/${cursoId}/Modulos/${moduloId}/items`, itemId);
-    await updateDoc(itemRef, itemData);
-};
-
-export const deleteItem = async (itemId, cursoId, moduloId) => {
-    const itemRef = doc(db, "cursos", cursoId, "Modulos", moduloId, "items", itemId);
-    await deleteDoc(itemRef);
 };
 
 export const uploadFile = async (file, cursoId, moduloId, itemId) => {

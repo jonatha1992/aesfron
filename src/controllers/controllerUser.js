@@ -1,4 +1,5 @@
-import { db, doc, getDoc, setDoc, updateDoc } from "../firebase";
+import { deleteDoc, collection, db, getDoc, doc, setDoc, updateDoc, getDocs, query, where, storage } from "../firebase";
+
 import { getCountry, getState, convertFirebaseTimestampToDate } from "../security/Tools";
 export async function agregarUser(user) {
     try {
@@ -64,3 +65,56 @@ export async function getUser(userId) {
   const infoFinal = docuCifrada.data().rol;
   return infoFinal;
 } */
+
+export const CursosAdmin = async () => {
+    try {
+        // Realiza la consulta a Firebase para obtener todos los cursos
+        const cursosRef = collection(db, "cursos");
+        const querySnapshot = await getDocs(cursosRef);
+
+        // Extrae los datos de la consulta
+        const cursosArray = [];
+        querySnapshot.forEach((doc) => {
+            cursosArray.push({ id: doc.id, ...doc.data() });
+        });
+
+        // No necesitamos una segunda consulta aquí, ya que ya tenemos todos los detalles
+        // Sin embargo, si quieres mantener una estructura similar a CursosInscriptos, puedes hacer esto:
+        const cursosDetallesArray = cursosArray.map((curso) => ({
+            cursoid: curso.id,
+            detalles: curso,
+        }));
+
+        return cursosDetallesArray;
+    } catch (error) {
+        console.error("Error en la operación asincrónica:", error);
+        throw error; // Es buena práctica relanzar el error para manejarlo en el nivel superior
+    }
+};
+
+export const CursosInscriptos = async (uid) => {
+    try {
+        // Realiza la consulta a Firebase
+        const miscursosRef = await collection(db, "inscripciones");
+        const q = await query(miscursosRef, where("uid", "==", uid));
+        const querySnapshot = await getDocs(q);
+
+        // Extrae los datos de la consulta y actualiza el estado
+        const cursosArray = [];
+        querySnapshot.forEach((doc) => {
+            cursosArray.push({ inscripcionid: doc.id, ...doc.data() });
+        });
+        // Realiza una segunda consulta para obtener los detalles de cada curso
+        const cursosDetallesArray = await Promise.all(
+            cursosArray.map(async (curso) => {
+                const cursoDetallesRef = doc(db, "cursos", curso.cursoid);
+                const cursoDetallesSnapshot = await getDoc(cursoDetallesRef);
+                return { ...curso, detalles: cursoDetallesSnapshot.data() };
+            })
+        );
+
+        return cursosDetallesArray;
+    } catch (error) {
+        console.error("Error en la operación asincrónica:", error);
+    }
+};

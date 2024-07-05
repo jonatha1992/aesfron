@@ -1,6 +1,6 @@
 import { useState, useEffect, createContext } from "react";
 import { useAuth } from "../context/AuthContext";
-import { CursosInscriptos, CursosAdmin } from "../firebase.js";
+import { CursosInscriptos, CursosAdmin } from "../controllers/controllerUser";
 
 export const AlumnosContext = createContext();
 

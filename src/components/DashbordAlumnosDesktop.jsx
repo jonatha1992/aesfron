@@ -4,10 +4,8 @@ import { AlumnosContext } from "../context/AlumnoContext";
 import { Settings, AutoStories, Inbox as InboxIcon, ExpandLess, ExpandMore, StarBorder } from "@mui/icons-material";
 import MisCursos from "../components/MisCursos";
 import MiPerfil from "./MiPerfil";
-import AltaCurso from "../componentesviejos/AltaCursos.jsx";
-import ListaCursos from "./ListaCursos";
-// import ListaModulos from "./ListaModulos";
-import ListaModulos from "./ListaModulos2";
+import ComboCursos from "./ComboCursos";
+import ListaModulos from "./ListaModulos";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
@@ -16,7 +14,8 @@ import ListItemText from "@mui/material/ListItemText";
 import Collapse from "@mui/material/Collapse";
 import Divider from "@mui/material/Divider";
 import ListaAnunciosEventos from "./ListaAnunciosEventos.jsx";
-import ListaCursos2 from "./ListaCursos2.jsx";
+import ListaCursos from "./ListaCursos.jsx";
+import FolderIcon from "@mui/icons-material/Folder";
 
 const FeatureGrid = () => {
     const { User } = useAuth();
@@ -37,22 +36,8 @@ const FeatureGrid = () => {
         },
 
         {
-            name: "Contenido",
-            icon: <InboxIcon />,
-            route: "/alta/contenido",
-            content: <ListaCursos operacion="alta" />,
-        },
-
-        {
-            name: "Contenido",
-            icon: <InboxIcon />,
-            route: "/modificacion/contenido",
-            content: <ListaCursos operacion="modificacion" />,
-        },
-
-        {
             name: "Eventos",
-            icon: <InboxIcon />,
+            icon: <FolderIcon />,
             route: "/gestion",
             content: <ListaAnunciosEventos isEvento={false} />,
         },
@@ -66,13 +51,13 @@ const FeatureGrid = () => {
             name: "Cursos",
             icon: <InboxIcon />,
             route: "/gestion",
-            content: <ListaCursos2 />,
+            content: <ListaCursos />,
         },
         {
             name: "Contenido",
-            icon: <InboxIcon />,
+            icon: <FolderIcon />,
             route: "/gestion",
-            content: <ListaModulos />,
+            content: <ComboCursos />,
         },
     ];
 
@@ -123,7 +108,8 @@ const FeatureGrid = () => {
                             paddingTop: "2rem",
                         }}
                     >
-                        Bienvenido {User.displayName}.
+                        Usuario
+                        <p>{User.nombre_completo}</p>
                     </h3>
 
                     <List>
@@ -151,7 +137,7 @@ const FeatureGrid = () => {
                         {isAdmin && (
                             <>
                                 <Divider />
-                                {["ALTA", "MODIFICACION", "BAJA", "GESTION"].map((section) => (
+                                {["Gestion"].map((section) => (
                                     <div key={section}>
                                         <ListItemButton onClick={() => handleClick(section)}>
                                             <ListItemIcon>
@@ -180,7 +166,7 @@ const FeatureGrid = () => {
                                                             }}
                                                         >
                                                             <ListItemIcon>
-                                                                <StarBorder />
+                                                                <FolderIcon />
                                                             </ListItemIcon>
                                                             <ListItemText primary={feature.name} />
                                                         </ListItemButton>

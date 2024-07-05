@@ -8,7 +8,7 @@ import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
 import LinkIcon from "@mui/icons-material/Link";
 import DownloadForOfflineIcon from "@mui/icons-material/DownloadForOffline";
 import InfoIcon from "@mui/icons-material/Info";
-import { getModulos } from "../controllers/controllerCurso";
+import { getModulos } from "../controllers/controllerModulo";
 import FolderIcon from "@mui/icons-material/Folder";
 import { Backdrop, CircularProgress } from "@mui/material";
 
@@ -137,6 +137,7 @@ const UnidadAccordion = ({ unidad }) => (
 );
 
 const InfoCursosAccordion = ({ detalles }) => {
+    console.log(detalles);
     return (
         <>
             <Accordion className="mb-3" defaultExpanded style={headerStyle}>
@@ -152,7 +153,15 @@ const InfoCursosAccordion = ({ detalles }) => {
                     <Typography className="text-capitalize mb-2">{detalles.classes}</Typography>
 
                     <Typography className="fw-bold text-uppercase">Link / Lugar de Reunión</Typography>
-                    <Typography className="text-capitalize mb-2">{"meet"}</Typography>
+                    <Typography className="text-capitalize mb-2">
+                        {detalles.meet ? (
+                            <a className="text-secondary hover-primary" href={detalles.meet} target="_blank" rel="noopener noreferrer">
+                                Enlace a la reunión
+                            </a>
+                        ) : (
+                            detalles.place
+                        )}{" "}
+                    </Typography>
 
                     <Typography className="fw-bold text-uppercase">Mail</Typography>
                     <Typography className="text-lowercase">{detalles.mail}</Typography>
@@ -189,7 +198,7 @@ const UnidadesCursos = ({ activeCourse }) => {
             setLoading(true);
             try {
                 const contenidoData = await getModulos(cursoid);
-
+                console.log("contenidoData", contenidoData);
                 // Filtrar PDFs y links para la biblioteca
                 const allPdfs = [];
                 const allLinks = [];
