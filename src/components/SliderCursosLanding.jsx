@@ -5,8 +5,6 @@ import { ArrowBack, ArrowForward } from "@mui/icons-material";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import "../css/slick.css";
-import { colors } from "@mui/material";
-import { blue } from "@mui/material/colors";
 
 function SliderCursosLanding({ cursos }) {
   const CustomPrevArrow = (props) => (
@@ -21,28 +19,31 @@ function SliderCursosLanding({ cursos }) {
     </button>
   );
 
+  const array = cursos.cursos;
+  const hay1Curso = array && array.length === 1;
+
   const settings = {
     dots: false,
     infinite: true,
     speed: 500,
-    slidesToShow: 3,
-    slidesToScroll: 2,
+    slidesToShow: hay1Curso ? 1 : 3,
+    slidesToScroll: hay1Curso ? 1 : 2,
     initialSlide: 0,
     responsive: [
       {
         breakpoint: 1024,
         settings: {
-          slidesToShow: 3,
-          slidesToScroll: 2,
+          slidesToShow: hay1Curso ? 1 : 3,
+          slidesToScroll: hay1Curso ? 1 : 2,
           infinite: true,
         },
       },
       {
         breakpoint: 900,
         settings: {
-          slidesToShow: 2,
-          slidesToScroll: 2,
-          initialSlide: 2,
+          slidesToShow: hay1Curso ? 1 : 2,
+          slidesToScroll: hay1Curso ? 1 : 2,
+          initialSlide: hay1Curso ? 0 : 2,
         },
       },
       {
@@ -53,19 +54,29 @@ function SliderCursosLanding({ cursos }) {
         },
       },
     ],
-    /* prevArrow: <CustomPrevArrow />,
-    nextArrow: <CustomNextArrow />, */
+    prevArrow: <CustomPrevArrow />,
+    nextArrow: <CustomNextArrow />,
   };
 
-  const array = cursos.cursos;
+  if (hay1Curso) {
+    return (
+      <div className="slider-container d-flex justify-content-center">
+        <div className="col-5">
+          <CardCurso item={array[0]} />
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <div className="slider-container">
-      <Slider {...settings}>
-        {array.map((item, index) => (
-          <CardCurso key={index} item={item} />
-        ))}
-      </Slider>
+    <div className="slider-container d-flex justify-content-center">
+      <div className="col-12">
+        <Slider {...settings}>
+          {array.map((item, index) => (
+            <CardCurso key={index} item={item} />
+          ))}
+        </Slider>
+      </div>
     </div>
   );
 }
