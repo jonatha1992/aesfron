@@ -114,7 +114,7 @@ export default function Inscripcion() {
                                 style={{ width: "50%" }}
                             >
                                 {/* <h3>${curso.price.toLocaleString("es-AR")} ARS</h3> */}
-                                INSCRIBITÉ🔽
+                                INSCRIBITE🔽
                             </Button>
                         </div>
                     </div>

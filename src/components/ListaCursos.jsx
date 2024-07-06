@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { getAllCursos, deleteCurso } from "../controllers/controllerCurso";
+import { actualizarDoc } from "../firebase";
 import CourseStepperGeneric from "./CourseStepperGeneric";
 import {
     List,
@@ -15,6 +16,8 @@ import {
     DialogContent,
     DialogContentText,
     DialogTitle,
+    Switch,
+    Typography,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
@@ -98,6 +101,18 @@ const ListaCursos = () => {
         setCursoToDelete(null);
     };
 
+    const handleHabilitadoChange = async (curso, event) => {
+        const newHabilitado = event.target.checked;
+        try {
+            await actualizarDoc(curso.id, { habilitado: newHabilitado }, "cursos");
+            setCursos(cursos.map((c) => (c.id === curso.id ? { ...c, habilitado: newHabilitado } : c)));
+            toast.success(`Curso ${newHabilitado ? "habilitado" : "deshabilitado"} con éxito`);
+        } catch (error) {
+            console.error("Error al actualizar el estado del curso:", error);
+            toast.error("Error al actualizar el estado del curso");
+        }
+    };
+
     return (
         <Box>
             <ToastContainer autoClose={2000} />
@@ -147,7 +162,17 @@ const ListaCursos = () => {
                                     primary={curso.title}
                                     secondary={`${curso.description} - ${curso.habilitado ? "Habilitado" : "Deshabilitado"}`}
                                 />
-                                <IconButton onClick={(event) => handleSelectCurso(curso)} color="primary">
+                                <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", mr: 2 }}>
+                                    <Typography variant="caption" sx={{ mb: 0.5 }}>
+                                        {curso.habilitado ? "Habilitado" : "Deshabilitado"}
+                                    </Typography>
+                                    <Switch
+                                        checked={curso.habilitado}
+                                        onChange={(event) => handleHabilitadoChange(curso, event)}
+                                        color="primary"
+                                    />
+                                </Box>
+                                <IconButton onClick={() => handleSelectCurso(curso)} color="primary">
                                     <EditIcon />
                                 </IconButton>
                                 <IconButton onClick={(event) => handleEliminarCursoClick(curso, event)} color="secondary">
