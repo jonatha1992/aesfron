@@ -77,7 +77,7 @@ const MisCursos = () => {
                             fontSize: "10px",
                           }}
                         >
-                          <span>25 contenidos sin ver</span>
+                          <span>{curso.detalles.modulosCount} Modulos</span>
                         </div>
                       </div>
                     </div>

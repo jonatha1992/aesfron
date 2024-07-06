@@ -10,6 +10,7 @@ import {
   query,
   where,
   storage,
+  getCountFromServer,
 } from "../firebase";
 
 import {
@@ -86,18 +87,28 @@ export async function getUser(userId) {
 
 export const CursosAdmin = async () => {
   try {
-    // Realiza la consulta a Firebase para obtener todos los cursos
     const cursosRef = collection(db, "cursos");
     const querySnapshot = await getDocs(cursosRef);
 
-    // Extrae los datos de la consulta
-    const cursosArray = [];
-    querySnapshot.forEach((doc) => {
-      cursosArray.push({ id: doc.id, ...doc.data() });
-    });
+    const cursosArray = await Promise.all(
+      querySnapshot.docs.map(async (doc) => {
+        const cursoData = doc.data();
+        const cursoId = doc.id;
 
-    // No necesitamos una segunda consulta aquí, ya que ya tenemos todos los detalles
-    // Sin embargo, si quieres mantener una estructura similar a CursosInscriptos, puedes hacer esto:
+        // Obtener el conteo de documentos en la subcolección "Modulos"
+        const modulosRef = collection(doc.ref, "Modulos");
+        const modulosSnapshot = await getCountFromServer(modulosRef);
+        const modulosCount = modulosSnapshot.data().count;
+
+        return {
+          id: cursoId,
+          ...cursoData,
+          modulosCount: modulosCount,
+        };
+      })
+    );
+
+    // Mantener la estructura similar a CursosInscriptos
     const cursosDetallesArray = cursosArray.map((curso) => ({
       cursoid: curso.id,
       detalles: curso,
@@ -106,10 +117,9 @@ export const CursosAdmin = async () => {
     return cursosDetallesArray;
   } catch (error) {
     console.error("Error en la operación asincrónica:", error);
-    throw error; // Es buena práctica relanzar el error para manejarlo en el nivel superior
+    throw error;
   }
 };
-
 export const CursosInscriptos = async (uid) => {
   try {
     // Realiza la consulta a Firebase
