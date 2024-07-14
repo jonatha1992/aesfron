@@ -57,9 +57,7 @@ function Home2() {
                             <div className="video-container">
                                 <video className="video-responsive" src={videoSource} autoPlay loop muted></video>
                             </div>
-                            <p className="p-mobile">
-                                Priorizamos tu desarrollo profesional para transformar la atención de los cuidados enfermeros
-                            </p>
+                            <p className="p-mobile">Unidos por la Salud, compromisos sin fronteras.</p>
                         </motion.div>
                         <div className="col-md-3"></div>
                     </div>
