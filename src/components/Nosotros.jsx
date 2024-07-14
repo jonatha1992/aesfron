@@ -64,14 +64,14 @@ export default function Nosotros() {
                         <img className="imagen-organizacion mb-2 rounded-circle" src={presidenta} alt="Presidente Mag. Llanos Beatriz" />
                         <label className="label-imagen">
                             <span className="titulo">Presidente</span>
-                            <span className="nombre">Mag. Llanos Beatriz</span>
+                            <span className="nombre">Prof. Lic. Llanos Beatriz</span>
                         </label>
                     </div>
                     <div className=" nosotros-container-org">
                         <img className="imagen-organizacion  mb-2 rounded-circle" src={vice} alt="Vicepresidente Lic. Buenaventura Laura" />
                         <label className="label-imagen">
                             <span className="titulo">Vicepresidente</span>
-                            <span className="nombre">Lic. Buenaventura Laura</span>
+                            <span className="nombre">Prof. Lic. Buenaventura Laura</span>
                         </label>
                     </div>
                 </div>
