@@ -76,7 +76,7 @@ export default function Nosotros() {
                     </div>
                 </div>
 
-                <motion.div className=" mx-auto  col-lg-6   ">
+                <motion.div className=" mx-auto  col-lg-6 mt-5  ">
                     <p className="parrafo-nosotros-vision ">
                         <span className="highlight">Nuestro Enfoque</span> es empoderar a los profesionales de la salud para brindar una
                         atención de calidad, innovadora y basada en la evidencia científica. Nuestra{" "}
