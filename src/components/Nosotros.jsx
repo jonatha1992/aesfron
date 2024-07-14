@@ -55,7 +55,7 @@ export default function Nosotros() {
                         </li>
                         <li class="mb-3">
                             <strong class="d-block text-uppercase">SECRETARIA DE PRENSA Y COMUNICACIÓN</strong>
-                            <span class="d-block">Growth Marketing Digital. Barnech Nicolás.</span>
+                            <span class="d-block">Growth Marketing Digital. Barnetch Nicolás.</span>
                         </li>
                     </ul>
                 </motion.div>
