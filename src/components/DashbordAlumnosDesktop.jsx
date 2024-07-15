@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { useAuth } from "../context/AuthContext";
 import { AlumnosContext } from "../context/AlumnoContext";
 import { Settings, AutoStories, Inbox as InboxIcon, ExpandLess, ExpandMore, Business } from "@mui/icons-material";
@@ -14,7 +14,6 @@ import { List, ListItem, ListItemButton, ListItemIcon, ListItemText, Collapse, D
 const FeatureGrid = () => {
     const { User } = useAuth();
     const { setActiveCourse } = useContext(AlumnosContext);
-    const [activeFeature, setActiveFeature] = useState(null);
     const [openGestion, setOpenGestion] = useState(false);
     const [cursoId, setCursoId] = useState(null);
 
@@ -29,6 +28,18 @@ const FeatureGrid = () => {
         { name: "Cursos", icon: <FolderIcon />, content: <ListaCursos /> },
         { name: "Contenido", icon: <FolderIcon />, content: <ComboCursos /> },
     ];
+
+    const findFeatureByName = (name) => {
+        return features.find((f) => f.name === name) || gestionFeatures.find((f) => f.name === name);
+    };
+
+    const [activeFeature, setActiveFeature] = useState(findFeatureByName("Mis Cursos"));
+
+    useEffect(() => {
+        setActiveFeature(findFeatureByName("Mis Cursos"));
+        setActiveCourse(null);
+        window.scrollTo({ top: 0, behavior: "smooth" });
+    }, []);
 
     const handleFeatureClick = (feature) => {
         setActiveFeature(feature);
