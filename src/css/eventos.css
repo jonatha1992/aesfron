@@ -59,7 +59,7 @@
 }
 
 .card-evento-titulo {
-    border-radius: 0.5rem;
+    border-radius: 0 0 1rem 1rem;
     background: var(--color6);
     font-weight: bolder;
     color: var(--color6);
@@ -74,9 +74,9 @@
     white-space: normal;
     display: block;
     word-wrap: break-word;
-    max-height: 6rem;
+    max-height: 10rem;
     line-height: 1.5;
-    padding: 0.5rem;
+    padding: 0.2rem;
 }
 
 .card-event-image {
@@ -86,7 +86,7 @@
     background-position: center;
 }
 
-.card-evento-fecha {
+.card-evento-subtitulo {
     font-size: 20px;
     font-weight: bold;
     color: white;

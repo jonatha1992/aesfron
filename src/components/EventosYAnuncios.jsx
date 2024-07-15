@@ -81,16 +81,15 @@ const divStyle = {
     flexDirection: "column",
 };
 
-const Card = ({ titulo, fecha, imagen, descripcion, fondoStyle }) => (
+const Card = ({ titulo, subtitulo, imagen, descripcion, fondoStyle }) => (
     <div className="card-evento-anuncio mb-4">
         <div className="card-event-image" style={{ ...fondoStyle, backgroundImage: `url(${imagen})` }}>
             <h3 className="card-evento-titulo">{titulo}</h3>
-            <div className="d-flex justify-content-end" style={{ width: "100%" }}>
-                <p className="card-evento-fecha">{fecha}</p>
-            </div>
+            <div className="d-flex justify-content-end" style={{ width: "100%" }}></div>
         </div>
         <div className="d-flex flex-column justify-content-around" style={{ flexGrow: "1", textAlign: "center", height: "60%" }}>
             <div className="body-card-seccionanuncios">
+                <p className="card-evento-subtitulo">{subtitulo}</p>
                 <p className="card-evento-descripcion">{descripcion}</p>
             </div>
         </div>
@@ -174,7 +173,7 @@ const EventosSlider = ({ eventos }) => {
                 <Card
                     key={evento.id}
                     titulo={evento.TITULO}
-                    fecha={evento.created?.seconds ? new Date(evento.created.seconds * 1000).toLocaleDateString() : "Fecha no disponible"}
+                    subtitulo={evento.SUBTITULO}
                     imagen={evento.IMAGEN || defaultImageURL}
                     descripcion={evento.DESCRIPCION}
                     fondoStyle={divStyle}
@@ -234,7 +233,7 @@ const AnunciosSlider = ({ anuncios }) => {
                 <Card
                     key={anuncio.id}
                     titulo={anuncio.TITULO}
-                    fecha={anuncio.created?.seconds ? new Date(anuncio.created.seconds * 1000).toLocaleDateString() : "Fecha no disponible"}
+                    subtitulo={anuncio.SUBTITULO}
                     imagen={anuncio.IMAGEN || defaultImageURL}
                     descripcion={anuncio.DESCRIPCION}
                     fondoStyle={divStyle}

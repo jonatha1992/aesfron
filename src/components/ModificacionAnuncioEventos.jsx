@@ -127,7 +127,7 @@ const ModificacionAnuncioEventos = ({ documento = null, onDocumentoActualizado, 
             >
                 <h2>{documento ? `Modificar ${isEvento ? "Evento" : "Anuncio"}` : `Alta de ${isEvento ? "Evento" : "Anuncio"}`}</h2>
                 <TextField label="Título" name="TITULO" value={formValues.TITULO} onChange={handleInputChange} required />
-                <TextField label="Subtítulo" name="SUBTITULO" value={formValues.SUBTITULO} onChange={handleInputChange} required />
+                <TextField label="Subtítulo" name="SUBTITULO" value={formValues.SUBTITULO} onChange={handleInputChange} />
                 <TextField
                     label="Descripción"
                     name="DESCRIPCION"

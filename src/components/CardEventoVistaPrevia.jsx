@@ -20,12 +20,11 @@ const CardEventoVistaPrevia = ({ titulo, subTitulo, descripcion, imagen }) => {
         <div className="col-4 card-evento-anuncio  mt-5 mx-5" style={{ height: "70vh" }}>
             <div className="card-event-image" style={{ ...divStyle, backgroundImage: `url(${imagen})` }}>
                 <h3 className="card-evento-titulo">{titulo}</h3>
-                <div className="d-flex justify-content-end" style={{ width: "100%" }}>
-                    <p className="card-evento-fecha">{subTitulo}</p>
-                </div>
+                <div className="d-flex justify-content-end" style={{ width: "100%" }}></div>
             </div>
             <div className="d-flex flex-column justify-content-around" style={{ flexGrow: "1", textAlign: "center", height: "60%" }}>
                 <div className="body-card-seccionanuncios">
+                    <p className="card-evento-subtitulo">{subTitulo}</p>
                     <p className="card-evento-descripcion">{descripcion}</p>
                 </div>
             </div>
