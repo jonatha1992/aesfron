@@ -24,3 +24,8 @@ dist2
 *.njsproj
 *.sln
 *.sw?
+
+# Firebase / GCP service account credentials
+*firebase-adminsdk*.json
+.firebase/key.json
+serviceAccountKey.json
