@@ -28,4 +28,5 @@ dist2
 # Firebase / GCP service account credentials
 *firebase-adminsdk*.json
 .firebase/key.json
+.firebase/*.cache
 serviceAccountKey.json
