@@ -30,3 +30,6 @@ dist2
 .firebase/key.json
 .firebase/*.cache
 serviceAccountKey.json
+
+! .vscode/launch.json
+! .vscode/tasks.json
