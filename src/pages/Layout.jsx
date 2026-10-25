@@ -29,6 +29,10 @@ const Layout = ({ children }) => {
           <main style={{ color: "black" }}>{children}</main>
         </div>
         <div id="contacto">{showContact && <Contact />}</div>
+        <footer style={{ textAlign: "center", padding: "12px", fontSize: "12px", opacity: 0.7 }}>
+          Hecho por{" "}
+          <a href="https://tecnofusion.dev" target="_blank" rel="noopener noreferrer">tecnofusion.dev</a>
+        </footer>
       </div>
     </>
   );
