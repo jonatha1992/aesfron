@@ -4,7 +4,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const { version } = JSON.parse(await readFile(path.join(root, 'package.json'), 'utf8'));
+const version = (await readFile(path.join(root, 'VERSION'), 'utf8')).trim();
 let commit = 'desconocido';
 
 try {
