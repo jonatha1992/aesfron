@@ -19,9 +19,12 @@ export default function Inscripcion() {
     const { cursos } = useContext(AlumnosContext);
     const navigate = useNavigate();
 
-    initMercadoPago("APP_USR-7fe0b0e9-71a3-4456-9e78-29d26e02b522", {
-        locale: "es-AR",
-    });
+    const mpPublicKey = import.meta.env.VITE_MERCADOPAGO_PUBLIC_KEY;
+    if (mpPublicKey) {
+        initMercadoPago(mpPublicKey, {
+            locale: "es-AR",
+        });
+    }
 
     const createPreference = async () => {
         try {

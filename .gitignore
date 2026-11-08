@@ -25,6 +25,11 @@ dist2
 *.sln
 *.sw?
 
+# Environment variables
+.env
+.env.local
+.env.*.local
+
 # Firebase / GCP service account credentials
 *firebase-adminsdk*.json
 .firebase/key.json

@@ -8,7 +8,10 @@ import img from "../assets/image3.jpeg";
 const Pay = () => {
   const [preferenceId, setPreferenceId] = useState(null);
 
-  initMercadoPago("APP_USR-5a8b3fdb-e53a-40e2-82be-8f3c3e750fcc");
+  const mpPublicKey = import.meta.env.VITE_MERCADOPAGO_PUBLIC_KEY;
+  if (mpPublicKey) {
+    initMercadoPago(mpPublicKey);
+  }
 
   const createPreference = async () => {
     try {
