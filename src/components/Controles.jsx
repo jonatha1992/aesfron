@@ -1,6 +1,7 @@
-import { MenuItem, TextField, Select, InputLabel, FormControlLabel, Checkbox, Radio } from "@mui/material";
+import { MenuItem, TextField, Select, InputLabel, FormControlLabel, Checkbox, Radio, IconButton, InputAdornment } from "@mui/material";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import moment from "moment";
+import { useState } from "react";
 import "moment/locale/es";
 moment.locale("de");
 import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
@@ -10,19 +11,25 @@ import { TextareaAutosize } from "@mui/base/TextareaAutosize";
 
 /* En tu archivo CSS (e.g., styles.css) */
 
-const FormikTextField = ({ name, label, ...otherProps }) => (
-    <Field name={name}>
-        {({ field, meta }) => (
-            <TextField
-                {...field}
-                {...otherProps}
-                label={label}
-                error={meta.touched && Boolean(meta.error)}
-                helperText={meta.touched && meta.error}
-            />
-        )}
-    </Field>
-);
+const FormikTextField = ({ name, label, type, ...otherProps }) => {
+    const [visible, setVisible] = useState(false);
+    const password = type === "password";
+    return (
+        <Field name={name}>
+            {({ field, meta }) => (
+                <TextField
+                    {...field}
+                    {...otherProps}
+                    type={password ? (visible ? "text" : "password") : type}
+                    {...(password ? { InputProps: { ...otherProps.InputProps, endAdornment: <InputAdornment position="end"><IconButton type="button" edge="end" aria-label={visible ? "Ocultar contraseña" : "Mostrar contraseña"} onClick={() => setVisible((shown) => !shown)}><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>{visible && <path d="m4 4 16 16"/>}</svg></IconButton></InputAdornment> } } : {})}
+                    label={label}
+                    error={meta.touched && Boolean(meta.error)}
+                    helperText={meta.touched && meta.error}
+                />
+            )}
+        </Field>
+    );
+};
 
 const FormikSelectField = ({ name, label, options, ...otherProps }) => (
     <Field name={name}>
